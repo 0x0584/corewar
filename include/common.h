@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:24:39 by archid-          ###   ########.fr       */
+/*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/12 17:13:14 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#ifndef COMMON_H
+# define COMMON_H
 
-int vm_loop(void)
-{
-	t_vm vm;
+#include "libft.h"
+#include "op.h"
 
-	if(!vm_init(&vm))
-		return 1;
-	while (true) {
-		// fetcher
-		vm_fetch(&vm);
-		vm_decode();
-		vm_execute();
-	}
-	return 0;
-}
+
+#endif

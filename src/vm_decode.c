@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   vm_decode.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:24:39 by archid-          ###   ########.fr       */
+/*   Created: 2021/01/12 17:30:20 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/12 17:31:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-int vm_loop(void)
+void		vm_decode(t_vm *vm)
 {
-	t_vm vm;
 
-	if(!vm_init(&vm))
-		return 1;
-	while (true) {
-		// fetcher
-		vm_fetch(&vm);
-		vm_decode();
-		vm_execute();
-	}
-	return 0;
 }

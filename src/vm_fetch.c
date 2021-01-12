@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   vm_fetch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:24:39 by archid-          ###   ########.fr       */
+/*   Created: 2021/01/12 17:24:15 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/12 17:31:31 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-int vm_loop(void)
+static void		vm_fetch_player(t_vm *vm, t_player *p)
 {
-	t_vm vm;
+	p->mar = p->pc++;				// save the address of PC
+}
 
-	if(!vm_init(&vm))
-		return 1;
-	while (true) {
-		// fetcher
-		vm_fetch(&vm);
-		vm_decode();
-		vm_execute();
-	}
-	return 0;
+void			vm_fetch(t_vm *vm)
+{
+	short i;
+
+	i = 0;
+	while (i < MAX_PLAYERS && vm->players[i].blob)
+		vm_fetch_player(vm, &vm->players[i++]);
 }

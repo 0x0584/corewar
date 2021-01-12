@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   address.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:24:39 by archid-          ###   ########.fr       */
+/*   Created: 2021/01/12 17:10:16 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/12 17:13:54 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#ifndef ADDRESS_H
+# define ADDRESS_H
 
-int vm_loop(void)
-{
-	t_vm vm;
+typedef unsigned short t_addr;
 
-	if(!vm_init(&vm))
-		return 1;
-	while (true) {
-		// fetcher
-		vm_fetch(&vm);
-		vm_decode();
-		vm_execute();
-	}
-	return 0;
-}
+#endif
