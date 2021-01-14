@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/01/10 19:21:18 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/14 09:39:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "types.h"
 
 # define IND_SIZE				2
-# define REG_SIZE				4
-# define DIR_SIZE				REG_SIZE
+# define REG_SIZE				1
+# define DIR_SIZE				4
 
 # define REG_CODE				1
 # define DIR_CODE				2
@@ -98,31 +98,32 @@ typedef struct			s_header
 	char	comment[COMMENT_LENGTH + 1];
 }						t_header;
 
+
 typedef struct			s_op
 {
-    enum e_op_code {
-        OP_LIVE = 1,
-        OP_LOAD,
-        OP_STORE,
-        OP_ADD,
-        OP_SUB,
-        OP_AND,
-        OP_OR,
-        OP_XOR,
-        OP_ZJMP,
-        OP_LOAD_INDEX,
-        OP_STORE_INDEX,
-        OP_FORK,
-        OP_LONG_LOAD,
-        OP_LONG_LOAD_INDEX,
-        OP_LONG_FORK,
-        OP_AFF,
+	union
+	{
+		enum
+		{
+			OP_LIVE = 1,	OP_LOAD,			OP_STORE,
+			OP_ADD,			OP_SUB,				OP_AND,
+			OP_OR,			OP_XOR,				OP_ZJMP,
+			OP_LOAD_INDEX,	OP_STORE_INDEX,		OP_FORK,
+			OP_LONG_LOAD,	OP_LONG_LOAD_INDEX,
+			OP_LONG_FORK,	OP_AFF,
 
-        OP_COUNT
-    } code;
+			OP_COUNT
+		}		code;
+		t_u8	opcode;
+	};
+	t_u8			decode_byte;
+	union				u_argument
+	{
+		t_u16	u16;
+		t_s16	i16;
+		t_u32	u32;
+		t_s32	i32;
+	}				args[MAX_ARGS_NUMBER];
+} t_op;
 
-    const char *name;
-    const char *desc;
-    t_u16 cycles;
-}						t_op;
 #endif

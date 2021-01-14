@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:09:42 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:31:19 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:38:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_player t_player;
 
 struct					s_player
 {
+	t_header	hdr;
 	t_cor		blob;
 	t_addr		*pc;
 	t_addr		*mar;			// memory address register
