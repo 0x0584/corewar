@@ -22,3 +22,6 @@
 [submodule "arobion"]
 	path = .extra/champs/championships/2018/arobion
 	url = vogsphere@vogsphere.42.fr:intra/2018/activities/corewar_championship/arobion
+[submodule "libft"]
+	path = libft
+	url = git@github.com:0x0584/libft.git
