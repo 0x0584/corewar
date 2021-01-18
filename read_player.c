@@ -43,6 +43,12 @@ int main(int argc, char *argv[]) {
     ft_printf("prog size: %u Byte\n", hdr.prog_size);
     ft_printf("prog size: %s\n", hdr.comment);
 
+    int tab[10] = {0, 23, 150, 255, 12, 16, 42, 103};
+
+    print_memory(tab, sizeof(tab));
+
+    print_memory(cor, hdr.prog_size);
+
     /* --------------------------------------------- */
 
     return 0;

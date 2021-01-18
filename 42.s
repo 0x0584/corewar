@@ -1,1 +1,1 @@
-.extra/vm_champs/champs/42.s
+.extra/champs/42.s
