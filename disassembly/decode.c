@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   decode.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/16 18:48:40 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/18 07:26:25 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 l2:
         sti r1, %:live, %1
@@ -33,11 +45,14 @@ bool op_sti(t_player *p, union u_arg args[MAX_ARGS_NUMBER], t_u8 enc) {
 	bool ret = false;
 	t_reg *r = &p->reg[args[0].u32];
 
-
     return (p->carry = ret);
 }
 
-op_t read_op(t_addr pc) { t_u8 op = *pc; }
+op_t read_op(t_addr pc) {
+	t_u8 op = *pc;
+
+
+}
 
 int main(int argc, char *argv[]) {
     t_u8 file[] = {0x0b, 0x68, 0x01, 0x00, 0x0f, 0x00, 0x01, 0x06,
