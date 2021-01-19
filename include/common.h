@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:13:14 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:49:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define COMMON_H
 
 #include "libft.h"
-#include "op.h"
+#include "hash.h"
+#include "lst.h"
 
+#include "op.h"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/01/14 09:39:36 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/19 16:24:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define REG_SIZE				1
 # define DIR_SIZE				4
 
+// 01 10 11
+// 0101 1100 encoding byte
 # define REG_CODE				1
 # define DIR_CODE				2
 # define IND_CODE				3

@@ -6,17 +6,42 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/01/18 08:40:36 by archid-          ###   ########.fr        #
+#    Updated: 2021/01/19 16:24:10 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-include config.mk
+NAME		 = corewar
+DEBUG		?= 1
+
+FT_DIR		?= libft
+INC_DIR		?= include
+SRC_DIR		?= src
+OBJ_DIR		?= .obj
+
+EXTRA_DIR	 = .extra
+
+CC			 = gcc
+LD			 = ld
+
+ifeq ($(DEBUG), 1)
+	CFLAGS	 = -ggdb -Og
+else
+	CFLAGS	 = -O3 -Werror
+endif
+
+CFLAGS		+= -Wall -Wextra -I$(INC_DIR) -I$(FT_DIR)
+LDFLAGS		 = -lft -L$(FT_DIR)
 
 HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
-OBJS		:= $(pastsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.c, $(SRCS))
+OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-NAME: $(OBJS)
+all: ft $(NAME)
+
+ft:
+	@make -C $(FT_DIR) DEBUG=$(DEBUG)
+
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
@@ -24,13 +49,29 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@make clean $(FT_DIR)
+	@make clean -C $(FT_DIR)
 	@rm -rf $(OBJS)
 
 fclean:
-	@make fclean $(FT_DIR)
+	@make fclean -C $(FT_DIR)
 	@rm -rf $(OBJ_DIR) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+build:
+	@rm -rf $(OBJ_DIR) $(NAME)
+	@make
+
+distcheck:
+	@$(CC) -v
+	@$(LD) -v
+	@git --version
+	@uname -a
+
+check: all
+
+test:
+	@for f in $(shell find $())
+	./$(NAME) $(shell find $(EXTRA_DIR) -name '*.cor')
+
+.PHONY: all clean fclean re test check distcheck ft
