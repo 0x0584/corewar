@@ -6,13 +6,11 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:10:16 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/12 17:13:54 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/21 16:58:12 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ADDRESS_H
 # define ADDRESS_H
-
-typedef unsigned short t_addr;
 
 #endif

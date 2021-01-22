@@ -1,0 +1,12 @@
+#+TITLE: VM main functionalities
+#+AUTHOR: Anas Rchid
+
+* Memory
+- All players share the same memory.
+- The memory is 4KB
+- Each player is placed at some
+* Player/Process
+** Registers
+
+* Clock
+* Instruction Cycle

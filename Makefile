@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/01/19 16:24:10 by archid-          ###   ########.fr        #
+#    Updated: 2021/01/21 12:14:54 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,6 +14,7 @@ NAME		 = corewar
 DEBUG		?= 1
 
 FT_DIR		?= libft
+
 INC_DIR		?= include
 SRC_DIR		?= src
 OBJ_DIR		?= .obj
@@ -30,7 +31,7 @@ else
 endif
 
 CFLAGS		+= -Wall -Wextra -I$(INC_DIR) -I$(FT_DIR)
-LDFLAGS		 = -lft -L$(FT_DIR)
+LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
 
 HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)

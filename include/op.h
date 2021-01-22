@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/01/19 16:24:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/22 10:29:31 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,117 +15,89 @@
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
 
-#ifndef OP_H
-# define OP_H
+#define IND_SIZE				2
+#define REG_SIZE				4
+#define DIR_SIZE				REG_SIZE
 
-# include "types.h"
 
-# define IND_SIZE				2
-# define REG_SIZE				1
-# define DIR_SIZE				4
-
-// 01 10 11
-// 0101 1100 encoding byte
 # define REG_CODE				1
 # define DIR_CODE				2
 # define IND_CODE				3
 
-# define MAX_ARGS_NUMBER		4
-# define MAX_PLAYERS			4
+
+#define MAX_ARGS_NUMBER			4
+#define MAX_PLAYERS				4
+#define MEM_SIZE				(4 * 1024)
+#define IDX_MOD					(MEM_SIZE / 8)
+#define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
+
+#define COMMENT_CHAR			'#'
+#define LABEL_CHAR				':'
+#define DIRECT_CHAR				'%'
+#define SEPARATOR_CHAR			','
+
+#define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
+
+#define NAME_CMD_STRING			".name"
+#define COMMENT_CMD_STRING		".comment"
+
+#define REG_NUMBER				16
+
+#define CYCLE_TO_DIE			1536
+#define CYCLE_DELTA				50
+#define NBR_LIVE				21
+#define MAX_CHECKS				10
 
 /*
-** MEM_SIZE = 1024 * 4
+**
 */
-# define MEM_SIZE				4096
+
+typedef char		t_arg_type;
+
+#define T_REG					1
+#define T_DIR					2
+#define T_IND					4
+#define T_LAB					8
 
 /*
-** MEM_SIZE / 8 = 512
+**
 */
-# define IDX_MOD				512
 
-/*
-** MEM_SIZE / 6 = 682
-*/
-# define CHAMP_MAX_SIZE			682
-
-# define COMMENT_CHAR			'#'
-# define ALT_COMMENT_CHAR2		';'
-# define LABEL_CHAR				':'
-# define DIRECT_CHAR			'%'
-# define SEPARATOR_CHAR			','
-
-# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-# define NAME_CMD_STRING		".name"
-# define COMMENT_CMD_STRING		".comment"
-
-# define REG_NUMBER				16
-
-# define CYCLE_TO_DIE			1536
-# define CYCLE_DELTA			50
-# define NBR_LIVE				21
-# define MAX_CHECKS				10
-
-typedef char			t_arg_type;
-
-/*
-** 0b0001
-*/
-# define T_REG					1
-
-/*
-** 0b0010
-*/
-# define T_DIR					2
-
-/*
-** 0b0100
-*/
-# define T_IND					4
-
-/*
-** 0b1000
-*/
-# define T_LAB					8
-
-typedef struct			s_header
-{
 # define PROG_NAME_LENGTH		128
 # define COMMENT_LENGTH			2048
-# define COREWAR_EXEC_MAGIC		0xEA83F3
+# define COREWAR_EXEC_MAGIC		0xea83f3
 
-	t_u32	magic;
-	char	prog_name[PROG_NAME_LENGTH + 1];
-	t_u32	prog_size;
-	char	comment[COMMENT_LENGTH + 1];
-}						t_header;
-
-
-typedef struct			s_op
+typedef struct		s_header
 {
-	union
-	{
-		enum
-		{
-			OP_LIVE = 1,	OP_LOAD,			OP_STORE,
-			OP_ADD,			OP_SUB,				OP_AND,
-			OP_OR,			OP_XOR,				OP_ZJMP,
-			OP_LOAD_INDEX,	OP_STORE_INDEX,		OP_FORK,
-			OP_LONG_LOAD,	OP_LONG_LOAD_INDEX,
-			OP_LONG_FORK,	OP_AFF,
+  unsigned int		magic;
+  char				prog_name[PROG_NAME_LENGTH + 1];
+  unsigned int		prog_size;
+  char				comment[COMMENT_LENGTH + 1];
+}					t_header;
 
-			OP_COUNT
-		}		code;
-		t_u8	opcode;
-	};
-	t_u8			decode_byte;
-	union				u_argument
-	{
-		t_u16	u16;
-		t_s16	i16;
-		t_u32	u32;
-		t_s32	i32;
-	}				args[MAX_ARGS_NUMBER];
+#define OP_LIVE 0x01
+#define OP_LOAD 0x02
+#define OP_STORE 0x03
+
+#define OP_ADD 0x04
+#define OP_SUB 0x05
+#define OP_AND 0x06
+
+#define OP_OR 0x07
+#define OP_XOR 0x08
+#define OP_ZJMP 0x09
+
+#define OP_LOAD_INDEX 0x0a
+#define OP_STORE_INDEX 0x0b
+#define OP_FORK 0x0c
+
+#define OP_LONG_LOAD 0x0d
+#define OP_LONG_LOAD_INDEX 0x0e
+
+#define OP_LONG_FORK 0x0f
+#define OP_AFF 0x10
+
+typedef struct s_op
+{
+	int x;
 } t_op;
-
-#endif

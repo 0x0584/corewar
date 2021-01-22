@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_fetch.c                                         :+:      :+:    :+:   */
+/*   draw.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 17:24:15 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/19 15:25:04 by archid-          ###   ########.fr       */
+/*   Created: 2021/01/21 17:31:27 by archid-           #+#    #+#             */
+/*   Updated: 2021/01/22 11:56:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef DRAW_H
+# define DRAW_H
+
+#include <ncurses.h>
+
 #include "vm.h"
 
-static void		vm_fetch_player(t_player *p)
-{
-	p->mar = p->pc++;				// save the address of PC
-}
+#define DRAW_BUFF_SIZE			0x80
+#define DRAW_LINE_SIZE			0x40
+#define DRAW_LINE_WIDTH			0xC0 // SIZE * 3 characters `ff `
 
-void			vm_fetch(t_vm *vm)
-{
-	short i;
+void			    draw_memory(void);
 
-	i = 0;
-	while (i < MAX_PLAYERS && vm->players[i].file)
-		vm_fetch_player(&vm->players[i++]);
-}
+#endif
