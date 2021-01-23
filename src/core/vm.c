@@ -6,28 +6,38 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/22 16:36:47 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/23 11:20:03 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
-#include "player.h"
+#include "draw.h"
 
-int		vm_loop(void)
+static bool	        	vm_init()
 {
-	/*
-	t_vm vm;
+    mem_load();
+	return true;
+}
 
-	if(!vm_init(&vm))
-		return 1;
-	while (true) {
-		// fetcher
-		vm_fetch(&vm);
-        // vm_decode();
-        // vm_execute();
+
+static void         	vm_fetch()
+{
+
+}
+
+static t_op	        	vm_decode()
+{
+
+}
+
+t_st		        	vm_loop(void)
+{
+	if (!vm_init())
+		return (st_error);
+	while (clock_tick())
+	{
+		draw_memory();
 	}
-	*/
-	return 0;
+	return (st_succ);
 }
 
 // flags: [-dump nbr_cycles] [[-n number] champion1.cor]
@@ -57,6 +67,12 @@ bool	parse_arguments(int ac, char *av[])
         i++;
     }
 	return (g_nplayers < 5 && g_nplayers);
+}
+
+int		print_usage(void)
+{
+	ft_putendl_fd("Usage: ./corewar [-dump N] [[-n N] *.cor]", 2);
+	return -1;
 }
 
 /*

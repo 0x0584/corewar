@@ -6,13 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:47:23 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/22 11:48:00 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/23 11:18:26 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void vm_clock()
+t_st	clock_tick(void)
 {
-
+	return st_fail;
 }

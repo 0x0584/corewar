@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:09:42 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/22 16:12:50 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/23 11:21:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,105 @@
 # include "vmtypes.h"
 # include "address.h"
 
+/**
+** \brief size after which re-allocate the hashtable
+*/
+# define PROCESS_CLEANUP_AFTER 0x80
 
-typedef struct s_process	t_proc;
-typedef struct s_player		t_player;
-
-struct						s_process
+/**
+** \brief a process (child) is create using fork() syscall, each process is
+** associated with a player number (parent).
+*/
+typedef struct				s_process
 {
-# define PROCESS_CLEANUP_AFTER 0x80 /* size after which re-allocate the hashtable */
-    pid_t	pid;			   /* process id of the parent (player) */
-    t_u8	num;			   /* player number */
-    t_hash	children;		   /* stack of process */
-};
+	/**
+	** \brief process id
+	*/
+    pid_t		pid;
 
-struct						s_player
+    /**
+	** \brief stack of child processes
+	*/
+    t_hash		children;
+
+    /**
+    ** \brief program counter keeps points to the next-to-be-executed for the
+    ** corresponding player
+    */
+    t_addr		pc;
+
+	/**
+	** \brief each process has it's own register
+	*/
+	t_u32		reg[REG_NUMBER];
+
+	/**
+	** \brief carry sis et by operations in case of either yielding zero,
+	** overflow/underflow or error
+	*/
+	bool		carry;
+}							t_proc;
+
+/**
+** \brief a champion if the resulted .cor file, it has a header and instructions
+**
+** \see op.h
+** \see vmtypes.h
+*/
+typedef struct				s_champ
 {
-	t_header	hdr;			/* file header */
-	t_cor		file;			/* the foo.cor */
-	t_proc		prog;			/* process on which the player executes instructions */
+	/**
+	** \brief file header describes the core file
+	*/
+	t_header	hdr;
 
-	t_addr		pc;				/* program counter */
-	t_addr		mar;			/* memory address register */
-};
+	/**
+	** \brief .cor executable instructions
+	*/
+	t_cor		file;
+}							t_champ;
 
-extern bool					g_player_debug;
+/**
+** \brief a player has a .cor file and is running on a process `t_player::prog`
+*/
+typedef struct				s_player
+{
+	/**
+	** \brief champion of the player
+	*/
+	t_champ		champ;
 
+	/**
+	** \brief the main process on which the player executes instructions
+	*/
+	t_proc		prog;
+}							t_player;
 
+/**
+** \brief reads a player from a file
+**
+** \param filename the .cor file
+** \param p pointer to the player of `g_gladiators`
+**
+** \return `st_succ` if player is read, otherwise `st_error` or `st_fail` are
+** returned
+*/
 t_st				player_read(const char *filename, t_player *p);
+
+/**
+** \brief output player information
+**
+** \param p player
+*/
 void				player_dump(t_player *p);
-void				player_delete(t_player *p);
+
+/*
+** Global Variables
+*/
+
+/**
+** \brief if set to `true`, player functions output debugging information
+*/
+extern bool					g_player_debug;
 
 #endif

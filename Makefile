@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/01/21 12:14:54 by archid-          ###   ########.fr        #
+#    Updated: 2021/01/23 16:08:24 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -25,7 +25,7 @@ CC			 = gcc
 LD			 = ld
 
 ifeq ($(DEBUG), 1)
-	CFLAGS	 = -ggdb -Og
+	CFLAGS	 = -ggdb -Og -DDEBUG
 else
 	CFLAGS	 = -O3 -Werror
 endif
@@ -71,8 +71,7 @@ distcheck:
 
 check: all
 
-test:
-	@for f in $(shell find $())
-	./$(NAME) $(shell find $(EXTRA_DIR) -name '*.cor')
+test: build
+	./$(NAME) foo.cor foo.cor foo.cor foo.cor
 
 .PHONY: all clean fclean re test check distcheck ft

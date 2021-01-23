@@ -173,3 +173,6 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/emacs,macos,linux,vim,c
 *.tar
 *.cor
+corewar
+./core
+/core

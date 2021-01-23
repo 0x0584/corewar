@@ -1,12 +1,22 @@
 #+TITLE: VM main functionalities
 #+AUTHOR: Anas Rchid
 
-* Memory
-- All players share the same memory.
-- The memory is 4KB
-- Each player is placed at some
-* Player/Process
-** Registers
+* TODO Memory [1/3]
+- [X] Load players into memory
+- [ ] fetch instructions
+- [ ] execute instructions
+** DONE load players into memory
+** TODO fetch-decode [0/3]
+- [ ] read op code and encoding byte
+- [ ] read arguments
+- [ ] retrieve data relative to each argument (label size and registers)
+
+** TODO execute instructions sequentially
 
 * Clock
+
+** TODO implement clock_tick()
+- wait the all process to raise =fetch_flag=
+* Player/Process
+** Registers
 * Instruction Cycle
