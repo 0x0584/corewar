@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:09:42 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/23 11:21:21 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/24 08:19:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,7 @@
 # define PLAYER_H
 
 # include "vmtypes.h"
-# include "address.h"
-
-/**
-** \brief size after which re-allocate the hashtable
-*/
-# define PROCESS_CLEANUP_AFTER 0x80
-
-/**
-** \brief a process (child) is create using fork() syscall, each process is
-** associated with a player number (parent).
-*/
-typedef struct				s_process
-{
-	/**
-	** \brief process id
-	*/
-    pid_t		pid;
-
-    /**
-	** \brief stack of child processes
-	*/
-    t_hash		children;
-
-    /**
-    ** \brief program counter keeps points to the next-to-be-executed for the
-    ** corresponding player
-    */
-    t_addr		pc;
-
-	/**
-	** \brief each process has it's own register
-	*/
-	t_u32		reg[REG_NUMBER];
-
-	/**
-	** \brief carry sis et by operations in case of either yielding zero,
-	** overflow/underflow or error
-	*/
-	bool		carry;
-}							t_proc;
+# include "process.h"
 
 /**
 ** \brief a champion if the resulted .cor file, it has a header and instructions

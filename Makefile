@@ -71,7 +71,7 @@ distcheck:
 
 check: all
 
-test: build
+test: all
 	./$(NAME) foo.cor foo.cor foo.cor foo.cor
 
 .PHONY: all clean fclean re test check distcheck ft

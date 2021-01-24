@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/23 17:36:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/24 16:44:29 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,26 +133,24 @@ extern t_u8			g_memcolors[MEM_SIZE];
 */
 enum				e_colors
 {
-	/* default color */
-    color_black_on_white,
-
 	/* player colors */
-    color_black_on_red,
-    color_blue_on_green,
-    color_cyan_on_magenta,
-    color_white_on_yellow,
+    color_red_on_black = 1,
+    color_green_on_black,
+    color_yellow_on_black,
+    color_cyan_on_black,
 
-	color_count = color_white_on_yellow,
+	color_count = color_cyan_on_black,
 
 	/* effects */
-    color_red_on_black,
-    color_green_on_blue,
-    color_magenta_on_cyan,
-    color_yellow_on_white,
+    color_black_on_red,
+    color_black_on_green,
+    color_black_on_yellow,
+    color_black_on_cyan,
+
+	effect_count = color_count,
 };
 
 void			    draw_memory(void);
-t_u8				color_owner(t_u16 at);
-t_u8				color_writer(t_u16 at);
+
 
 #endif

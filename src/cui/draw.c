@@ -6,11 +6,12 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:19:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/23 17:44:51 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/24 16:30:28 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "color.h"
 
 /* https://stackoverflow.com/a/13707598 */
 void		handle_winch(int sig) {
@@ -29,15 +30,14 @@ static void draw_setup(void)
 {
 	initscr();
 	start_color();
-	init_pair(color_black_on_white, COLOR_BLACK, COLOR_WHITE);
-	init_pair(color_black_on_red, COLOR_BLACK, COLOR_RED);
 	init_pair(color_red_on_black, COLOR_RED, COLOR_BLACK);
-	init_pair(color_blue_on_green, COLOR_BLUE, COLOR_GREEN);
-	init_pair(color_green_on_blue, COLOR_GREEN, COLOR_BLUE);
-	init_pair(color_cyan_on_magenta, COLOR_CYAN, COLOR_MAGENTA);
-	init_pair(color_magenta_on_cyan, COLOR_MAGENTA, COLOR_CYAN);
-	init_pair(color_white_on_yellow, COLOR_WHITE, COLOR_YELLOW);
-	init_pair(color_yellow_on_white, COLOR_YELLOW, COLOR_WHITE);
+	init_pair(color_green_on_black, COLOR_GREEN, COLOR_BLACK);
+	init_pair(color_cyan_on_black, COLOR_CYAN, COLOR_BLACK);
+	init_pair(color_yellow_on_black, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(color_black_on_yellow, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(color_black_on_red, COLOR_BLACK, COLOR_RED);
+	init_pair(color_black_on_cyan, COLOR_BLACK, COLOR_CYAN);
+	init_pair(color_black_on_green, COLOR_BLACK, COLOR_GREEN);
 	cbreak();
 	noecho();
 }
@@ -53,24 +53,22 @@ void		draw_memory(void)
 {
     int			i;
 	static char	buff[DRAW_BUFF_SIZE] = {0};
+	int			fd;
 
-    i = 0;
     draw_setup();
+    i = 0;
+	fd = open("log", O_RDWR | O_CREAT | O_TRUNC);
     while (i < MEM_SIZE)
 	{
-		ft_snprintf(buff, DRAW_BUFF_SIZE, "%02x ", g_arena[i]);
-		attron(COLOR_PAIR(color_owner(i)));
-		if (color_writer(i))
-		{
-			ft_putendl("...");
-			refresh();
-			attron(color_writer(i));
-			refresh();
-		}
+		ft_snprintf(buff, DRAW_BUFF_SIZE, "%02x", g_arena[i]);
+		attron(COLOR_PAIR(color(i)));
+		ft_dprintf(fd, " >> owner of %4d is %#08b\n", i, g_memcolors[i]);
 		printw(buff);
-		attroff(COLOR_PAIR(color_owner(i)));
+		attroff(COLOR_PAIR(color(i)));
+		printw(" ");
 		if (!(++i % DRAW_LINE_SIZE))
 			printw("\n");
     }
 	draw_loop();
+	close(fd);
 }
