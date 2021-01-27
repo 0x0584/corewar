@@ -6,13 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/24 10:18:10 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/27 12:25:28 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 
-pid_t				g_pid = 0;
+pid_t				g_pid = 1;
 t_lst				g_pool = NULL;
 
 static inline int	order_process(const void *foo, const void *bar)
@@ -22,15 +22,14 @@ static inline int	order_process(const void *foo, const void *bar)
 
 	p1 = (void *)foo;
 	p2 = (void *)bar;
-	if (p1->num != p2->num)
-		return p1->num > p2->num;
-	else
-		return p1->pid < p2->pid;
+	return p1->pid < p2->pid;
 }
 
 t_proc				new_process(t_u8 num, t_addr at, bool child)
 {
 	t_proc		foo;
+
+	ft_printf("addr: %08x value: %08x\n", at, *at);
 
 	foo = ft_calloc(1, sizeof(struct s_process));
 	foo->pid = g_pid++;

@@ -6,69 +6,105 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2021/01/23 11:39:16 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/27 14:26:26 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
+#include "process.h"
+#include "vm.h"
 
-/* t_op op_tab[17] = { */
-/*     {"live", 1, {T_DIR}, 1, 10, "alive", 0, 0}, */
-/*     {"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0}, */
-/*     {"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0}, */
-/*     {"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0}, */
-/*     {"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0}, */
-/*     {"and", */
-/*      3, */
-/*      {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, */
-/*      6, */
-/*      6, */
-/*      "et (and  r1, r2, r3   r1&r2 -> r3", */
-/*      1, */
-/*      0}, */
-/*     {"or", */
-/*      3, */
-/*      {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, */
-/*      7, */
-/*      6, */
-/*      "ou  (or   r1, r2, r3   r1 | r2 -> r3", */
-/*      1, */
-/*      0}, */
-/*     {"xor", */
-/*      3, */
-/*      {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, */
-/*      8, */
-/*      6, */
-/*      "ou (xor  r1, r2, r3   r1^r2 -> r3", */
-/*      1, */
-/*      0}, */
-/*     {"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1}, */
-/*     {"ldi", */
-/*      3, */
-/*      {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, */
-/*      10, */
-/*      25, */
-/*      "load index", */
-/*      1, */
-/*      1}, */
-/*     {"sti", */
-/*      3, */
-/*      {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, */
-/*      11, */
-/*      25, */
-/*      "store index", */
-/*      1, */
-/*      1}, */
-/*     {"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1}, */
-/*     {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0}, */
-/*     {"lldi", */
-/*      3, */
-/*      {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, */
-/*      14, */
-/*      50, */
-/*      "long load index", */
-/*      1, */
-/*      1}, */
-/*     {"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1}, */
-/*     {"aff", 1, {T_REG}, 16, 2, "aff", 1, 0}, */
-/*     {0, 0, {0}, 0, 0, 0, 0, 0}}; */
+static t_op	ops[] = {
+	{"nop", op_nop, 0, 0, {0}},
+	{"live", op_live, 10, 1, {T_DIR}},
+	{"ld", op_ld, 5, 2, {T_DIR | T_IND, T_REG}},
+	{"st", op_st, 5, 2, {T_REG, T_IND | T_REG}},
+	{"add", op_add, 10, 3, {T_REG, T_REG, T_REG}},
+	{"sub", op_sub, 10, 3, {T_REG, T_REG, T_REG}},
+	{"and", op_and, 6, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}},
+	{"or", op_or, 6, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}},
+	{"xor", op_xor, 6, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}},
+	{"zjmp", op_zjmp, 20, 1, {T_DIR}},
+	{"ldi", op_ldi, 25, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}},
+	{"sti", op_sti, 25, 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}},
+	{"fork", op_fork, 800, 1, {T_DIR}},
+	{"lld", op_lld, 10, 2, {T_DIR | T_IND, T_REG}},
+	{"lldi", op_lldi, 50, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}},
+	{"lfork", op_lfork, 1000, 1, {T_DIR}},
+	{"aff", op_aff, 2, 1, {T_REG}},
+};
+
+// check the byte
+
+// match with op args
+// move pc after
+
+static bool	check_args(t_op *op, t_addr args)
+{
+	t_u8			i;
+	t_args_encoding encod;
+
+	ft_printf("little: %08b big: %08b\n", *args, bebyte(*args));
+	encod.encoding = *args;
+	i = 0;
+	while (i < op->nargs)
+	{
+
+		if (which_arg[encod](op->args[i], encod))
+		{
+
+		}
+		else
+		{
+			/* skip op */
+			break;
+		}
+		i++;
+	}
+	return (true);
+}
+
+void	op_callback(void *proc)
+{
+	t_proc	p;
+	t_op	*op;
+
+	p = proc;
+	if (*p->pc >= sizeof ops / sizeof *ops) {
+		ft_dprintf(2, "%02x is not an operation\n", *p->pc);
+		return ;
+	}
+	op = &ops[*p->pc++];
+	if (check_args(op, p->pc))
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void    op_live(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+{
+
+}
+
+void    op_aff(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+{
+
+}
+
+void    op_lldi(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+{
+
+}
+
+void    op_zjmp(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+{
+
+}
+
+void   	op_nop(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+{
+
+}

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/24 16:44:29 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/26 10:10:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,50 @@
 ** \see op.h
 */
 typedef t_player	t_players[MAX_PLAYERS];
+
+typedef struct		s_vm
+{
+    /**
+    ** \brief the VM's random access memory space
+    */
+    t_memory	arena;
+
+    /**
+    ** \brief Arena Memory colors
+    ** \see draw.h
+    */
+    t_memory	colors;
+
+    /**
+    ** \brief number of player read via command line args
+    */
+    t_u8		nplayers;
+
+    /**
+    ** \brief players read via command line arguments
+    */
+    t_players	gladiators;
+
+	/**
+	** \brief how many cycles has the game been running
+	*/
+	t_u32		cycles;
+
+	/**
+	** \brief cycles to die keeps on diminishing. initialized with `CYCLE_TO_DIE`
+	*/
+	t_u16		delta;
+
+	/**
+	** \brief how many lives have been executed since last delta
+	*/
+	t_u16		lives;
+
+    /**
+    ** \brief id of last player that reported alive
+    */
+    t_s8		winner;
+}					t_vm;
 
 /**
 ** \brief output the usage of the program to stdout
@@ -53,8 +97,10 @@ t_st				vm_loop(void);
 */
 
 /**
-** \brief load the players into memory from `g_gladiators` and set
+** \brief load the players into memory from `t_vm::gladiators` and set
 ** them evenly spaced
+**
+** \return if succeeded, `st_succ` is return, otherwise `st_error`
 **
 ** \see memory.c
 */
@@ -75,82 +121,27 @@ t_st				mem_load(void);
 */
 t_st				clock_tick(void);
 
-/*
-** Global Variables
+/**
+** \brief reverse a word (32-bit) from little endian to big endian
+**
+** \param word little endian word
+**
+** \return big endian word
 */
+t_u32				beword(t_u32 word);
 
 /**
-** \brief the VM's random access memory space
+** \brief reverse a byte (8-bits) from little endian to big endian
+**
+** \param word little endian byte
+**
+** \return big endian byte
 */
-extern t_memory		g_arena;
+t_u8				bebyte(t_u8 byte);
 
 /**
-** \brief number of player read via command line args
+** \brief Virtual Machine
 */
-extern t_u8			g_nplayers;
-
-/**
-** \brief players read via command line arguments
-*/
-extern t_players	g_gladiators;
-
-/**
-** \brief Memory colors
-** \see draw.h
-*/
-extern t_u8			g_memcolors[MEM_SIZE];
-
-/*
-** Drawing the memory using ncurses
-*/
-
-# include <ncurses.h>
-
-# define DRAW_BUFF_SIZE									0X0F
-# define DRAW_LINE_SIZE									0x40
-# define DRAW_LINE_WIDTH								0XC0 // SIZE * 3 characters `ff `
-
-/**
-** \brief colors used for the drawing where the first variant indicat the player
-** move and othe reversed variant indicated that he wrote over some other
-** player's memory. it is used for visualizing the war.
-**
-** Each cell have
-**
-**		(color of write over) >> [0000][0000] << (owner's color)
-**
-** using a Byte to represent colors, each memory cell in `g_arena` has a
-** correponding color in `g_memcolors` where the first 4 bytes indicate the
-** player who has set the memory. at first all memory cells are fresh and
-** initialized to `0`.
-**
-** At first, a player owns the cell by setting his color in the first 4-bits,
-** then if another player is to set the cell, if the cell has no owner, then the
-** player becomes the owner, else we keep the old owner and add a write over color
-** of the player in the next 4-bits.
-**
-** \see memory.c
-*/
-enum				e_colors
-{
-	/* player colors */
-    color_red_on_black = 1,
-    color_green_on_black,
-    color_yellow_on_black,
-    color_cyan_on_black,
-
-	color_count = color_cyan_on_black,
-
-	/* effects */
-    color_black_on_red,
-    color_black_on_green,
-    color_black_on_yellow,
-    color_black_on_cyan,
-
-	effect_count = color_count,
-};
-
-void			    draw_memory(void);
-
+extern t_vm			g_vm;
 
 #endif

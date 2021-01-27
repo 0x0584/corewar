@@ -6,24 +6,12 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:28:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/23 11:41:04 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/27 12:43:56 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 #include "draw.h"
-
-static inline t_u8	bebyte(t_u8 byte)
-{
-	return (byte << 2 | byte >> 2);
-}
-
-/* Big Endian Word -- 32-bit */
-static inline t_u32 beword(t_u32 word)
-{
-    return (((word >> 24) & 0xff) | ((word << 8) & 0xff0000) |
-			((word >> 8) & 0xff00) | ((word << 24) & 0xff000000));
-}
 
 static t_st			read_header(const int fd, t_header *hdr)
 {
@@ -72,6 +60,7 @@ void				player_dump(t_player *p)
         ft_printf("prog size: %u Byte\n", p->champ.hdr.prog_size);
         ft_printf("comment: %s\n", p->champ.hdr.comment);
         print_memory(&p->champ, sizeof(t_champ));
+		ft_putendl("------------------------");
     }
 }
 

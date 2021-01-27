@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/01/23 16:08:24 by archid-          ###   ########.fr        #
+#    Updated: 2021/01/27 12:01:25 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,6 +14,7 @@ NAME		 = corewar
 DEBUG		?= 1
 
 FT_DIR		?= libft
+LIBFT		?= $(FT_DIR)/libft.a
 
 INC_DIR		?= include
 SRC_DIR		?= src
@@ -30,7 +31,7 @@ else
 	CFLAGS	 = -O3 -Werror
 endif
 
-CFLAGS		+= -Wall -Wextra -I$(INC_DIR) -I$(FT_DIR)
+CFLAGS		+= -Wall -Wextra -Wpedantic -I$(INC_DIR) -I$(FT_DIR)
 LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
 
 HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
@@ -45,7 +46,7 @@ ft:
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -72,6 +73,6 @@ distcheck:
 check: all
 
 test: all
-	./$(NAME) foo.cor foo.cor foo.cor foo.cor
+	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
 
 .PHONY: all clean fclean re test check distcheck ft
