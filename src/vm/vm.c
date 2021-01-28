@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/27 12:04:29 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/28 16:08:35 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,22 @@ t_u32 beword(t_u32 word)
 			((word >> 8) & 0xff00) | ((word << 24) & 0xff000000));
 }
 
+static void arena_cleanup()
+{
+
+}
+
 t_st vm_loop(void) {
     t_st st;
 
     if ((st = mem_load()))
         return (st);
-    ft_printf("op: %02x encoding: %08b\n", g_vm.gladiators[0].champ.file[0],
-              g_vm.gladiators[0].champ.file[1]);
-
-	t_u8 encoding = bebyte(0b10101100);
-
-	ft_printf(" >> %{green_fg}encoding: %08b arg1:%02b arg2:%02b arg3:%02b%{reset}\n", encoding,
-			  encoding & 0b11, (encoding & 0b1100) >> 2,
-			  (encoding & 0b110000) >> 4);
-
-    /* exit(0); */
     while (!lst_empty(g_pool)) {
+		g_vm.cycles++;
         lst_iter(g_pool, false, op_callback);
-        draw_memory();
+		arena_cleanup();
+		getchar();
+        /* draw_memory(); */
     }
     return (st_succ);
 }

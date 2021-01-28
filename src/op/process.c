@@ -6,19 +6,19 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:41:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/26 10:52:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/28 08:18:56 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
 
-void    op_fork(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+void    op_fork(t_proc proc)
 {
-
+	ft_printf("op fork");
 }
 
-void    op_lfork(t_proc proc, t_u32 *a, t_u32 *b, t_u32 *c)
+void    op_lfork(t_proc proc)
 {
-
+	ft_printf("op lfork");
 }

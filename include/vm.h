@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/26 10:10:46 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/28 16:01:03 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ t_u32				beword(t_u32 word);
 ** \return big endian byte
 */
 t_u8				bebyte(t_u8 byte);
+
+t_addr				move_pc(t_addr pc, t_s16 offset);
 
 /**
 ** \brief Virtual Machine
