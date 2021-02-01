@@ -6,15 +6,15 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/28 16:01:03 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/01 19:41:43 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VM_H
 # define VM_H
 
-# include <assert.h>
 # include "player.h"
+# include "op.h"
 
 /**
 ** \brief at most we have `MAX_PLAYERS`
@@ -22,6 +22,18 @@
 */
 typedef t_player	t_players[MAX_PLAYERS];
 
+
+/**
+** \brief memory is circular
+**
+** long operations access memory via a `MEM_SIZE` mod
+** while regular operations use `IDX_MODE` mod
+*/
+typedef t_u8		t_memory[MEM_SIZE];
+
+/**
+** \brief
+*/
 typedef struct		s_vm
 {
     /**
@@ -92,6 +104,27 @@ bool	        	parse_arguments(int ac, char *av[]);
 */
 t_st				vm_loop(void);
 
+
+/**
+ * \brief decode the arguments of operation who's held by the process
+ *
+ * \param p the holding process
+ * \param offset out reference reflecting the size of the decoded chunk
+ *
+ * \return `
+ */
+t_st				vm_decode(t_proc p, t_u8 *offset);
+
+/**
+** \brief
+*/
+void				vm_read(void *proc);
+
+/**
+** \brief
+*/
+void				vm_exec(void *proc);
+
 /*
 ** Memory
 */
@@ -105,6 +138,33 @@ t_st				vm_loop(void);
 ** \see memory.c
 */
 t_st				mem_load(void);
+
+/**
+** \brief reads a `chuck_size` relative to the process's program counter
+**
+**   except registers, which have a `chunk_size` of `REG_SIZE`.
+**   It is deduced from the encoding and whether the operation
+**   have an `IDX_MOD`
+**
+**  \param p a reading process holding the program counter
+**  \param value a reference to where to write the content
+**
+**  \return
+**     - `st_succ` in case the of a successful read
+**     - `st_error` might arise in case of invalid register addressing
+*/
+t_st				mem_chunk(t_proc p, t_u8 which, t_args_value *value);
+
+/**
+** \brief get the value of the memory address on which the
+** program counter is pointing
+**
+** \param p process holding the program counter
+** \param offset from which we shall be reading
+**
+** \return a byte
+*/
+t_u8				mem_deref(t_proc p, t_u16 offset);
 
 /*
 ** Clock
@@ -138,8 +198,6 @@ t_u32				beword(t_u32 word);
 ** \return big endian byte
 */
 t_u8				bebyte(t_u8 byte);
-
-t_addr				move_pc(t_addr pc, t_s16 offset);
 
 /**
 ** \brief Virtual Machine

@@ -6,11 +6,12 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/28 16:08:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:30:45 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "draw.h"
+#include "vm.h"
+#include "process.h"
 
 static t_u8 lookup[] = {
 	0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe,
@@ -29,21 +30,25 @@ t_u32 beword(t_u32 word)
 			((word >> 8) & 0xff00) | ((word << 24) & 0xff000000));
 }
 
-static void arena_cleanup()
+static void process_cleanup()
 {
-
+	// if cycles to die remove process whom does not
 }
 
-t_st vm_loop(void) {
+t_st	vm_loop(void)
+{
     t_st st;
 
     if ((st = mem_load()))
         return (st);
-    while (!lst_empty(g_pool)) {
+    while (!lst_empty(g_pool))
+	{
 		g_vm.cycles++;
-        lst_iter(g_pool, false, op_callback);
-		arena_cleanup();
+        lst_iter(g_pool, true, vm_read);
 		getchar();
+		lst_iter(g_pool, true, vm_exec);
+		/* process_cleanup(); */
+		/* getchar(); */
         /* draw_memory(); */
     }
     return (st_succ);
@@ -73,7 +78,4 @@ int			print_usage(void)
 	return -1;
 }
 
-t_vm		g_vm = {
-	.winner = -1,
-	.delta = CYCLE_TO_DIE
-};
+t_vm		g_vm = {.delta = CYCLE_TO_DIE};

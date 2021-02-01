@@ -6,15 +6,19 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:09:42 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/25 09:33:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/01/31 16:18:44 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_H
 # define PLAYER_H
 
-# include "vmtypes.h"
-# include "process.h"
+# include "op.h"
+
+/**
+** \brief a core file is a blob
+*/
+typedef t_u8				t_cor[CHAMP_MAX_SIZE];
 
 /**
 ** \brief a champion if the resulted .cor file, it has a header and instructions

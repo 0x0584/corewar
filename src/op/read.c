@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory.c                                           :+:      :+:    :+:   */
+/*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/28 08:19:41 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:50:29 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "process.h"
 
-void    op_ld(t_proc proc)
+void    ld(t_proc proc)
 {
-	ft_printf("op ld");
+	/* proc->reg[proc->op.args[1]] = */
+	/* 	read_chunk(proc->op, proc->pc + (proc->op.args[0] % IDX_MOD)); */
 }
 
-void    op_st(t_proc proc)
+void	lldi(t_proc proc)
 {
-	ft_printf("op st");
-}
-
-void    op_ldi(t_proc proc)
-{
-	ft_printf("op ldi");
 
 }
 
-void    op_sti(t_proc proc)
+void    ldi(t_proc proc)
 {
-	ft_printf("op sti");
-
+	/* proc->reg[g_args[2]] = g_vm.arena[g_args[0]] = g_vm.arena[g_args[0]]; */
 }
 
-void    op_lld(t_proc proc)
+void    lld(t_proc proc)
 {
 	ft_printf("op lld");
 
