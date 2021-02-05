@@ -6,133 +6,17 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 19:31:50 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/04 11:47:14 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OP_H
 # define OP_H
 
-# include <assert.h>
+# include "const.h"
 
 # include "hash.h"
 # include "lst.h"
-
-# define IND_SIZE				2
-# define REG_SIZE				4
-# define DIR_SIZE				REG_SIZE
-
-# define REG_CODE				1
-# define DIR_CODE				2
-# define IND_CODE				3
-
-# define MAX_ARGS_NUMBER		4
-# define MAX_PLAYERS			4
-# define MEM_SIZE				(4 * 1024)
-# define IDX_MOD				(MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
-
-# define COMMENT_CHAR			'#'
-# define LABEL_CHAR				':'
-# define DIRECT_CHAR			'%'
-# define SEPARATOR_CHAR			','
-
-# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-# define NAME_CMD_STRING		".name"
-# define COMMENT_CMD_STRING		".comment"
-
-# define REG_NUMBER				16
-
-# define CYCLE_TO_DIE			1536
-# define CYCLE_DELTA			50
-# define NBR_LIVE				21
-# define MAX_CHECKS				10
-
-# define T_PAD					0
-# define T_REG					1
-# define T_DIR					2
-# define T_IND					4
-# define T_LAB					8
-
-# define PROG_NAME_LENGTH		128
-# define COMMENT_LENGTH			2048
-# define COREWAR_EXEC_MAGIC		0xea83f3
-
-/**
-** \brief some chunks read a short, some read `REG_SIZE`
-**
-**   `op_zjmp`, `op_live`, `op_fork`, `op_lfork` have a `SHORT_CHUNK`
-*/
-# define SHORT_CHUNK			0x4000
-
-/**
-** \brief all operations have an encoding byte
-**
-**   *except* `op_zjmp`, `op_live`, `op_fork`, `op_lfork`
-*/
-# define ENCODED_OP				0x2000
-
-/**
-** \brief some operations access a memory range with an `IDX_MOD`.
-** Long opeartions does't not.
-*/
-# define LONG_OP				0x1000
-
-/**
-** \brief return status of all vm routines
-*/
-typedef enum				e_state
-{
-    /**
-    ** \brief in case of a fatal error, such as a failure of a syscall
-    */
-    st_error = -1,
-
-    /**
-    ** \brief in case of a success, such as the callee did what the caller
-    ** expected
-    */
-    st_succ,
-
-    /**
-    ** \brief in case of an error, but not fatal. such as an illegal execute of
-    ** an operation
-    */
-    st_fail
-}							t_st;
-
-/**
-** \brief each `.cor` file must have a valid header
-*/
-typedef struct				s_header
-{
-	/**
-	** \brief a 4-Bytes indicator
-	*/
-	t_u32		magic;
-
-	/**
-	** \brief a program name has at most `PROG_NAME_LENGTH`
-	**
-	**   padded with `\0` if less
-	*/
-	t_u8		prog_name[PROG_NAME_LENGTH + 1];
-
-	/**
-	** \brief 4-Bytes indicating the total program size
-	**
-	**   excluding `magic`, `prog_name` and `comment`
-	*/
-	t_u32		prog_size;
-
-	/**
-	 ** \brief program comment is at most `COMMENT_LENGTH`
-	 **
-	 **   also padded with `\0` if less
-	 */
-	t_u8		comment[COMMENT_LENGTH + 1];
-}							t_header;
 
 /**
 ** \brief all information about the operation
@@ -142,27 +26,84 @@ typedef struct				s_header
 typedef union				u_op_meta
 {
 	/**
-	** \brief the encoding used a 16-bit big endian integer
+	** \brief the encoding used a 16-bit little endian integer
+	**
+	**   this is defined only in the code base and doesn't *not* relate to
+	**   the actual binary (`.cor` file)
 	*/
 	t_u16		meta;
 
 	/**
-	 ** \brief meta data
-	 **    padding  chunk size  encoded  long           args
-	 **    [00000]  [0]         [0]      [0]    [0000 | 0000 | 0000]
-	 */
+	** \brief meta data of the opeartion
+    */
 	struct					s_meta
 	{
-		t_u8		arg_t_1:4;
-		t_u8		arg_t_2:4;
-		t_u8		arg_t_3:4;
+		/**
+		** \brief expected type for the first argument
+		**
+		**	all operations hat least one argument
+	    */
+		t_u8		arg1_t:4;
+
+		/**
+		** \brief type of the second argument
+		**
+		**   some oprations have only two arguments
+		**   the third is used along as a type extension
+	    */
+		t_u8		arg2_t:4;
+
+		/**
+		** \brief third argument type
+		**
+		**	all operations hat least one argument
+	    */
+		t_u8		arg3_t:4;
+
+		/**
+		** \brief some operations access a memory range with an `IDX_MOD`.
+		** Long opeartions does't not.
+	    */
 	    bool		long_op:1;
+
+		/**
+	    ** \brief all operations have an encoding byte
+		**
+		**   *except* `op_zjmp`, `op_live`, `op_fork`, `op_lfork`
+		*/
 	    bool		encoded:1;
+
+		/**
+		** \brief some chunks read a short, some read `REG_SIZE`
+		**
+		**   `op_zjmp`, `op_live`, `op_fork`, `op_lfork` have a `SHORT_CHUNK`
+	    */
 	    bool		short_chunk:1;
-		t_u8		padding:4;
+
+		/**
+		** \brief only certain opeartions modify the carry
+		**
+		**   namely ALU and read operations
+	    */
 		bool		carry:1;
+
+		/**
+		** \brief complete a full 16-bit word
+	    */
+		t_u8		padding:4;
 	}			of;
 }							t_op_meta;
+
+/**
+** \brief each opeartion have an expected type for each argument
+** defined as `t_meta`, so `t_arg` is used to index individual
+** arguments
+**
+** also arguments are stored as a `t_blob` and have a relative `t_encoding`
+**
+** \see op_impl.h
+*/
+typedef t_u8				t_arg;
 
 /**
 ** \brief arguments encoding is reversed because the encoding byte
@@ -192,6 +133,8 @@ typedef union				u_op_encoding
 /**
 ** \brief to represent direct and indirect values with a common structure.
 ** some operations have a `label_size`.
+**
+** byte_1 of each argument has the `t_arg`
 */
 typedef union				u_blob
 {
@@ -203,9 +146,14 @@ typedef union				u_blob
 	union				    u_chunk
 	{
 		/**
-		** \brief argument value as a Big Endian integer
+		** \brief argument value as a Big Endian 32-bit integer
 		*/
-		t_u32		value;
+		t_u32		u32;
+
+		/**
+		 ** \breif argument value as a Big Endian 16-bit integer
+		 */
+		t_u16		u16;
 
 		/**
 		** \brief arguments value is reversed because the encoding byte
@@ -230,5 +178,22 @@ typedef union				u_blob
 ** \see process.h
 */
 typedef struct s_process	*t_proc;
+
+/**
+** \brief handy hard-written utility to probe the encoding of a `t_op_encoding`
+**
+** \param op pointer an operation held by a process
+** \param which argument to get encoding for
+**
+** \see op.h
+** \see op_impl.h
+**
+** \return a Byte containing the encoding
+*/
+t_u8		op_encoding(t_proc p, t_arg which);
+
+t_u8		op_meta_encoding(t_proc p, t_arg which);
+
+t_arg		encoded(t_u8 arg);
 
 #endif

@@ -6,47 +6,43 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:02:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 17:04:03 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/03 14:52:01 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op_impl.h"
 #include "builtin.h"
+#include "process.h"
 
-/**
- ** \brief using a single Byte, we shall indicate which argument
- ** as well as its expected type(s) and encode it within the meta
- **
- ** \param meta operation meta information
- ** \param arg_n_meta argument and it's meta data
- **
- ** \return the meta with the argument encoded
- */
-static inline t_u16 set_meta_arg(t_u8 arg_n_meta)
+#define LONG_OP true
+#define ENC		true
+#define SHORT	true
+#define CARRY	true
+
+void						set_nop(t_proc p)
 {
-	/* return ((arg_n_meta & 0xf0) << (arg_n_meta & 0x0f)) << 2)); */
+	p->op = g_ops[op_nop];
 }
 
 t_op		g_ops[op_count] = {
-	[op_nop] = {
-		.op_name = "nop",  .label_size = 0, .callback = nop,
-		.cycles = 0,	   .nargs = 0,		.args = {0, 0, 0, 0},
-			  .long_op = mod_op, .encoded = not_enc_op,
-	},
-	[op_live] =	 {"live",		live,     4,			10,		1,	 {T_DIR},												mod_op,		not_enc_op},
-	[op_ld] =	 {"ld",			ld,	      4,			5,		2,	 {T_DIR | T_IND, T_REG},								mod_op,		enc_op},
-	[op_st] =	 {"st",			st,	      4,			5,		2,	 {T_REG, T_IND | T_REG},								mod_op,		enc_op},
-	[op_add] =	 {"add",		add,      4,			10,		3,	 {T_REG, T_REG, T_REG},									mod_op,		enc_op},
-	[op_sub] =	 {"sub",		sub,      4,			10,		3,	 {T_REG, T_REG, T_REG},									mod_op,		enc_op},
-	[op_and] =	 {"and",		and,      4,			6,		3,	 {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG},	mod_op,		enc_op},
-	[op_or] =	 {"or",			or,	      4,			6,		3,	 {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG},	mod_op,		enc_op},
-	[op_xor] =	 {"xor",		xor,      4,			6,		3,	 {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG},	mod_op,		enc_op},
-	[op_zjmp] =	 {"zjmp",		zjmp,     2,			20,		1,	 {T_DIR},												mod_op,		not_enc_op},
-	[op_ldi] =	 {"ldi",		ldi,      2,			25,		3,	 {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG},			mod_op,		enc_op},
-	[op_sti] =	 {"sti",		sti,      2,			25,		3,	 {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG},			mod_op,		enc_op},
-	[op_fork] =	 {"fork",		fork_,     2,			800,	1,	 {T_DIR},												long_op,	not_enc_op},
-	[op_lld] =	 {"lld",		lld,       4,			10,		2,	 {T_DIR | T_IND, T_REG},								long_op,	enc_op},
-	[op_lldi] =	 {"lldi",		lldi,      2,			50,		3,	 {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG},			long_op,	enc_op},
-	[op_lfork] = {"lfork",		lfork,     2,			1000,	1,	 {T_DIR},												long_op,	not_enc_op},
-	[op_aff] =	 {"aff",		aff,      4,			2,		1,	 {T_REG},												long_op,	enc_op},
+	[op_live]	=	 {"live",       live,	10,	   1,    .meta.of = {T_DIR,				  T_PAD,		 T_PAD,					 !LONG_OP, !ENC, !SHORT, !CARRY, T_PAD}, "annouce player asnumber of first argument as alive, forwhich the process remaine on cycle by the vm"},
+	[op_ld]		=	 {"ld",	        ld,		5,	   3,    .meta.of = {T_DIR | T_IND,	      T_REG,		 T_PAD,					 !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "load from argument to register, set carry if loaded zero"},
+	[op_st]		=	 {"st",			st,		5,	   2,	 .meta.of = {T_REG,			      T_IND | T_REG,	     T_PAD,          !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "set memory value from the register"},
+	[op_add]	=	 {"add",		add,	10,	   3,    .meta.of = {T_REG,			      T_REG,			     T_REG,          !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "add the first two arguments and put result in the 3rd"},
+	[op_sub]	=	 {"sub",		sub,	10,	   3,    .meta.of = {T_REG,			      T_REG,			     T_REG,          !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
+	[op_and]	=	 {"and",		and,    6,	   3,    .meta.of = {T_REG,			      T_REG,			     T_REG,          !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
+	[op_or]		=	 {"or",			or,	    6,	   3,    .meta.of = {T_REG,			      T_REG,			     T_REG,          !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
+	[op_xor]	=	 {"xor",		xor,    6,	   3,    .meta.of = {T_REG,			      T_REG,			     T_REG,          !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
+	[op_zjmp]	=	 {"zjmp",		zjmp,	20,	   1, 	 .meta.of = {T_DIR,			      T_PAD,			     T_PAD,          !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "if the carry is set, jump to the address at the argument"},
+	[op_ldi]	=	 {"ldi",		ldi,    25,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,	     T_REG,          !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same as ld but can address a further range"},
+	[op_sti]	=	 {"sti",		sti,	25,	   2,    .meta.of = {T_REG,				  T_REG | T_DIR | T_IND, T_DIR | T_REG,  !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same concept of ldi applied on st"},
+	[op_fork]	=	 {"fork",		fork_,	10,	   1,	 .meta.of = {T_DIR,				  T_PAD,				 T_PAD,			 !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "creates a new process with program counter at the given argument"},
+	[op_lld]	=	 {"lld",		lld,	800,   2,	 .meta.of = {T_DIR | T_IND,		  T_REG,				 T_PAD,			  LONG_OP,  ENC ,!SHORT,  CARRY, T_PAD}, "same as normal ld, but does not the memory restriction of IDX_MOD"},
+	[op_lldi]	=	 {"lldi",		lldi,	50,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,		 T_REG,			  LONG_OP,  ENC,  SHORT,  CARRY, T_PAD}, "same as lldi, but also does not have the memory restriction of IDX_MOD"},
+	[op_lfork]	=	 {"lfork",		lfork,	1000,  1,	 .meta.of = {T_DIR,				  T_PAD,				 T_PAD,			  LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "same a normal fork, but it has no memory restriction on the argument"},
+	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,				  T_PAD,				 T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"},
+
+	[op_nop] = { .name = "nop" },
 };
+
+#undef SET_META

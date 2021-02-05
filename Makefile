@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/01 17:17:28 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/02 08:41:34 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,7 +26,7 @@ CC			 = gcc
 LD			 = ld
 
 ifeq ($(DEBUG), 1)
-	CFLAGS	 = -ggdb -Og -DDEBUG
+	CFLAGS	 = -g -Og -DDEBUG
 else
 	CFLAGS	 = -O3 -Werror
 endif

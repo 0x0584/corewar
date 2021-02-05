@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/02/01 19:38:12 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/03 15:02:53 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ enum						e_operations
 ** \param b second argument (if applicable)
 ** \param c third argument (if applicable)
 **
+** \return op status
 ** \see op_impl.h
 */
-typedef void				(*t_op_callback)(t_proc proc);
+typedef t_u8				(*t_op_callback)(t_proc proc);
 
 /**
 ** \brief each opeartions has a callback function which takes some number of
@@ -63,14 +64,21 @@ typedef struct				s_op
 	const char			*name;
 
 	/**
-	** \brief operation docs
-	*/
-	const char			*doc;
-
-	/**
 	** \brief the callback function which does the job
 	*/
 	const t_op_callback	callback;
+
+	/**
+	** \brief the number of cycles for an instruction to be executed
+	**
+	** it is part of the simulation where instruction take different periods
+	*/
+	t_s16				cycles;
+
+	/**
+	** \brief number of argument takes by the operation
+    */
+	const t_u8			nargs;
 
 	/**
 	** \brief a singular argument type require at most 4-bits to be stored
@@ -90,16 +98,14 @@ typedef struct				s_op
 	const t_op_meta		meta;
 
 	/**
-	** \brief the number of cycles for an instruction to be executed
-	**
-	** it is part of the simulation where instruction take different periods
+	** \brief operation docs
 	*/
-	t_s16				cycles;
+	const char			*doc;
 
 	/**
 	** \brief some operation does *not* have a parameter encoding byte
 	*/
-	t_op_encoding		encoding;
+	t_op_encoding		encoded;
 
 	/**
     ** \brief global arguments for operations
@@ -120,6 +126,8 @@ typedef struct				s_op
 ** \param proc a process from `g_pool`
 */
 void						callback(void *proc);
+
+void						set_nop(t_proc p);
 
 /**
 ** \brief operation interact with the VM's memory address range `arena`

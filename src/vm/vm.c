@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 17:30:45 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/04 18:27:15 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,20 @@ t_u32 beword(t_u32 word)
 			((word >> 8) & 0xff00) | ((word << 24) & 0xff000000));
 }
 
-static void process_cleanup()
-{
-	// if cycles to die remove process whom does not
-}
-
 t_st	vm_loop(void)
 {
     t_st st;
 
     if ((st = mem_load()))
         return (st);
+
+	// void		lst_iter_arg(t_lst lst, bool front, void *arg, void (*apply_arg)(void *blob, void *arg));
     while (!lst_empty(g_pool))
 	{
 		g_vm.cycles++;
-        lst_iter(g_pool, true, vm_read);
+        lst_iter_arg(g_pool, true, &st, vm_read);
 		getchar();
-		lst_iter(g_pool, true, vm_exec);
+		lst_iter_arg(g_pool, true, &st, vm_exec);
 		/* process_cleanup(); */
 		/* getchar(); */
         /* draw_memory(); */
@@ -65,7 +62,7 @@ bool		parse_arguments(int ac, char *av[])
 	while (i < ac)
 	{
 		if (ft_strsuffix(av[i], ".cor"))
-			if (player_read(av[i], &g_vm.gladiators[g_vm.nplayers++]))
+			if (player_read(av[i], g_vm.nplayers++))
 				return false;
 		i++;
 	}

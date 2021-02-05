@@ -6,44 +6,47 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 17:30:32 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/04 18:04:53 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "op_impl.h"
+#include "builtin.h"
+#include "process.h"
 
-void	vm_exec(void *proc)
+void	vm_exec(void *proc, void *arg)
 {
 	t_proc	p;
 	t_u8	instr_offset;
 
-	if (!(p = proc)->op)
+	if ((p = proc)->op.callback == op_nop)
 		return ;
-	else if (!p->cycles_to_wait)
+	else if (!p->op.cycles)
 	{
 		instr_offset = 0;
 		if (vm_decode(proc, &instr_offset))
 		{
-			ft_dprintf(2, "player %d: `%s` has correct encoding\n", p->num, p->op->op_name);
-			ft_dprintf(2, "  arguments: arg1:%08x arg2:%08x arg3:%08x\n",
-					   g_args[0], g_args[1], g_args[2]);
-			p->op->callback(proc);
+			*(t_st *)arg = LOGGER(st_succ, "player %d: `%s` has correct encoding\n", p->num, p->op.name);
+		    p->op.callback(proc);
 		}
 		else
 		{
-			ft_dprintf(2, "player %d: skip `%s` incorrect encoding!\n",
-					   p->num, p->op->op_name);
+			*(t_st *)arg = LOGGER(st_fail, "player %d: skip `%s` incorrect encoding!\n",
+					   p->num, p->op.name);
+			move_pc(p, instr_offset);
+			return ;
 		}
-		// zjmp doesnt move the PC
-		move_pc(&p->pc, instr_offset);
-		p->op = NULL;
+		if (p->op.callback == zjmp)
+			*(t_st *)arg = LOGGER(st_succ, "player %d jumped to address: %0#4x\n", p->num, p->pc);
+		else
+			move_pc(p, instr_offset);
+		set_nop(p);
 	}
 	else
 	{
-		p->cycles_to_wait--;
-		ft_dprintf(2, "player %d: `%s` operation has more %d cycles to wait\n",
-				   p->num,
-				   p->op->op_name, p->cycles_to_wait);
+		*(t_st *)arg = LOGGER(st_succ, "player %d: `%s` operation has more %d cycles to wait\n",
+							  p->num, p->op.name, p->op.cycles);
+		p->op.cycles++;
 	}
 }

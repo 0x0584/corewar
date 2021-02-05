@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 19:41:43 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/04 18:03:04 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,29 @@ t_st				vm_loop(void);
 t_st				vm_decode(t_proc p, t_u8 *offset);
 
 /**
-** \brief
+** \brief callback to list of processes `g_pool` to read operation and
+** set the waiting cycle of the operation
+**
+**  if the operation is valid, we reverse it waiting cycles
+**
+** \param proc process to read from
 */
-void				vm_read(void *proc);
+void				vm_read(void *proc, void *arg);
 
 /**
-** \brief
+** \brief callback to list of processes `g_pool` to execute operations are ready
+** to be executed.
+**
+**	- the waiting cycle is defined inside the opeartion. as we make a copy of
+**	the operation `g_ops` at process creation time.
+**	- at read, the number of cycles is reversed to indicate change
+**
+** \param proc a process ready to be executed
+**
+** \see op_impl.h
+** \see vm_read()
 */
-void				vm_exec(void *proc);
+void				vm_exec(void *proc, void *arg);
 
 /*
 ** Memory
@@ -140,6 +155,19 @@ void				vm_exec(void *proc);
 t_st				mem_load(void);
 
 /**
+** \brief read arguments of an operation held by process `p`
+** sets tjhe offset of the chunk
+**
+** \param p process of operation
+** \param offset out reference of the chunk offset
+**
+** \return
+**
+**   - `st_succ`
+*/
+t_st				read_arg_chunk(t_proc p, t_u8 *offset);
+
+/**
 ** \brief reads a `chuck_size` relative to the process's program counter
 **
 **   except registers, which have a `chunk_size` of `REG_SIZE`.
@@ -153,7 +181,7 @@ t_st				mem_load(void);
 **     - `st_succ` in case the of a successful read
 **     - `st_error` might arise in case of invalid register addressing
 */
-t_st				mem_chunk(t_proc p, t_u8 which, t_args_value *value);
+t_st				mem_chunk(t_proc p, t_arg arg);
 
 /**
 ** \brief get the value of the memory address on which the
@@ -166,20 +194,21 @@ t_st				mem_chunk(t_proc p, t_u8 which, t_args_value *value);
 */
 t_u8				mem_deref(t_proc p, t_u16 offset);
 
-/*
-** Clock
-*/
-
 /**
-** \brief the clock synchronise the running processes based on
-** their `t_proc::num`
+** \brief get the value of the memory address on which the
+** program counter is pointing
 **
-** \return `st_error` in case fetch is not successful. Otherwise`st_succ`
-** in case all process have fetched or `st_fail` if they haven't
+** \param p process holding the program counter
 **
-** \see clock.c
+** \return a byte
 */
-t_st				clock_tick(void);
+t_u8				mem_at(t_proc p);
+
+t_u8				at_mem(t_u16 p);
+
+/*
+** Little to Big Endian
+*/
 
 /**
 ** \brief reverse a word (32-bit) from little endian to big endian

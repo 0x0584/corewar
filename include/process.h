@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 17:20:22 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/04 12:01:51 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ struct						s_process
 };
 
 /**
+** \brief each number of `CYCLES_TO_DIE` we remove all process from `g_pool`
+** forwhich they have not execuetd a `op_live` operation
+**
+** \see vm.h
+** \see vm.c
+*/
+void						process_cleanup();
+
+/**
 ** \brief creates a process for a player and place the PC at `at`
 **
 ** if the child is `true` then we supply the player number to `t_proc::reg[0]`
@@ -87,6 +96,8 @@ t_proc						new_process(t_u8 num, t_u16 at);
 */
 t_u16						shift_pc(t_proc p, t_u16 offset);
 
+t_u16						pc_shift(t_u16 pc, t_u16 offset, bool long_op);
+
 /**
 ** \brief move the process program counter by an offset
 ** \param pc program counter of a process
@@ -95,6 +106,8 @@ t_u16						shift_pc(t_proc p, t_u16 offset);
 ** \return new value of the program counter
 */
 t_u16						move_pc(t_proc p, t_u16 offset);
+
+t_u16						pc_move(t_u16 *pc, t_u16 offset, bool long_op);
 
 /**
 ** \brief the global process id counter

@@ -6,76 +6,63 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:28:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/27 12:43:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:37:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 #include "draw.h"
 
-static t_st			read_header(const int fd, t_header *hdr)
+static t_st			read_player(const int fd, t_u8 player_num)
 {
-    ssize_t readsz;
-    t_st	st;
+    ssize_t		readsz;
+	t_player	*player;
 
-    st = st_succ;
-    if ((readsz = read(fd, hdr, sizeof(t_header))) < 0)
-        st = st_error;
-    else if (readsz != sizeof(t_header))
-	{
-        st = st_fail;
-        ft_dprintf(2, "header is corrupted\n");
-    }
-    hdr->magic = beword(hdr->magic);
-    hdr->prog_size = beword(hdr->prog_size);
-    return (st);
-}
+	player = g_vm.gladiators + player_num;
+    if ((readsz = read(fd, player, sizeof *player)) < 0)
+        return LOGGER(st_error, "invalid read from %d\n", fd);
+    /* else if (readsz != sizeof *player) */
+	/* 	return LOGGER(st_fail, "header of player %d is corrupted\n", player_num); */
 
-static t_st			read_champ(const int fd, t_champ *ch)
-{
-    ssize_t readsz;
-    t_st	st;
+	player_dump(&g_vm.gladiators[player_num]);
 
-    st = 0;
-    if (ch->hdr.magic != COREWAR_EXEC_MAGIC)
-	{
-        st = st_fail;
-        ft_dprintf(2, "file format unknown: %x\n", ch->hdr.magic);
-    } else if ((readsz = read(fd, ch->file, ch->hdr.prog_size)) < 0)
-        st = st_fail;
-    else if (readsz != ch->hdr.prog_size)
-	{
-        st = st_fail;
-        ft_dprintf(2, "binary is altered, prog_size: %u != %ld\n",
-                   ch->hdr.prog_size, readsz);
-    }
-    return (st);
+    player->champ.magic = beword(player->champ.magic);
+    player->champ.prog_size = beword(player->champ.prog_size);
+
+	if (player->champ.magic != COREWAR_EXEC_MAGIC)
+        return LOGGER(st_error, "file format unknown: %x\n", ch->magic);
+	else if (player->champ.file[player->champ.prog_size])
+       return LOGGER(st_fail, "binary is altered, prog_size: %u %08x\n", ch->prog_size,
+					 player->champ.file[player->champ.prog_size]);
+	else
+		return LOGGER(st_succ, "read player %d (fd: %d)\n", player_num, fd);
 }
 
 void				player_dump(t_player *p)
 {
     if (g_player_debug)
 	{
-        ft_printf("prog name: %s\n", p->champ.hdr.prog_name);
-        ft_printf("prog size: %u Byte\n", p->champ.hdr.prog_size);
-        ft_printf("comment: %s\n", p->champ.hdr.comment);
+        LOGGER(st_succ, "prog name: %s\n", p->champ.prog_name);
+        LOGGER(st_succ, "prog size: %u Byte\n", p->champ.prog_size);
+        LOGGER(st_succ, "comment: %s\n", p->champ.comment);
+
         print_memory(&p->champ, sizeof(t_champ));
 		ft_putendl("------------------------");
     }
 }
 
-t_st				player_read(const char *filename, t_player *p)
+t_st				player_read(const char *filename, t_u8 player_num)
 {
     t_st	st;
     int		fd;
 
+	assert(player_num < MAX_PLAYERS);
     if ((fd = open(filename, O_RDONLY)) < 0)
         return (st_error);
-    else if (!(st = read_header(fd, &p->champ.hdr)))
-        if (!(st = read_champ(fd, &p->champ)))
-            player_dump(p);
+    else if (!(st = read_player(fd, player_num)))
+		player_dump(&g_vm.gladiators[player_num]);
     close(fd);
     return (st);
 }
 
-bool				g_player_debug = false;
+bool				g_player_debug = true;
