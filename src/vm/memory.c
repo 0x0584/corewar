@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/04 17:51:23 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 18:16:03 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,16 @@ static inline t_st	mem_write(t_u8 player, t_u16 at, t_u8 arr[], t_u16 size)
 	return (st_succ);
 }
 
-t_st				mem_load(void)
+void				mem_load(t_player *p, t_u8 player_num)
 {
-    t_u16		front;
-    t_u16		step;
-    t_player	*player;
-	t_u8		iplayer;
+	t_u16				i;
+	t_u16				j;
 
-    front = 0;
-    step = (MEM_SIZE / g_vm.nplayers);
-	iplayer = g_vm.nplayers;
-    while (iplayer--)
-	{
-        player = g_vm.gladiators + iplayer;
-        mem_write(iplayer, front, player->champ.file,
-					player->champ.prog_size);
-		player->prog = new_process(iplayer + 1, front);
-		set_color(iplayer + 1 + color_count, front);
-        front += step;
-    }
-    return st_succ;
+	assert(p != NULL);
+	j = 0;
+	i = (MEM_SIZE / g_vm.nplayers) * player_num;
+	while (j < p->champ.prog_size)
+		g_vm.arena[i++] = p->champ.file[j++];
 }
 
 static inline void read_word_size(t_u16 pc, union u_chunk *chunk, bool shrt_chunk, bool long_op)
@@ -62,27 +52,6 @@ static inline void read_word_size(t_u16 pc, union u_chunk *chunk, bool shrt_chun
 
 t_st				mem_chunk(t_proc p, t_arg arg)
 {
-	/* t_args_value		arg; */
-	/* t_u16			pc; */
-
-    /* value->v[which] = 0; */
-
-	/* if (p->op.meta.of.long_op) */
-	/* 	pc = shift_pc(p); */
-
-	/* arg.val.byte_4 = g_vm.arena[pc]; */
-	/* arg.val.byte_3 = g_vm.arena[pc + 1]; */
-
-	/* if (p->op.chunk_size > 2) */
-	/* { */
-	/* 	arg.val.byte_2 = g_vm.arena[pc + 2]; */
-	/* 	arg.val.byte_1 = g_vm.arena[pc + 3]; */
-	/* } */
-
-	/* return (arg.value); */
-
-/////////
-
 	if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
 	{
 

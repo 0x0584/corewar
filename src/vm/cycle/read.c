@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/04 18:04:25 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:52:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static inline t_st		handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 		return (st_succ);
 	}
 	else
-		return LOGGER(st_fail, "unknown encoding",);
+		return LOGGER(st_fail, "unknown encoding of arg %d", arg);
 }
 
 t_st					read_arg_chunk(t_proc p, t_u8 *offset)
@@ -83,17 +83,19 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 		}
 		else
 			return LOGGER(st_fail, "unexpected argument encoding %2b vs %8b",
-						  op_encoding(p, arg << 2), op_meta_encoding(arg, which));
+						  op_encoding(p, arg << 2), op_meta_encoding(p, arg));
 		arg++;
 	}
 	if (op_encoding(p, arg << p->op.nargs))
-		return (LOGGER(st_fail, "arguments are not padded\n",));
+		return (LOGGER(st_fail, "arguments are not padded (%08b)\n",
+					   op_encoding(p, arg << p->op.nargs)));
 	return (st_succ);
 }
 
-void	vm_read(void *proc, void *arg)
+void					vm_read(void *proc, void *arg)
 {
 	t_proc	p;
+
 	p = proc;
     if ((p->carry = mem_at(p) >= op_count))
 	{

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/04 12:01:51 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 18:29:35 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ struct						s_process
 	** overflow/underflow or error
 	*/
 	bool			carry;
+
+	/**
+	** \brief when called `op_live`
+    */
+	bool			alive;
 
 	/**
 	** \brief operation of the current process

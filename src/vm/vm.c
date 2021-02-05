@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/04 18:27:15 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 18:30:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,16 @@ t_st	vm_loop(void)
 {
     t_st st;
 
-    if ((st = mem_load()))
-        return (st);
+    /* if ((st = mem_load())) */
+    /*     return (st); */
 
-	// void		lst_iter_arg(t_lst lst, bool front, void *arg, void (*apply_arg)(void *blob, void *arg));
     while (!lst_empty(g_pool))
 	{
 		g_vm.cycles++;
         lst_iter_arg(g_pool, true, &st, vm_read);
 		getchar();
 		lst_iter_arg(g_pool, true, &st, vm_exec);
-		/* process_cleanup(); */
+		process_cleanup();
 		/* getchar(); */
         /* draw_memory(); */
     }
@@ -54,18 +53,27 @@ t_st	vm_loop(void)
 // flags: [-dump nbr_cycles] [[-n number] champion1.cor]
 bool		parse_arguments(int ac, char *av[])
 {
-	int			i;
+	int				i;
+	int				j;
+	const char		*files[MAX_PLAYERS];
 
 	if (ac == 1)
 		return (false);
 	i = 1;
+	j = 0;
 	while (i < ac)
 	{
 		if (ft_strsuffix(av[i], ".cor"))
-			if (player_read(av[i], g_vm.nplayers++))
-				return false;
+		{
+			assert(j < MAX_PLAYERS);
+			files[j++] = av[i];
+		}
 		i++;
 	}
+	g_vm.nplayers = j;
+	while (j--)
+		if (player_read(files[j], j))
+			return false;
 	return (g_vm.nplayers < 5 && g_vm.nplayers);
 }
 

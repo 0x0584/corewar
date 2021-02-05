@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 08:33:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 16:37:45 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:57:41 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-# define HEADER_SIZE			(2 * sizeof(t_u64) + PROG_NAME_LENGTH + 1 + COMMENT_LENGTH + 1)
-
 /**
 ** \brief return status of all vm routines
 */
@@ -91,6 +89,5 @@ typedef enum				e_state
 /* # endif */
 
 #  define LOGGER(st, fmt, ...)					\
-	ft_dprintf(2, fmt, #__VA_ARGS__), st
-
+	ft_dprintf(2, fmt, __VA_ARGS__), st
 #endif

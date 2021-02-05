@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/04 18:03:04 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/05 18:12:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 ** \see op.h
 */
 typedef t_player	t_players[MAX_PLAYERS];
-
 
 /**
 ** \brief memory is circular
@@ -152,7 +151,7 @@ void				vm_exec(void *proc, void *arg);
 **
 ** \see memory.c
 */
-t_st				mem_load(void);
+void				mem_load(t_player *p, t_u8 player_num);
 
 /**
 ** \brief read arguments of an operation held by process `p`
