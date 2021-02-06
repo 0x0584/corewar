@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:19:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/01/24 17:19:48 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:18:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,14 @@ void		draw_memory(void)
 {
     int			i;
 	static char	buff[DRAW_BUFF_SIZE] = {0};
-	int			fd;
 
     draw_setup();
     i = 0;
-	fd = open("log", O_RDWR | O_CREAT | O_TRUNC);
     while (i < MEM_SIZE)
 	{
 		ft_snprintf(buff, DRAW_BUFF_SIZE, "%02x", g_vm.arena[i]);
 		attron(COLOR_PAIR(color(i)));
-		ft_dprintf(fd, " >> owner of %4d is %08b\n", i, g_vm.colors[i]);
+		ft_dprintf(g_fd, " >> owner of %4d is %08b\n", i, g_vm.colors[i]);
 		printw(buff);
 		attroff(COLOR_PAIR(color(i)));
 		printw(" ");
@@ -70,5 +68,4 @@ void		draw_memory(void)
 			printw("\n");
     }
 	draw_loop();
-	close(fd);
 }

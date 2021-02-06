@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/02 08:41:34 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/06 11:59:27 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -31,7 +31,7 @@ else
 	CFLAGS	 = -O3 -Werror
 endif
 
-CFLAGS		+= -I$(INC_DIR) -I$(FT_DIR) # -Wall -Wextra -Wpedantic
+CFLAGS		+= -I$(INC_DIR) -I$(FT_DIR) -Wall -Wextra -Wpedantic
 LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
 
 HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)

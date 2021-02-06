@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 08:33:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 16:57:41 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:00:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,4 @@ typedef enum				e_state
     st_fail
 }							t_st;
 
-/* # define DEBUG */
-/* # ifdef DEBUG */
-/* #  define LOGGER(st, fmt, ...)					\ */
-/* 	ft_dprintf(2, fmt, #__VA_ARGS__), st */
-/* # else */
-/* #  define LOGGER(st, fmt, ...)					\ */
-/* 	st */
-/* # endif */
-
-#  define LOGGER(st, fmt, ...)					\
-	ft_dprintf(2, fmt, __VA_ARGS__), st
 #endif

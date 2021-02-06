@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 18:18:21 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 10:35:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 t_u8    ld(t_proc proc)
 {
-	proc->reg[proc->op.args[1]] =
-		read_chunk(proc->op, proc->pc + (proc->op.args[0] % IDX_MOD));
+	/* proc->reg[proc->op.args[1]] = */
+	/* 	read_chunk(proc->op, proc->pc + (proc->op.args[0] % IDX_MOD)); */
 }
 
 t_u8	lldi(t_proc proc)

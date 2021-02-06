@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 16:52:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:17:37 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_u8 *offset)
 {
 	if (encoded(arg) == T_REG)
 		if (mem_deref(p, arg) >= REG_NUMBER)
-			return (LOGGER(st_error, "invalid register (%d) access\n", mem_deref(p, 1)));
+		{
+			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, 1));
+			return (st_error);
+		}
 		else
 		{
 			*offset += mem_chunk(p, arg);
@@ -64,7 +67,10 @@ static inline t_st		handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 		return (st_succ);
 	}
 	else
-		return LOGGER(st_fail, "unknown encoding of arg %d", arg);
+	{
+		ft_dprintf(g_fd ,"unknown encoding of arg %d", arg);
+		return st_fail;
+	}
 }
 
 t_st					read_arg_chunk(t_proc p, t_u8 *offset)
@@ -81,14 +87,17 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 				if ((st = handle_chunk(p, arg, offset)))
 					return (st);
 		}
-		else
-			return LOGGER(st_fail, "unexpected argument encoding %2b vs %8b",
-						  op_encoding(p, arg << 2), op_meta_encoding(p, arg));
+		else{
+		ft_dprintf(g_fd ,"unexpected argument encoding %2b vs %8b",
+				   op_encoding(p, arg << 2), op_meta_encoding(p, arg));
+
+			return st_fail;}
 		arg++;
 	}
-	if (op_encoding(p, arg << p->op.nargs))
-		return (LOGGER(st_fail, "arguments are not padded (%08b)\n",
-					   op_encoding(p, arg << p->op.nargs)));
+	if (op_encoding(p, arg << p->op.nargs)){
+		ft_dprintf(g_fd ,"arguments are not padded (%08b)\n",
+				   op_encoding(p, arg << p->op.nargs));
+		return (st_fail);}
 	return (st_succ);
 }
 
@@ -99,16 +108,17 @@ void					vm_read(void *proc, void *arg)
 	p = proc;
     if ((p->carry = mem_at(p) >= op_count))
 	{
-		*(t_st *)arg = LOGGER(st_fail, "player %d: %02x is not an operation\n",
+		*(t_st *)arg = st_fail;
+		ft_dprintf(g_fd ,"player %d: %02x is not an operation\n",
 							  p->num, g_vm.arena[p->pc]);
-		p->op = g_ops[op_nop];
+		set_nop(p);
 		move_pc(p, 1);
 	}
-	else if (p->op.cycles > 0)
+	else if (p->op.cycles >= 0)
 	{
-		p->op = g_ops[mem_at(p)];
+		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;
-		*(t_st *)arg = LOGGER(st_succ, "player %d: `%s` operation, scheduled after %d cycles\n",
-							  p->num, p->op.name, p->op.cycles);
+		*(t_st *)arg = st_succ;
+		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
 	}
 }

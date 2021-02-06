@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 18:12:48 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:13:49 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,6 @@ typedef struct		s_vm
 }					t_vm;
 
 /**
-** \brief output the usage of the program to stdout
-**
-** \return -1 always
-*/
-int		        	print_usage(void);
-
-/**
 ** \brief  parse command-line arguments and initialize VM's global variables
 **
 ** \param ac argument counter
@@ -92,7 +85,7 @@ int		        	print_usage(void);
 **
 ** \return `true` if the arguments are correct, `false` otherwise.
 */
-bool	        	parse_arguments(int ac, char *av[]);
+t_st	        	parse_arguments(int ac, char *av[]);
 
 /**
 ** \brief this is the instruction cycle for all running processes. it fetches,
@@ -145,13 +138,13 @@ void				vm_exec(void *proc, void *arg);
 
 /**
 ** \brief load the players into memory from `t_vm::gladiators` and set
-** them evenly spaced
+** them evenly spaced, also create a process for each loaded player
 **
 ** \return if succeeded, `st_succ` is return, otherwise `st_error`
 **
-** \see memory.c
+** \see process.h
 */
-void				mem_load(t_player *p, t_u8 player_num);
+void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ);
 
 /**
 ** \brief read arguments of an operation held by process `p`
@@ -205,31 +198,10 @@ t_u8				mem_at(t_proc p);
 
 t_u8				at_mem(t_u16 p);
 
-/*
-** Little to Big Endian
-*/
-
-/**
-** \brief reverse a word (32-bit) from little endian to big endian
-**
-** \param word little endian word
-**
-** \return big endian word
-*/
-t_u32				beword(t_u32 word);
-
-/**
-** \brief reverse a byte (8-bits) from little endian to big endian
-**
-** \param word little endian byte
-**
-** \return big endian byte
-*/
-t_u8				bebyte(t_u8 byte);
-
 /**
 ** \brief Virtual Machine
 */
 extern t_vm			g_vm;
+extern int			g_fd;
 
 #endif

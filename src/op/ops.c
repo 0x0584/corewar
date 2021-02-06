@@ -15,7 +15,7 @@ t_u8	live(t_proc proc)
 
 t_u8	zjmp(t_proc proc)
 {
-	proc->pc =
+
 }
 
 t_u8	aff(t_proc proc)
