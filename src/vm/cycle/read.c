@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:17:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 15:15:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 
 void					vm_read(void *proc, void *arg)
 {
-	t_proc	p;
-
+	t_proc	p
+;
 	p = proc;
     if ((p->carry = mem_at(p) >= op_count))
 	{
