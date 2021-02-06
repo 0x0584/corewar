@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/02/03 15:02:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 18:19:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ enum						e_operations
 ** \return op status
 ** \see op_impl.h
 */
-typedef t_u8				(*t_op_callback)(t_proc proc);
+typedef void				(*t_op_callback)(t_proc proc);
 
 /**
 ** \brief each opeartions has a callback function which takes some number of

@@ -6,33 +6,39 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 18:55:31 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/03 14:57:30 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 18:15:54 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "process.h"
 
-t_u8    add(t_proc proc)
+void    add(t_proc proc)
 {
-	ft_printf("op add");
+	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] + proc->reg[proc->op.args.v[1]]))
+		proc->carry = true;
 }
 
-t_u8    sub(t_proc proc)
+void    sub(t_proc proc)
 {
-	ft_printf("op sub");
+	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] - proc->reg[proc->op.args.v[1]]))
+		proc->carry = true;
 }
 
-t_u8    and(t_proc proc)
+void    and(t_proc proc)
 {
-	ft_printf("op and");
+	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] & proc->reg[proc->op.args.v[1]]))
+		proc->carry = true;
 }
 
-t_u8    or(t_proc proc)
+void    or(t_proc proc)
 {
-	ft_printf("op or");
+	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] | proc->reg[proc->op.args.v[1]]))
+		proc->carry = true;
 }
 
-t_u8    xor(t_proc proc)
+void    xor(t_proc proc)
 {
-	ft_printf("op xor");
+	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] ^ proc->reg[proc->op.args.v[1]]))
+		proc->carry = true;
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:14:26 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 17:13:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ t_st			vm_loop(void)
 
     while (!lst_empty(g_pool))
 	{
-		process_cleanup();
         lst_iter_arg(g_pool, true, &st, vm_read);
-		getchar();
 		lst_iter_arg(g_pool, true, &st, vm_exec);
-
+		/* process_cleanup(); */
 
 		/* getchar(); */
         /* draw_memory(); */

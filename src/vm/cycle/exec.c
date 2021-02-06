@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:17:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 17:14:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	vm_exec(void *proc, void *arg)
 	else if (!p->op.cycles)
 	{
 		instr_offset = 0;
-
 		if (vm_decode(proc, &instr_offset))
 		{
 			*(t_st *)arg = st_succ;

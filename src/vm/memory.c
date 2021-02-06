@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 11:48:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 18:27:04 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,29 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 		g_vm.arena[i++] = champ->file[j++];
 }
 
-t_st				mem_chunk(t_proc p, t_arg arg)
+void			mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
 {
-	if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
+	if (encoded(op_encoding(p, arg)) == T_REG)
 	{
+		p->op.args.v[arg] = at_mem(shift_pc(p, *offset));
+		*offset += 1;
+	}
+	else
+	{
+		p->op.args.b[arg].val.byte_4 = at_mem(shift_pc(p, *offset));
+		p->op.args.b[arg].val.byte_3 = at_mem(shift_pc(p, *offset + 1));
+		*offset += 2;
+		if (!p->op.meta.of.short_chunk)
+		{
+			p->op.args.b[arg].val.byte_2 = at_mem(shift_pc(p, *offset + 2));
+			p->op.args.b[arg].val.byte_1 = at_mem(shift_pc(p, *offset + 3));
+			*offset += 2;
+		}
+		if (encoded(op_encoding(p, arg)) == T_IND)
+		{
 
+		}
 	}
-	p->op.args.b[arg].val.byte_4 = mem_at(p);
-	p->op.args.b[arg].val.byte_3 = shift_pc(p, 1);
-	if (!p->op.meta.of.short_chunk)
-	{
-		p->op.args.b[arg].val.byte_4 = shift_pc(p, 2);
-		p->op.args.b[arg].val.byte_3 = shift_pc(p, 3);
-	}
-	return (st_succ);
 }
 
 t_u8			mem_deref(t_proc p, t_u16 offset)

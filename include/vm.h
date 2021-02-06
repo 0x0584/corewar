@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:13:49 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 18:01:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,9 @@ t_st				read_arg_chunk(t_proc p, t_u8 *offset);
 **
 **  \param p a reading process holding the program counter
 **  \param value a reference to where to write the content
-**
-**  \return
-**     - `st_succ` in case the of a successful read
-**     - `st_error` might arise in case of invalid register addressing
+**  \param offset out refernce of program counter offset
 */
-t_st				mem_chunk(t_proc p, t_arg arg);
+void				mem_chunk(t_proc p, t_arg arg, t_u8 *offset);
 
 /**
 ** \brief get the value of the memory address on which the

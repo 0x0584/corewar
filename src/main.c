@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:01:05 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 15:15:04 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/06 16:35:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	print_usage(void)
 
 int			main(int argc, char *argv[])
 {
-	g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0700);
-	if (parse_arguments(argc, argv))
+	if ((g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
+		return (EXIT_FAILURE);
+	else if (parse_arguments(argc, argv))
 		vm_loop();
 	else
 		return (print_usage());
