@@ -6,14 +6,16 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 15:40:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 18:11:04 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 12:19:52 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "op_impl.h"
+#include "vm.h"
+#include "process.h"
+#include "builtin.h"
 
 void	nop(t_proc proc);
 void	live(t_proc proc);

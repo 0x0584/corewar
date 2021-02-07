@@ -6,12 +6,11 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:41:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/01 17:52:15 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 12:20:06 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
-#include "process.h"
+#include "builtin.h"
 
 void    fork_(t_proc proc)
 {

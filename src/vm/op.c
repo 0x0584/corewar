@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:02:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 18:19:45 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 11:56:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_op		g_ops[op_count] = {
 	[op_or]		=	 {"or",			or,	    6,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
 	[op_xor]	=	 {"xor",		xor,    6,	   3,    .meta.of = {T_REG,					T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
 
-	[op_ld]		=	 {"ld",	        ld,		5,	   3,    .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,					 !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "load from argument to register, set carry if loaded zero"},
+	[op_ld]		=	 {"ld",	        ld,		5,	   3,    .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			 !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "load from argument to register, set carry if loaded zero"},
 	[op_st]		=	 {"st",			st,		5,	   2,	 .meta.of = {T_REG,					T_IND | T_REG,			T_PAD,           !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "set memory value from the register"},
 	[op_ldi]	=	 {"ldi",		ldi,    25,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,			T_REG,           !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same as ld but can address a further range"},
 	[op_sti]	=	 {"sti",		sti,	25,	   2,    .meta.of = {T_REG,					T_REG | T_DIR | T_IND,  T_DIR | T_REG,   !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same concept of ldi applied on st"},

@@ -166,7 +166,7 @@ typedef union				u_blob
 			t_u8		byte_2;
 			t_u8		byte_1;
 		}			val;
-	}		    b[MAX_ARGS_NUMBER];
+	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 
 /**

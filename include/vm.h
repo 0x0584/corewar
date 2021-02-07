@@ -6,15 +6,15 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 18:01:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 12:15:42 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VM_H
 # define VM_H
 
+# include "op_impl.h"
 # include "player.h"
-# include "op.h"
 
 /**
 ** \brief at most we have `MAX_PLAYERS`
@@ -158,6 +158,17 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ);
 **   - `st_succ`
 */
 t_st				read_arg_chunk(t_proc p, t_u8 *offset);
+
+/**
+** \brief write the chunk into the VM's memory realtive to op's meta
+**
+** \param pc program counter from which we shall start writting
+** \param chnk a memory chunk
+** \param op operation holding meta data
+**
+** \see op.h
+*/
+void				mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op);
 
 /**
 ** \brief reads a `chuck_size` relative to the process's program counter

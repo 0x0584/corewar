@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 17:13:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 11:16:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 pid_t	g_pid = 1;
 t_lst	g_pool = NULL;
 
-t_proc  new_process(t_u8 player_num, t_u16 at)
+t_proc	new_process(t_u8 player_num, t_u16 at)
 {
 	t_proc	foo;
 

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 17:14:33 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/07 11:17:56 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	vm_exec(void *proc, void *arg)
 		{
 			*(t_st *)arg = st_succ;
 			ft_dprintf(g_fd, "player %d: `%s` has correct encoding\n", p->num, p->op.name);
-		    p->op.callback(proc);
+			p->op.callback(proc);
 		}
 		else
 		{
