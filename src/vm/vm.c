@@ -47,16 +47,16 @@ t_st			vm_loop(void)
     t_st			st;
 
     while (!lst_empty(g_pool))
-	{
-        lst_iter_arg(g_pool, true, &st, vm_read);
-		lst_iter_arg(g_pool, true, &st, vm_exec);
-		/* process_cleanup(); */
+    {
+    	lst_iter_arg(g_pool, true, &st, vm_read);
+    	lst_iter_arg(g_pool, true, &st, vm_exec);
+    	/* process_cleanup(); */
 
-		/* getchar(); */
-        /* draw_memory(); */
+    	/* getchar(); */
+    	/* draw_memory(); */
     }
     return (st_succ);
 }
 
-t_vm		g_vm = {.delta = CYCLE_TO_DIE};
+t_vm			g_vm = {.delta = CYCLE_TO_DIE};
 int			g_fd;

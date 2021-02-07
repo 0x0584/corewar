@@ -74,7 +74,7 @@ static inline t_st		handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 	}
 }
 
-t_st					read_arg_chunk(t_proc p, t_u8 *offset)
+t_st				read_arg_chunk(t_proc p, t_u8 *offset)
 {
 	t_arg	arg;
 	t_st	st;
@@ -103,9 +103,10 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 	return (st_succ);
 }
 
-void					vm_read(void *proc, void *arg)
+void				vm_read(void *proc, void *arg)
 {
 	t_proc	p;
+	
 	p = proc;
 	if ((p->carry = mem_at(p) >= op_count))
 	{

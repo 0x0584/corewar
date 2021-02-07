@@ -15,7 +15,7 @@
 
 #include "color.h"
 
-void	mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op)
+void			mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op)
 {
 	g_vm.arena[pc] = chnk->val.byte_4;
 	g_vm.arena[pc_shift(pc, 1, op->meta.of.long_op)] = chnk->val.byte_3;
@@ -39,7 +39,7 @@ static inline void	mem_read_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op,
 	}
 }
 
-void				mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
+void			mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
 {
 	union u_chunk	c;
 	t_u8			off;
@@ -61,7 +61,7 @@ void				mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
 	}
 }
 
-void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
+void			mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 {
 	t_u16				i;
 	t_u16				j;
@@ -77,17 +77,17 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 	}
 }
 
-t_u8				mem_deref(t_proc p, t_u16 offset)
+t_u8			mem_deref(t_proc p, t_u16 offset)
 {
 	return g_vm.arena[shift_pc(p, offset)];
 }
 
-t_u8				mem_at(t_proc p)
+t_u8			mem_at(t_proc p)
 {
 	return mem_deref(p, 0);
 }
 
-t_u8				at_mem(t_u16 pc)
+t_u8			at_mem(t_u16 pc)
 {
 	return g_vm.arena[pc % MEM_SIZE];
 }
