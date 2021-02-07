@@ -20,23 +20,6 @@
 # include "op.h"
 
 /**
-** \brief all operations have a `callback` function
-**
-** \see op.h
-*/
-enum						e_operations
-{
-	op_nop,			op_live,       op_ld,
-	op_st,      	op_add,        op_sub,
-	op_and,     	op_or,         op_xor,
-	op_zjmp,    	op_ldi,        op_sti,
-	op_fork,    	op_lld,        op_lldi,
-	op_lfork,   	op_aff,
-
-	op_count
-};
-
-/**
 ** \brief operations have at most three args, of size at most a 32-bit
 **
 ** \param proc the calling process

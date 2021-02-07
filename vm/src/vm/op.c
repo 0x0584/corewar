@@ -47,5 +47,5 @@ t_op		g_ops[op_count] = {
 
 	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,					T_PAD,			        T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"},
 
-	[op_nop] = { .name = "nop" },
+	[op_nop]	= { .name = "nop" },
 };

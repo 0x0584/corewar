@@ -19,6 +19,23 @@
 # include "lst.h"
 
 /**
+** \brief all operations have a `callback` function
+**
+** \see op.h
+*/
+enum						e_operations
+{
+	op_nop,			op_live,       op_ld,
+	op_st,      	op_add,        op_sub,
+	op_and,     	op_or,         op_xor,
+	op_zjmp,    	op_ldi,        op_sti,
+	op_fork,    	op_lld,        op_lldi,
+	op_lfork,   	op_aff,
+
+	op_count
+};
+
+/**
 ** \brief all information about the operation
 **
 **   the arguments and if it is encoded, chunk_size
@@ -190,11 +207,11 @@ typedef struct s_process	*t_proc;
 **
 ** \return a Byte containing the encoding
 */
-t_arg		op_encoding(t_proc p, t_arg which);
+t_arg				op_encoding(t_proc p, t_arg which);
 
-t_arg		op_meta_encoding(t_proc p, t_arg which);
+t_arg				op_meta_encoding(t_proc p, t_arg which);
 
-t_arg		encoded(t_u8 arg);
+t_arg				encoded(t_u8 arg);
 
 /**
 ** \brief reverse a word (32-bit) from little endian to big endian
@@ -213,5 +230,9 @@ t_u32				beword(t_u32 word);
 ** \return big endian byte
 */
 t_u8				bebyte(t_u8 byte);
+
+extern const char	*g_op_names[op_count];
+
+# include "op_names.c"
 
 #endif
