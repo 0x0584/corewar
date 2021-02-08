@@ -6,12 +6,33 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/07 11:17:43 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:37:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "process.h"
+
+void				vm_read(void *proc, void *arg)
+{
+	t_proc	p;
+
+	p = proc;
+	if ((p->carry = mem_at(p) >= op_count))
+	{
+		set_nop(p);
+		move_pc(p, 1);
+		*(t_st *)arg = st_fail;
+		ft_dprintf(g_fd ,"player %d: %02x is not an operation\n", p->num, g_vm.arena[p->pc]);
+	}
+	else if (p->op.cycles >= 0)
+	{
+		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
+		p->op.cycles *= -1;
+		*(t_st *)arg = st_succ;
+		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
+	}
+}
 
 /**
  ** \brief a register which has an argument of 1 Byte.
@@ -59,10 +80,10 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_u8 *offset)
 ** \see op.h
 ** \see op_impl.h
 */
-static inline t_st		handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
+t_st					handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 {
-	if (encoded(op_encoding(p, arg)) == T_DIR ||
-		encoded(op_encoding(p, arg)) == T_IND)
+	if (encoded(op_encoding(p, arg)) == T_DIR
+			|| encoded(op_encoding(p, arg)) == T_IND)
 	{
 		mem_chunk(p, arg, offset);
 		return (st_succ);
@@ -74,14 +95,16 @@ static inline t_st		handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 	}
 }
 
-t_st				read_arg_chunk(t_proc p, t_u8 *offset)
+t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 {
-	t_arg	arg;
-	t_st	st;
+	t_arg					arg;
+	t_st					st;
 
 	arg = 0;
-	while (arg < p->op.nargs)
+	while (encoded(op_encoding(p, arg)) != T_PAD && arg < p->op.nargs)
 	{
+		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
+
 		if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
 		{
 			if ((st = handle_reg(p, arg, offset)))
@@ -90,36 +113,16 @@ t_st				read_arg_chunk(t_proc p, t_u8 *offset)
 		}
 		else
 		{
-			ft_dprintf(g_fd ,"unexpected argument encoding %2b vs %8b\n", op_encoding(p, arg), op_meta_encoding(p, arg));
+			ft_dprintf(g_fd ," unexpected argument encoding %2b vs %8b\n", op_encoding(p, arg), op_meta_encoding(p, arg));
 			return st_fail;
 		}
 		arg++;
 	}
-	if (op_encoding(p, arg << p->op.nargs))
+	if (encoded(op_encoding(p, arg)) && arg == p->op.nargs)
+		return (st_succ);
+	else
 	{
-		ft_dprintf(g_fd ,"arguments are not padded (%08b)\n", op_encoding(p, arg << p->op.nargs));
+		ft_dprintf(g_fd ," arguments are not padded (%08b)\n", op_encoding(p, arg));
 		return (st_fail);
-	}
-	return (st_succ);
-}
-
-void				vm_read(void *proc, void *arg)
-{
-	t_proc	p;
-	
-	p = proc;
-	if ((p->carry = mem_at(p) >= op_count))
-	{
-		set_nop(p);
-		move_pc(p, 1);
-		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"player %d: %02x is not an operation\n", p->num, g_vm.arena[p->pc]);
-	}
-	else if (p->op.cycles >= 0)
-	{
-		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
-		p->op.cycles *= -1;
-		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
 	}
 }

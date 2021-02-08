@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/07 11:17:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:41:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static t_st			verify_proc(t_proc p, void *arg)
 {
 
 	if (p->op.callback == op_nop)
-		return (st_error);	
-	else if (p->op.cycles)
+		return (st_error);
+    p->op.cycles++;
+	if (!p->op.cycles)
+		return (st_succ);
+	else
 	{
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.name, p->op.cycles);
-	    p->op.cycles++;
-		return st_fail;
+		ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.name, -p->op.cycles);
+		return (st_fail);
 	}
-	else
-		return st_succ;
 }
 
 static inline t_u8	vm_decode_exec(t_proc proc, t_st *arg)
@@ -39,27 +39,27 @@ static inline t_u8	vm_decode_exec(t_proc proc, t_st *arg)
 	else if (vm_decode(proc, &op_arg_offset))
 	{
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` has correct encoding\n", proc->num, proc->op.name);
+		ft_dprintf(g_fd, ">> player %d: `%s` has correct encoding\n", proc->num, proc->op.name);
 		proc->op.callback(proc);
 		if (proc->op.callback == zjmp)
 		{
 			jumped = true;
-			ft_dprintf(g_fd, "player %d jumped to address: %0#4x\n", proc->num, proc->pc);
+			ft_dprintf(g_fd, ">> player %d jumped to address: %0#4x\n", proc->num, proc->pc);
 		}
 		return (op_arg_offset);
 	}
 	else
 	{
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd, "player %d: skip `%s` incorrect encoding!\n", proc->num, proc->op.name);
+		ft_dprintf(g_fd, ">> player %d: skip `%s` incorrect encoding!\n", proc->num, proc->op.name);
 		move_pc(proc, op_arg_offset);
 		return (0);
-	}  
+	}
 }
 
-void			vm_exec(void *proc, void *arg)
+void				vm_exec(void *proc, void *arg)
 {
-	t_u8			offset;
+	t_u8				offset;
 
 	if (!(offset = vm_decode_exec(proc, arg)))
 		return ;

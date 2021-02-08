@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/07 12:15:42 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/08 16:28:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ void				vm_exec(void *proc, void *arg);
 */
 void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ);
 
+t_st				handle_chunk(t_proc p, t_arg arg, t_u8 *offset);
+
 /**
 ** \brief read arguments of an operation held by process `p`
 ** sets tjhe offset of the chunk
@@ -169,6 +171,9 @@ t_st				read_arg_chunk(t_proc p, t_u8 *offset);
 ** \see op.h
 */
 void				mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op);
+
+void				mem_read_chunk(t_u16 pc, union u_chunk *chnk,
+									const t_op *op, t_u8 *offset);
 
 /**
 ** \brief reads a `chuck_size` relative to the process's program counter

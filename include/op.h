@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 10:27:22 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/08 14:38:54 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ t_arg		op_encoding(t_proc p, t_arg which);
 t_arg		op_meta_encoding(t_proc p, t_arg which);
 
 t_arg		encoded(t_u8 arg);
+
+t_u32		get_arg_value(t_proc proc, t_arg arg);
 
 /**
 ** \brief reverse a word (32-bit) from little endian to big endian

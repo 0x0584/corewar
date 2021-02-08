@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/07 11:16:13 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/08 14:26:38 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_proc	new_process(t_u8 player_num, t_u16 at)
 	return (foo);
 }
 
-void reset_alive(void *proc)
+void	reset_alive(void *proc)
 {
 	(*(t_proc)proc).alive = false;
 }
