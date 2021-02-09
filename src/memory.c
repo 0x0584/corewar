@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 17:47:14 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:41:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void				mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op)
 {
 	g_vm.arena[pc_shift(pc, 0, op->meta.of.long_op)] = chnk->val.byte_4;
 	g_vm.arena[pc_shift(pc, 1, op->meta.of.long_op)] = chnk->val.byte_3;
-	if (op->meta.of.short_chunk)
+	if (!op->meta.of.short_chunk)
 	{
 		g_vm.arena[pc_shift(pc, 2, op->meta.of.long_op)] = chnk->val.byte_2;
 		g_vm.arena[pc_shift(pc, 3, op->meta.of.long_op)] = chnk->val.byte_1;
@@ -70,7 +70,7 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 	j = 0;
 	i = (MEM_SIZE / g_vm.nplayers) * player_num;
 	p->prog = new_process(player_num, i);
-	*p->prog->reg = -((t_s8)player_num + 1);
+	p->prog->reg[1] = -((t_s8)player_num + 1);
 	while (j < champ->prog_size)
 	{
 		set_color(player_num + 1, i);

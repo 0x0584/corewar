@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 14:26:38 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:37:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_u16	pc_shift(t_u16 pc, t_u16 offset, bool long_op)
 	if (long_op)
 		return ((pc + offset) % MEM_SIZE);
 	else
-		return (((pc + offset) % IDX_MOD) % MEM_SIZE);
+		return ((pc + (offset % IDX_MOD)) % MEM_SIZE);
 }
 
 t_u16	move_pc(t_proc p, t_u16 offset)

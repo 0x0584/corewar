@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:50:37 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 17:40:45 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:48:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ void    st(t_proc proc)
 	else
 	{
 		chnk.u32 = proc->reg[proc->op.args.c[0].u32];
-		mem_write_chunk(proc->op.args.c[1].u16, &chnk, &proc->op);
+		mem_write_chunk(shift_pc(proc, proc->op.args.c[1].u16), &chnk, &proc->op);
 	}
 }
 
 void    sti(t_proc proc)
 {
-	union u_chunk chnk;
+	union u_chunk	chnk;
+	t_u32			addr;
 
+	print_arena();
+	addr = get_arg_value(proc, 1) + get_arg_value(proc, 2);
 	chnk.u32 = proc->reg[proc->op.args.v[0]];
-	mem_write_chunk(proc->op.args.v[1] + proc->op.args.v[2], &chnk, &proc->op);
+	mem_write_chunk(shift_pc(proc, addr), &chnk, &proc->op);
+	print_arena();
 }

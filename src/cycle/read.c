@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 17:37:21 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:59:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void				vm_read(void *proc, void *arg)
 static inline t_st		handle_reg(t_proc p, t_arg arg, t_u8 *offset)
 {
 	if (encoded(op_encoding(p, arg)) == T_REG)
-		if (mem_deref(p, arg) >= REG_NUMBER)
+		if (!mem_deref(p, *offset) || mem_deref(p, *offset) > REG_NUMBER)
 		{
-			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, 1));
+			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, *offset));
 			return (st_error);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 15:04:49 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 17:14:16 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 void	ld(t_proc proc)
 {
-	proc->reg[proc->op.args.v[1]] = proc->op.args.v[0];
+	print_arena();
+	if (!(proc->reg[proc->op.args.v[1]] = proc->op.args.v[0]))
+		proc->carry = true;
+	print_arena();
+}
+
+void	lld(t_proc proc)
+{
+	ld(proc);
 }
 
 void	ldi(t_proc proc)
@@ -23,13 +31,8 @@ void	ldi(t_proc proc)
 	union u_chunk	chnk;
 
 	addr = get_arg_value(proc, 0) + get_arg_value(proc, 1);
-	mem_read_chunk(addr, &chnk, &proc->op, 0);
+	mem_read_chunk(shift_pc(proc, addr), &chnk, &proc->op, 0);
 	proc->reg[proc->reg[proc->op.args.v[2]]] = chnk.u32;
-}
-
-void	lld(t_proc proc)
-{
-	ld(proc);
 }
 
 void	lldi(t_proc proc)

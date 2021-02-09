@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 16:28:23 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:47:47 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ t_u8				mem_deref(t_proc p, t_u16 offset);
 t_u8				mem_at(t_proc p);
 
 t_u8				at_mem(t_u16 p);
+
+void print_arena(void);
 
 /**
 ** \brief Virtual Machine

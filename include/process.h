@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/05 18:29:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:01:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ struct						s_process
 	/**
 	** \brief each process has it's own register
 	*/
-	t_u32			reg[REG_NUMBER];
+	t_u32			reg[REG_NUMBER + 1];
 
 	/**
 	** \brief carry sis et by operations in case of either yielding zero,

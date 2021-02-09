@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 17:41:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 15:58:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 		ft_dprintf(g_fd, ">> player %d: skip `%s` incorrect encoding!\n", proc->num, proc->op.name);
 		move_pc(proc, op_arg_offset);
 		return (0);
-	}	  
+	}
 	else
 	{
 		*(t_st *)arg = st_succ;
@@ -54,14 +54,15 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 			ft_dprintf(g_fd, ">> player %d g_jumped to address: %0#4x\n", proc->num, proc->pc);
 		}
 		return (op_arg_offset);
-	}	  
-	
+	}
+
 }
 
 void				vm_exec(void *proc, void *arg)
 {
 	t_u8				offset;
 
+	g_jumped = false;
 	if (!(offset = vm_decode_exec(proc, arg)))
 		return ;
 	else if (!g_jumped)
