@@ -22,12 +22,14 @@ t_st		vm_decode(t_proc p, t_u8 *offset)
 		p->op.encoded.encod = at_mem(shift_pc(p, 1));
 		ft_dprintf(g_fd, ">	 encoding of %s is %08b %08x\n", p->op.name, p->op.encoded.encod, p->op.encoded.encod);
 		st = read_arg_chunk(p, offset);
+		*offset += 2;
 		ft_dprintf(g_fd, "read %d\n", st);
 		return (st);
 	}
 	else
 	{
 		mem_read_chunk(shift_pc(p, 1), p->op.args.c, &p->op, offset);
+		*offset += 1;		
 		return (st_succ);
 	}
 }

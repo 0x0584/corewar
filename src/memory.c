@@ -70,7 +70,7 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 	j = 0;
 	i = (MEM_SIZE / g_vm.nplayers) * player_num;
 	p->prog = new_process(player_num, i);
-	*p->prog->reg = -((t_s8)player_num);
+	*p->prog->reg = -((t_s8)player_num + 1);
 	while (j < champ->prog_size)
 	{
 		set_color(player_num + 1, i);

@@ -101,10 +101,15 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 	t_st					st;
 
 	arg = 0;
-	while (encoded(op_encoding(p, arg)) != T_PAD && arg < p->op.nargs)
+	while (encoded(op_encoding(p, arg)) != T_PAD)
 	{
-		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
-
+		if (arg < p->op.nargs)
+			ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
+		else
+		{
+			ft_dprintf(g_fd ," encoding is not padded (%02b)\n", op_encoding(p, arg));
+			return st_fail;
+		}
 		if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
 		{
 			if ((st = handle_reg(p, arg, offset)))
@@ -118,7 +123,7 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 		}
 		arg++;
 	}
-	if (encoded(op_encoding(p, arg)) && arg == p->op.nargs)
+	if (arg == p->op.nargs)
 		return (st_succ);
 	else
 	{
