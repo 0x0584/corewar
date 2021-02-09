@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:19:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:18:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 18:37:44 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,45 @@ void		handle_winch(int sig) {
     refresh();
 }
 
-static void draw_setup(void)
+bool	draw_setup(bool setup)
 {
-	initscr();
-	start_color();
-	init_pair(color_red_on_black, COLOR_RED, COLOR_BLACK);
-	init_pair(color_green_on_black, COLOR_GREEN, COLOR_BLACK);
-	init_pair(color_cyan_on_black, COLOR_CYAN, COLOR_BLACK);
-	init_pair(color_yellow_on_black, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(color_black_on_yellow, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(color_black_on_red, COLOR_BLACK, COLOR_RED);
-	init_pair(color_black_on_cyan, COLOR_BLACK, COLOR_CYAN);
-	init_pair(color_black_on_green, COLOR_BLACK, COLOR_GREEN);
-	cbreak();
-	noecho();
-}
 
-static void draw_loop()
-{
+	if (setup)
+	{
+		if ((g_fd_visu = open("visu.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
+			return false;
+		initscr();
+		start_color();
+		init_pair(color_red_on_black, COLOR_RED, COLOR_BLACK);
+		init_pair(color_green_on_black, COLOR_GREEN, COLOR_BLACK);
+		init_pair(color_cyan_on_black, COLOR_CYAN, COLOR_BLACK);
+		init_pair(color_yellow_on_black, COLOR_YELLOW, COLOR_BLACK);
+		init_pair(color_black_on_yellow, COLOR_BLACK, COLOR_YELLOW);
+		init_pair(color_black_on_red, COLOR_BLACK, COLOR_RED);
+		init_pair(color_black_on_cyan, COLOR_BLACK, COLOR_CYAN);
+		init_pair(color_black_on_green, COLOR_BLACK, COLOR_GREEN);
+		cbreak();
+		noecho();
+	}
+	else
+	{
+		close(g_fd_visu);
+		endwin();
+	}
 	refresh();
-	while (getch());
-	endwin();
+	return true;
 }
 
-void		draw_memory(void)
+void draw_loop(void)
+{
+    getch();
+}
+
+void		draw_memory(void (*vm_callback)(void))
 {
     int			i;
 	static char	buff[DRAW_BUFF_SIZE] = {0};
 
-    draw_setup();
     i = 0;
     while (i < MEM_SIZE)
 	{
@@ -67,5 +77,10 @@ void		draw_memory(void)
 		if (!(++i % DRAW_LINE_SIZE))
 			printw("\n");
     }
-	draw_loop();
+	g_wait_input = true;
+    vm_callback();
+	g_wait_input = false;
 }
+
+bool			g_wait_input;
+int				g_fd_visu;

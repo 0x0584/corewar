@@ -6,18 +6,19 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/09 17:14:16 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 18:21:56 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "draw.h"
 
 void	ld(t_proc proc)
 {
-	print_arena();
+	draw_memory(draw_loop);
 	if (!(proc->reg[proc->op.args.v[1]] = proc->op.args.v[0]))
 		proc->carry = true;
-	print_arena();
+	draw_memory(draw_loop);
 }
 
 void	lld(t_proc proc)

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:31:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/02 08:38:58 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/09 18:35:37 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ enum				e_colors
 	effect_count = color_count,
 };
 
-void			    draw_memory(void);
+void			draw_loop(void);
+void			draw_memory(void (*vm_callback)(void));
+void			draw_setup(bool setup);
 
+extern bool		g_visu;
+extern bool		g_wait_input;
+extern int		g_fd_visu;
 
 #endif
