@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#include "memory.h"
 #include "process.h"
 
 t_st		vm_decode(t_proc p, t_u8 *offset)

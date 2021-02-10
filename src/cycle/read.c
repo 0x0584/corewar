@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#include "memory.h"
 #include "process.h"
 
 void				vm_read(void *proc, void *arg)

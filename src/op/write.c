@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "memory.h"
 #include "draw.h"
 
 void    st(t_proc proc)
@@ -23,7 +24,7 @@ void    st(t_proc proc)
 	else
 	{
 		chnk.u32 = proc->reg[proc->op.args.c[0].u32];
-		mem_write_chunk(shift_pc(proc, proc->op.args.c[1].u16), &chnk, &proc->op);
+		mem_write_chunk(proc, 0, proc->op.args.c[1].u16);
 	}
 	print_arena();
 }
@@ -36,6 +37,6 @@ void    sti(t_proc proc)
     //draw_memory(draw_loop);
 	addr = get_arg_value(proc, 1) + get_arg_value(proc, 2);
 	chnk.u32 = proc->reg[proc->op.args.v[0]];
-	mem_write_chunk(shift_pc(proc, addr), &chnk, &proc->op);
+	mem_write_chunk(proc, 0, addr);
     //draw_memory(draw_loop);
 }

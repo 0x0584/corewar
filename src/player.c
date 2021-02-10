@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "player.h"
+#include "memory.h"
 #include "draw.h"
 
 static t_st			read_champ(const int fd, t_u8 player_num, t_player *player)
