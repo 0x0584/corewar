@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 14:38:54 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:54:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,10 +161,10 @@ typedef union				u_blob
 	    */
 		struct				s_fragment
 		{
-			t_u8		byte_4;
-			t_u8		byte_3;
-			t_u8		byte_2;
 			t_u8		byte_1;
+			t_u8		byte_2;
+			t_u8		byte_3;
+			t_u8		byte_4;
 		}			val;
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;

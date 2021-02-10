@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 13:01:50 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:35:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "process.h"
 
-t_st		vm_decode(t_proc p, t_u8 *offset)
+t_st		vm_decode(t_proc p, t_u16 *offset)
 {
 	t_st st;
 
@@ -30,7 +30,7 @@ t_st		vm_decode(t_proc p, t_u8 *offset)
 	else
 	{
 		*offset += 1;
-		mem_read_chunk(p, 0, offset);
+		mem_read_chunk(p, &p->op.args.c[0], false, *offset);
 		return (st_succ);
 	}
 }

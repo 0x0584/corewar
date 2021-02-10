@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 12:51:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:35:35 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_st				vm_loop(void);
  *
  * \return `
  */
-t_st				vm_decode(t_proc p, t_u8 *offset);
+t_st				vm_decode(t_proc p, t_u16 *offset);
 
 /**
 ** \brief callback to list of processes `g_pool` to read operation and
