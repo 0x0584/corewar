@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/09 17:11:03 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 13:01:50 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_st		vm_decode(t_proc p, t_u8 *offset)
 	else
 	{
 		*offset += 1;
-		mem_read_chunk(shift_pc(p, 1), p->op.args.c, &p->op, offset);
+		mem_read_chunk(p, 0, offset);
 		return (st_succ);
 	}
 }

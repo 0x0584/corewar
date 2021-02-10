@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/09 16:59:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 13:02:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_u8 *offset)
 			mem_chunk(p, arg, offset);
 			return (st_succ);
 		}
-		else		  
+		else
 		{
-			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, *offset));
+			ft_dprintf(g_fd ,"invalid register (%08b) access\n", mem_deref(p, *offset));
 			return (st_error);
 		}
 	else
@@ -98,7 +98,7 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 static t_st				handle_arg(t_proc p, t_arg arg, t_u8 *offset)
 {
 	t_st					st;
-	
+
 	if (arg < p->op.nargs)
 		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
 	else
@@ -124,7 +124,7 @@ t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 {
 	t_arg					arg;
 	t_st					st;
-	
+
 	arg = 0;
 	while (encoded(op_encoding(p, arg)) != T_PAD)
 	{

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/09 16:41:48 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/10 13:00:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,36 @@
 
 #include "color.h"
 
-void				mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op)
+void				mem_write_chunk(const t_proc p, t_arg arg, t_u8 *offset)
 {
-	g_vm.arena[pc_shift(pc, 0, op->meta.of.long_op)] = chnk->val.byte_4;
-	g_vm.arena[pc_shift(pc, 1, op->meta.of.long_op)] = chnk->val.byte_3;
-	if (!op->meta.of.short_chunk)
+	print_arena();
+	g_vm.arena[pc_shift(p->pc, *offset, p->op.meta.of.long_op)] = p->op.args.c[arg].val.byte_4;
+	g_vm.arena[pc_shift(p->pc, *offset, p->op.meta.of.long_op)] = p->op.args.c[arg].val.byte_3;
+	if ((!p->op.meta.of.short_chunk && encoded(op_encoding(p, arg)) == T_DIR)
+		|| encoded(op_encoding(p, arg)) == T_REG) // write REG_SIZE
 	{
-		g_vm.arena[pc_shift(pc, 2, op->meta.of.long_op)] = chnk->val.byte_2;
-		g_vm.arena[pc_shift(pc, 3, op->meta.of.long_op)] = chnk->val.byte_1;
+		g_vm.arena[pc_shift(p->pc, *offset, p->op.meta.of.long_op)] = p->op.args.c[arg].val.byte_2;
+		g_vm.arena[pc_shift(p->pc, *offset, p->op.meta.of.long_op)] = p->op.args.c[arg].val.byte_1;
 	}
+	print_arena();
 }
 
-void				mem_read_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op, t_u8 *offset)
+void				mem_read_chunk(const t_proc p, t_arg arg, t_u8 *offset)
 {
-	chnk->val.byte_1 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
-	chnk->val.byte_2 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
+	p->op.args.c[arg].val.byte_1 = at_mem(pc_shift(p->pc, *offset, p->op.meta.of.long_op));
+	p->op.args.c[arg].val.byte_2 = at_mem(pc_shift(p->pc, *offset + 1, p->op.meta.of.long_op));
 	*offset += 2;
-	if (!op->meta.of.short_chunk)
+	if (!p->op.meta.of.short_chunk && encoded(op_encoding(p, arg)) == T_DIR)
 	{
-		chnk->val.byte_3 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
-		chnk->val.byte_4 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
+		p->op.args.c[arg].val.byte_3 = at_mem(pc_shift(p->pc, *offset, p->op.meta.of.long_op));
+		p->op.args.c[arg].val.byte_4 = at_mem(pc_shift(p->pc, *offset + 1, p->op.meta.of.long_op));
 		*offset += 2;
 	}
 }
 
 void				mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
 {
-	union u_chunk		c;
-	t_u8				off;
+	t_u8 off;
 
 	if (encoded(op_encoding(p, arg)) == T_REG)
 	{
@@ -51,13 +53,14 @@ void				mem_chunk(t_proc p, t_arg arg, t_u8 *offset)
 	}
 	else
 	{
-		c.u32 = 0;
-		off = 0;
-		mem_read_chunk(p->pc, &c, &p->op, offset);
+		mem_read_chunk(p, arg, offset);
 		if (encoded(op_encoding(p, arg)) == T_IND)
-			mem_read_chunk(c.u16, &p->op.args.c[arg], &p->op, &off);
-		else
-			p->op.args.c[arg] = c;
+		{
+			// short_chunk in case of T_DIR
+			// T_IND is sizeof short
+			off = p->op.args.c[arg].u16;
+			mem_read_chunk(p, arg, &off);
+		}
 	}
 }
 
