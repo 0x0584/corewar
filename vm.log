@@ -1,0 +1,41 @@
+player 0: `ld` operation, scheduled after 5 cycles
+player 0: `ld` operation has more 4 cycles to wait
+player 0: `ld` operation has more 3 cycles to wait
+player 0: `ld` operation has more 2 cycles to wait
+player 0: `ld` operation has more 1 cycles to wait
+>	 encoding of ld is 11010000 000000d0
+ encoding of 0 (11)
+ ### op `ld`:
+ 2   encoding : d0 11010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
+    arg 0: short(255) int(255) 000000ff: ff00 0000
+    arg 1: short(0) int(0) 00000000: 0000 0000
+ ###
+ ## indirect arg 
+ ### op `ld`:
+ 2   encoding : d0 11010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
+    arg 0: short(0) int(0) 00000000: 0000 0000
+    arg 1: short(0) int(0) 00000000: 0000 0000
+ ###
+ encoding of 1 (01)
+read 0
+>> player 0: `ld` has correct encoding
+ ### op `ld`:
+ 2   encoding : d0 11010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
+   idx_mod encoded sizeof int has carry
+
+    arg 0: short(0) int(0) 00000000: 0000 0000
+    arg 1: short(3) int(3) 00000003: 0300 0000
+ ###
+player 0: `ld` operation, scheduled after 5 cycles
+player 0: `ld` operation has more 4 cycles to wait
+player 0: `ld` operation has more 3 cycles to wait
+player 0: `ld` operation has more 2 cycles to wait
+player 0: `ld` operation has more 1 cycles to wait
+>	 encoding of ld is 10010000 00000090
+ encoding of 0 (10)
+ ### op `ld`:
+ 2   encoding : 90 10010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
+    arg 0: short(15) int(15) 0000000f: 0f00 0000
+    arg 1: short(0) int(0) 00000000: 0000 0000
+ ###
+ encoding of 1 (01)

@@ -134,6 +134,8 @@ void				vm_exec(void *proc, void *arg);
 
 void				print_arena(void);
 
+void				op_dump(const t_op *op, bool dump_args, bool dump_verbose);
+
 /**
 ** \brief Virtual Machine
 */

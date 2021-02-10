@@ -146,16 +146,6 @@ typedef union				u_blob
 	union				    u_chunk
 	{
 		/**
-		** \brief argument value as a Big Endian 32-bit integer
-		*/
-		t_u32		u32;
-
-		/**
-		 ** \breif argument value as a Big Endian 16-bit integer
-		 */
-		t_u16		u16;
-
-		/**
 		** \brief arguments value is reversed because the encoding byte
 		** is big endian
 	    */
@@ -166,6 +156,16 @@ typedef union				u_blob
 			t_u8		byte_3;
 			t_u8		byte_4;
 		}			val;
+	  
+		/**
+		** \brief argument value as a Big Endian 32-bit integer
+		*/
+		t_u32		u32;
+
+		/**
+		 ** \breif argument value as a Big Endian 16-bit integer
+		 */
+		t_u16		u16;
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 

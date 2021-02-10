@@ -44,9 +44,12 @@ void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset)
 	{
 		read_reg_size = !p->op.meta.of.short_chunk && encoded(op_encoding(p, arg)) == T_DIR;
 		mem_read_chunk(p, &p->op.args.c[arg], read_reg_size, *offset);
+		op_dump(&p->op, true, false);
 		if (encoded(op_encoding(p, arg)) == T_IND)
 		{
+			ft_dprintf(g_fd, " ## indirect arg \n");
 			mem_read_chunk(p, &p->op.args.c[arg], true, p->op.args.c[arg].u16);
+			op_dump(&p->op, true, false);
 			*offset += IND_SIZE;
 		}
 		else
