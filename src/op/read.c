@@ -15,10 +15,10 @@
 
 void	ld(t_proc proc)
 {
-	draw_memory(draw_loop);
+	//draw_memory(draw_loop);
 	if (!(proc->reg[proc->op.args.v[1]] = proc->op.args.v[0]))
 		proc->carry = true;
-	draw_memory(draw_loop);
+	//draw_memory(draw_loop);
 }
 
 void	lld(t_proc proc)

@@ -28,13 +28,13 @@ void				mem_write_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op)
 
 void				mem_read_chunk(t_u16 pc, union u_chunk *chnk, const t_op *op, t_u8 *offset)
 {
-	chnk->val.byte_4 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
-	chnk->val.byte_3 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
+	chnk->val.byte_1 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
+	chnk->val.byte_2 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
 	*offset += 2;
 	if (!op->meta.of.short_chunk)
 	{
-		chnk->val.byte_2 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
-		chnk->val.byte_1 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
+		chnk->val.byte_3 = at_mem(pc_shift(pc, *offset, op->meta.of.long_op));
+		chnk->val.byte_4 = at_mem(pc_shift(pc, *offset + 1, op->meta.of.long_op));
 		*offset += 2;
 	}
 }

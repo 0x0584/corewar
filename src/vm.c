@@ -64,4 +64,4 @@ t_st			vm_loop(void)
 int				g_fd;
 t_vm			g_vm = {.delta = CYCLE_TO_DIE};
 
-bool			g_visu = true;
+bool			g_visu = false;

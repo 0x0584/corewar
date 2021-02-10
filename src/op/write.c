@@ -31,9 +31,9 @@ void    sti(t_proc proc)
 	union u_chunk	chnk;
 	t_u32			addr;
 
-    draw_memory(draw_loop);
+    //draw_memory(draw_loop);
 	addr = get_arg_value(proc, 1) + get_arg_value(proc, 2);
 	chnk.u32 = proc->reg[proc->op.args.v[0]];
 	mem_write_chunk(shift_pc(proc, addr), &chnk, &proc->op);
-    draw_memory(draw_loop);
+    //draw_memory(draw_loop);
 }

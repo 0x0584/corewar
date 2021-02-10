@@ -63,7 +63,7 @@ enum				e_colors
 
 void			draw_loop(void);
 void			draw_memory(void (*vm_callback)(void));
-void			draw_setup(bool setup);
+bool			draw_setup(bool setup);
 
 extern bool		g_visu;
 extern bool		g_wait_input;

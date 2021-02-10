@@ -56,15 +56,15 @@ void				vm_read(void *proc, void *arg)
 static inline t_st		handle_reg(t_proc p, t_arg arg, t_u8 *offset)
 {
 	if (encoded(op_encoding(p, arg)) == T_REG)
-		if (!mem_deref(p, *offset) || mem_deref(p, *offset) > REG_NUMBER)
-		{
-			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, *offset));
-			return (st_error);
-		}
-		else
+		if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
 		{
 			mem_chunk(p, arg, offset);
 			return (st_succ);
+		}
+		else		  
+		{
+			ft_dprintf(g_fd ,"invalid register (%d) access\n", mem_deref(p, *offset));
+			return (st_error);
 		}
 	else
 		return (st_fail);
@@ -95,32 +95,41 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_u8 *offset)
 	}
 }
 
+static t_st				handle_arg(t_proc p, t_arg arg, t_u8 *offset)
+{
+	t_st					st;
+	
+	if (arg < p->op.nargs)
+		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
+	else
+	{
+		ft_dprintf(g_fd ," encoding is not padded (%02b)\n", op_encoding(p, arg));
+		return st_fail;
+	}
+	if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
+	{
+		if ((st = handle_reg(p, arg, offset)))
+			if ((st = handle_chunk(p, arg, offset)))
+				return (st);
+	}
+	else
+	{
+		ft_dprintf(g_fd ," unexpected argument encoding %2b vs %8b\n", op_encoding(p, arg), op_meta_encoding(p, arg));
+		return st_fail;
+	}
+	return (st);
+}
+
 t_st					read_arg_chunk(t_proc p, t_u8 *offset)
 {
 	t_arg					arg;
 	t_st					st;
-
+	
 	arg = 0;
 	while (encoded(op_encoding(p, arg)) != T_PAD)
 	{
-		if (arg < p->op.nargs)
-			ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
-		else
-		{
-			ft_dprintf(g_fd ," encoding is not padded (%02b)\n", op_encoding(p, arg));
-			return st_fail;
-		}
-		if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
-		{
-			if ((st = handle_reg(p, arg, offset)))
-				if ((st = handle_chunk(p, arg, offset)))
-					return (st);
-		}
-		else
-		{
-			ft_dprintf(g_fd ," unexpected argument encoding %2b vs %8b\n", op_encoding(p, arg), op_meta_encoding(p, arg));
-			return st_fail;
-		}
+		if ((st = handle_arg(p, arg, offset)))
+			return (st);
 		arg++;
 	}
 	if (arg == p->op.nargs)
