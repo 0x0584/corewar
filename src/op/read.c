@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 10:07:40 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 11:12:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 
 void	ld(t_proc proc)
 {
-	//draw_memory(draw_loop);
 	print_arena();
-	if (!(proc->reg[proc->op.args.v[1]] = proc->op.args.v[0]))
+	if (!(proc->reg[proc->op.args.v[1]] = arg_value(proc, 0, true)))
 		proc->carry = true;
 	print_arena();
-	//draw_memory(draw_loop);
 }
 
 void	lld(t_proc proc)
@@ -31,11 +29,11 @@ void	lld(t_proc proc)
 
 void	ldi(t_proc proc)
 {
-	t_u32			addr;
+	t_u32			offset;
 	union u_chunk	chnk;
 
-	addr = get_arg_value(proc, 0) + get_arg_value(proc, 1);
-	mem_read_chunk(proc, &chnk, true, addr);
+	offset = arg_value(proc, 0, false) + arg_value(proc, 1, false);
+	mem_read_chunk(proc, &chnk, true, offset);
 	proc->reg[proc->op.args.v[2]] = chnk.u32;
 }
 

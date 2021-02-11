@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 15:54:05 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 10:45:37 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef union				u_blob
 			t_u8		byte_3;
 			t_u8		byte_4;
 		}			val;
-	  
+
 		/**
 		** \brief argument value as a Big Endian 32-bit integer
 		*/
@@ -178,42 +178,5 @@ typedef union				u_blob
 ** \see process.h
 */
 typedef struct s_process	*t_proc;
-
-/**
-** \brief handy hard-written utility to probe the encoding of a `t_op_encoding`
-**
-** \param op pointer an operation held by a process
-** \param which argument to get encoding for
-**
-** \see op.h
-** \see op_impl.h
-**
-** \return a Byte containing the encoding
-*/
-t_arg		op_encoding(t_proc p, t_arg which);
-
-t_arg		op_meta_encoding(t_proc p, t_arg which);
-
-t_arg		encoded(t_u8 arg);
-
-t_u32		get_arg_value(t_proc proc, t_arg arg);
-
-/**
-** \brief reverse a word (32-bit) from little endian to big endian
-**
-** \param word little endian word
-**
-** \return big endian word
-*/
-t_u32				beword(t_u32 word);
-
-/**
-** \brief reverse a byte (8-bits) from little endian to big endian
-**
-** \param word little endian byte
-**
-** \return big endian byte
-*/
-t_u8				bebyte(t_u8 byte);
 
 #endif

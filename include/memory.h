@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 08:58:11 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 11:10:12 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ t_st				read_arg_chunk(t_proc p, t_u16 *offset);
 */
 void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset);
 
+/*
+** Accessors
+*/
+
 /**
 ** \brief get the value of the memory address on which the
 ** program counter is pointing
@@ -96,5 +100,46 @@ t_u8				mem_deref(t_proc p, t_u16 offset);
 t_u8				mem_at(t_proc p);
 
 t_u8				at_mem(t_u16 p);
+
+/*
+** Encoding
+*/
+
+/**
+** \brief handy hard-written utility to probe the encoding of a `t_op_encoding`
+**
+** \param op pointer an operation held by a process
+** \param which argument to get encoding for
+**
+** \see op.h
+** \see op_impl.h
+**
+** \return a Byte containing the encoding
+*/
+t_arg				op_encoding(t_proc p, t_arg which);
+
+t_arg				op_meta_encoding(t_proc p, t_arg which);
+
+t_arg				encoded(t_u8 arg);
+
+t_u32				arg_value(t_proc proc, t_arg arg, bool deref);
+
+/**
+** \brief reverse a word (32-bit) from little endian to big endian
+**
+** \param word little endian word
+**
+** \return big endian word
+*/
+t_u32				beword(t_u32 word);
+
+/**
+** \brief reverse a byte (8-bits) from little endian to big endian
+**
+** \param word little endian byte
+**
+** \return big endian byte
+*/
+t_u8				bebyte(t_u8 byte);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:44:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/08 14:38:32 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 10:38:22 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ t_u32		beword(t_u32 word)
 {
     return (((word >> 24) & 0xff) | ((word << 8) & 0xff0000) |
 			((word >> 8) & 0xff00) | ((word << 24) & 0xff000000));
-}
-
-t_u32		get_arg_value(t_proc proc, t_arg arg)
-{
-	if (encoded(op_encoding(proc, arg)) == T_REG)
-		return (proc->reg[proc->op.args.v[arg]]);
-	else
-		return (proc->op.args.v[arg]);
 }
 
 t_arg		op_encoding(t_proc p, t_arg which)

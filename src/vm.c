@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 09:05:34 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 10:36:28 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_st			vm_loop(void)
 		g_vm.cycles++;
     	lst_iter_arg(g_pool, true, &st, vm_read);
     	lst_iter_arg(g_pool, true, &st, vm_exec);
-		print_arena();
+
+		/* print_arena(); */
     	/* process_cleanup(); */
     	/* getchar(); */
     }

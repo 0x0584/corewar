@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:50:37 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 10:38:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 11:22:06 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void    st(t_proc proc)
 
 	print_arena();
 	if (encoded(op_encoding(proc, 1)) == T_REG)
-		proc->reg[proc->op.args.c[0].u32] = proc->reg[proc->op.args.c[1].u32];
+		proc->reg[proc->op.args.v[1]] = proc->reg[proc->op.args.v[0]];
 	else
 	{
-		chnk.u32 = proc->reg[proc->op.args.c[0].u32];
-		mem_write_chunk(proc, 0, proc->op.args.c[1].u16);
+		chnk.u32 = proc->reg[proc->op.args.v[0]];
+		mem_write_chunk(proc, &chnk, arg_value(proc, 1, false));
 	}
 	print_arena();
 }
@@ -32,11 +32,11 @@ void    st(t_proc proc)
 void    sti(t_proc proc)
 {
 	union u_chunk	chnk;
-	t_u32			addr;
+	t_u32			offset;
 
-    //draw_memory(draw_loop);
-	addr = get_arg_value(proc, 1) + get_arg_value(proc, 2);
+	print_arena();
+	offset = arg_value(proc, 1, false) + arg_value(proc, 2, false);
 	chnk.u32 = proc->reg[proc->op.args.v[0]];
-	mem_write_chunk(proc, 0, addr);
-    //draw_memory(draw_loop);
+	mem_write_chunk(proc, &chnk, offset);
+	print_arena();
 }

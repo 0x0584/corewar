@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 15:44:41 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 10:33:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 
 void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset)
 {
-	bool read_reg_size;
+	bool				read_reg_size;
 
 	if (encoded(op_encoding(p, arg)) == T_REG)
 	{
@@ -46,12 +46,7 @@ void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset)
 		mem_read_chunk(p, &p->op.args.c[arg], read_reg_size, *offset);
 		op_dump(&p->op, true, false);
 		if (encoded(op_encoding(p, arg)) == T_IND)
-		{
-			ft_dprintf(g_fd, " ## indirect arg \n");
-			mem_read_chunk(p, &p->op.args.c[arg], true, p->op.args.c[arg].u16);
-			op_dump(&p->op, true, false);
 			*offset += IND_SIZE;
-		}
 		else
 			*offset += read_reg_size ? DIR_SIZE : IND_SIZE;
 	}
