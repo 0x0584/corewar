@@ -10,69 +10,21 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME		 = corewar
-DEBUG		?= 1
 
-FT_DIR		?= libft
-LIBFT		?= $(FT_DIR)/libft.a
+all: vm asm
 
-INC_DIR		?= include
-SRC_DIR		?= src
-OBJ_DIR		?= .obj
+vm:
+	make -C vm 
 
-EXTRA_DIR	 = .extra
-
-CC			 = gcc
-LD			 = ld
-
-ifeq ($(DEBUG), 1)
-	CFLAGS	 = -g -Og
-else
-	CFLAGS	 = -O3 -Werror
-endif
-
-CFLAGS		+= -I$(INC_DIR) -I$(FT_DIR) -Wall -Wextra -Wpedantic
-LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
-
-HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
-SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
-OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-
-all: ft $(NAME)
-
-ft:
-	@make -C $(FT_DIR) DEBUG=$(DEBUG)
-
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+asm:
+	@echo asm
 
 clean:
-	@make clean -C $(FT_DIR)
-	@rm -rf $(OBJS)
+	make clean -C vm 
+#	make clean -C asm
 
 fclean:
-	@make fclean -C $(FT_DIR)
-	@rm -rf $(OBJ_DIR) $(NAME)
+	make fclean -C vm
+#	make fclean -C asm
 
 re: fclean all
-
-build:
-	@rm -rf $(OBJ_DIR) $(NAME)
-	@make
-
-distcheck:
-	@$(CC) -v
-	@$(LD) -v
-	@git --version
-	@uname -a
-
-check: all
-
-test: all
-	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
-
-.PHONY: all clean fclean re test check distcheck ft
