@@ -6,15 +6,15 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:09:42 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:23:05 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 15:19:32 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_H
 # define PLAYER_H
 
-# include "op.h"
 # include "champ.h"
+# include "op_impl.h"
 
 /**
 ** \brief a player has a .cor file and is running on a process `t_player::prog`

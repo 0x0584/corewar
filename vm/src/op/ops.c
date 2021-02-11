@@ -1,6 +1,11 @@
 #include "vm.h"
 #include "process.h"
 
+void		set_nop(t_proc p)
+{
+	ft_memcpy(&p->op, &g_ops[op_nop], sizeof(t_op));
+}
+
 void	nop(t_proc proc)
 {
 	(void)proc;

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 10:45:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 15:18:54 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,23 @@
 
 # include "hash.h"
 # include "lst.h"
+
+/**
+** \brief all operations have a `callback` function
+**
+** \see op.h
+*/
+enum						e_operations
+{
+	op_nop,			op_live,       op_ld,
+	op_st,      	op_add,        op_sub,
+	op_and,     	op_or,         op_xor,
+	op_zjmp,    	op_ldi,        op_sti,
+	op_fork,    	op_lld,        op_lldi,
+	op_lfork,   	op_aff,
+
+	op_count
+};
 
 /**
 ** \brief all information about the operation
@@ -168,15 +185,5 @@ typedef union				u_blob
 		t_u16		u16;
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
-
-/**
-** \brief each created process is a node of `g_pool`.
-**
-**   it carries an opeartion a if executed by vm_loop() after
-**   waiting for a number of cycles
-**
-** \see process.h
-*/
-typedef struct s_process	*t_proc;
 
 #endif

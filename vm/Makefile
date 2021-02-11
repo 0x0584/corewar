@@ -6,15 +6,14 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/10 10:28:50 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/11 15:24:06 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 include config.mk
 
 NAME		 = corewar
-
-GLOB_HEADERS := ../$(GLOB_HEADERS) 
+DEPS_DIR	:= ../$(DEPS_DIR)
 FT_DIR		:= ../$(FT_DIR)
 
 LIBFT		= $(FT_DIR)/libft.a
@@ -36,15 +35,16 @@ endif
 
 GRN			 = \033[0;35m[o]\033[0m
 
-CFLAGS		+= -I$(FT_DIR) -I$(GLOB_HEADERS) -I$(INC_DIR) -Wall -Wextra -Wpedantic
+CFLAGS		+= -I$(FT_DIR) -I$(DEPS_DIR) -I$(INC_DIR) -Wall -Wextra -Wpedantic
 LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
 
-HEADERS		:= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
+HEADERS		:= $(shell find $(DEPS_DIR) -name '*.[hH]' -type f)
+HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
+
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
 OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 all: setup $(NAME)
-	@printf "$(GRN)built $(NAME).\n"
 
 setup:
 	@make -C $(FT_DIR) DEBUG=$(DEBUG)
@@ -56,6 +56,7 @@ setup:
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	@printf "$(GRN)built $(NAME).\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@mkdir -p $(@D)

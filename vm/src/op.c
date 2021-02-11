@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:02:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 09:17:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 15:11:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ void				op_dump(const t_op *op, bool dump_args, bool dump_verbose)
 		}
 	}
 	ft_dprintf(g_fd, " ###\n");
-}
-
-void		set_nop(t_proc p)
-{
-	ft_memcpy(&p->op, &g_ops[op_nop], sizeof(t_op));
 }
 
 t_op		g_ops[op_count] = {

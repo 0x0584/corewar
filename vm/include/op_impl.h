@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/02/06 18:19:33 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 15:18:40 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,14 @@
 # include "op.h"
 
 /**
-** \brief all operations have a `callback` function
+** \brief each created process is a node of `g_pool`.
 **
-** \see op.h
+**   it carries an opeartion a if executed by vm_loop() after
+**   waiting for a number of cycles
+**
+** \see process.h
 */
-enum						e_operations
-{
-	op_nop,			op_live,       op_ld,
-	op_st,      	op_add,        op_sub,
-	op_and,     	op_or,         op_xor,
-	op_zjmp,    	op_ldi,        op_sti,
-	op_fork,    	op_lld,        op_lldi,
-	op_lfork,   	op_aff,
-
-	op_count
-};
+typedef struct s_process	*t_proc;
 
 /**
 ** \brief operations have at most three args, of size at most a 32-bit
@@ -56,7 +49,7 @@ typedef void				(*t_op_callback)(t_proc proc);
 **
 ** \see op.h
 */
-typedef struct				s_op
+typedef struct				s_operation
 {
 	/**
 	** \brief operation name as a string used to log the current operation

@@ -1,3 +1,3 @@
 FT_DIR			?= libft
-GLOB_HEADERS	?= include
+DEPS_DIR		?= include
 DEBUG			?= 1
