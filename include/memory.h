@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 15:35:04 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 08:58:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ t_u8				mem_deref(t_proc p, t_u16 offset);
 t_u8				mem_at(t_proc p);
 
 t_u8				at_mem(t_u16 p);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 15:37:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 09:11:26 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void				vm_read(void *proc, void *arg)
 	t_proc	p;
 
 	p = proc;
-	if ((p->carry = mem_at(p) >= op_count))
+	if (mem_at(p) >= op_count)
 	{
 		set_nop(p);
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"player %d: %02x is not an operation\n", p->num, g_vm.arena[p->pc]);
+		ft_dprintf(g_fd ,"player %d: %02x is not a valid operation!\n", p->num, g_vm.arena[p->pc]);
 	}
 	else if (p->op.cycles >= 0)
 	{

@@ -7,7 +7,7 @@ player 0: `ld` operation has more 1 cycles to wait
  encoding of 0 (11)
  ### op `ld`:
  2   encoding : d0 11010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
-    arg 0: short(255) int(255) 000000ff: ff00 0000
+    arg 0: short(255) int(255) 000000ff: 0000 00ff
     arg 1: short(0) int(0) 00000000: 0000 0000
  ###
  ## indirect arg 
@@ -24,7 +24,7 @@ read 0
    idx_mod encoded sizeof int has carry
 
     arg 0: short(0) int(0) 00000000: 0000 0000
-    arg 1: short(3) int(3) 00000003: 0300 0000
+    arg 1: short(3) int(3) 00000003: 0000 0003
  ###
 player 0: `ld` operation, scheduled after 5 cycles
 player 0: `ld` operation has more 4 cycles to wait
@@ -35,7 +35,172 @@ player 0: `ld` operation has more 1 cycles to wait
  encoding of 0 (10)
  ### op `ld`:
  2   encoding : 90 10010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
-    arg 0: short(15) int(15) 0000000f: 0f00 0000
+    arg 0: short(15) int(15) 0000000f: 0000 000f
     arg 1: short(0) int(0) 00000000: 0000 0000
  ###
  encoding of 1 (01)
+read 0
+>> player 0: `ld` has correct encoding
+ ### op `ld`:
+ 2   encoding : 90 10010000    expecting arg1: 0110, arg2: 0001, arg3: 0000
+   idx_mod encoded sizeof int has carry
+
+    arg 0: short(15) int(15) 0000000f: 0000 000f
+    arg 1: short(3) int(3) 00000003: 0000 0003
+ ###
+player 0: `ldi` operation, scheduled after 25 cycles
+player 0: `ldi` operation has more 24 cycles to wait
+player 0: `ldi` operation has more 23 cycles to wait
+player 0: `ldi` operation has more 22 cycles to wait
+player 0: `ldi` operation has more 21 cycles to wait
+player 0: `ldi` operation has more 20 cycles to wait
+player 0: `ldi` operation has more 19 cycles to wait
+player 0: `ldi` operation has more 18 cycles to wait
+player 0: `ldi` operation has more 17 cycles to wait
+player 0: `ldi` operation has more 16 cycles to wait
+player 0: `ldi` operation has more 15 cycles to wait
+player 0: `ldi` operation has more 14 cycles to wait
+player 0: `ldi` operation has more 13 cycles to wait
+player 0: `ldi` operation has more 12 cycles to wait
+player 0: `ldi` operation has more 11 cycles to wait
+player 0: `ldi` operation has more 10 cycles to wait
+player 0: `ldi` operation has more 9 cycles to wait
+player 0: `ldi` operation has more 8 cycles to wait
+player 0: `ldi` operation has more 7 cycles to wait
+player 0: `ldi` operation has more 6 cycles to wait
+player 0: `ldi` operation has more 5 cycles to wait
+player 0: `ldi` operation has more 4 cycles to wait
+player 0: `ldi` operation has more 3 cycles to wait
+player 0: `ldi` operation has more 2 cycles to wait
+player 0: `ldi` operation has more 1 cycles to wait
+>	 encoding of ldi is 01010100 00000054
+ encoding of 0 (01)
+ encoding of 1 (01)
+ encoding of 2 (01)
+read 0
+>> player 0: `ldi` has correct encoding
+ ### op `ldi`:
+ 3   encoding : 54 01010100    expecting arg1: 0111, arg2: 0011, arg3: 0001
+   idx_mod encoded sizeof short 
+
+    arg 0: short(3) int(3) 00000003: 0000 0003
+    arg 1: short(2) int(2) 00000002: 0000 0002
+    arg 2: short(1) int(1) 00000001: 0000 0001
+ ###
+player 0: `ldi` operation, scheduled after 25 cycles
+player 0: `ldi` operation has more 24 cycles to wait
+player 0: `ldi` operation has more 23 cycles to wait
+player 0: `ldi` operation has more 22 cycles to wait
+player 0: `ldi` operation has more 21 cycles to wait
+player 0: `ldi` operation has more 20 cycles to wait
+player 0: `ldi` operation has more 19 cycles to wait
+player 0: `ldi` operation has more 18 cycles to wait
+player 0: `ldi` operation has more 17 cycles to wait
+player 0: `ldi` operation has more 16 cycles to wait
+player 0: `ldi` operation has more 15 cycles to wait
+player 0: `ldi` operation has more 14 cycles to wait
+player 0: `ldi` operation has more 13 cycles to wait
+player 0: `ldi` operation has more 12 cycles to wait
+player 0: `ldi` operation has more 11 cycles to wait
+player 0: `ldi` operation has more 10 cycles to wait
+player 0: `ldi` operation has more 9 cycles to wait
+player 0: `ldi` operation has more 8 cycles to wait
+player 0: `ldi` operation has more 7 cycles to wait
+player 0: `ldi` operation has more 6 cycles to wait
+player 0: `ldi` operation has more 5 cycles to wait
+player 0: `ldi` operation has more 4 cycles to wait
+player 0: `ldi` operation has more 3 cycles to wait
+player 0: `ldi` operation has more 2 cycles to wait
+player 0: `ldi` operation has more 1 cycles to wait
+>	 encoding of ldi is 01100100 00000064
+ encoding of 0 (01)
+ encoding of 1 (10)
+ ### op `ldi`:
+ 3   encoding : 64 01100100    expecting arg1: 0111, arg2: 0011, arg3: 0001
+    arg 0: short(3) int(3) 00000003: 0000 0003
+    arg 1: short(15) int(15) 0000000f: 0000 000f
+    arg 2: short(0) int(0) 00000000: 0000 0000
+ ###
+ encoding of 2 (01)
+read 0
+>> player 0: `ldi` has correct encoding
+ ### op `ldi`:
+ 3   encoding : 64 01100100    expecting arg1: 0111, arg2: 0011, arg3: 0001
+   idx_mod encoded sizeof short 
+
+    arg 0: short(3) int(3) 00000003: 0000 0003
+    arg 1: short(15) int(15) 0000000f: 0000 000f
+    arg 2: short(1) int(1) 00000001: 0000 0001
+ ###
+player 0: `ldi` operation, scheduled after 25 cycles
+player 0: `ldi` operation has more 24 cycles to wait
+player 0: `ldi` operation has more 23 cycles to wait
+player 0: `ldi` operation has more 22 cycles to wait
+player 0: `ldi` operation has more 21 cycles to wait
+player 0: `ldi` operation has more 20 cycles to wait
+player 0: `ldi` operation has more 19 cycles to wait
+player 0: `ldi` operation has more 18 cycles to wait
+player 0: `ldi` operation has more 17 cycles to wait
+player 0: `ldi` operation has more 16 cycles to wait
+player 0: `ldi` operation has more 15 cycles to wait
+player 0: `ldi` operation has more 14 cycles to wait
+player 0: `ldi` operation has more 13 cycles to wait
+player 0: `ldi` operation has more 12 cycles to wait
+player 0: `ldi` operation has more 11 cycles to wait
+player 0: `ldi` operation has more 10 cycles to wait
+player 0: `ldi` operation has more 9 cycles to wait
+player 0: `ldi` operation has more 8 cycles to wait
+player 0: `ldi` operation has more 7 cycles to wait
+player 0: `ldi` operation has more 6 cycles to wait
+player 0: `ldi` operation has more 5 cycles to wait
+player 0: `ldi` operation has more 4 cycles to wait
+player 0: `ldi` operation has more 3 cycles to wait
+player 0: `ldi` operation has more 2 cycles to wait
+player 0: `ldi` operation has more 1 cycles to wait
+>	 encoding of ldi is 10010100 00000094
+ encoding of 0 (10)
+ ### op `ldi`:
+ 3   encoding : 94 10010100    expecting arg1: 0111, arg2: 0011, arg3: 0001
+    arg 0: short(15) int(15) 0000000f: 0000 000f
+    arg 1: short(0) int(0) 00000000: 0000 0000
+    arg 2: short(0) int(0) 00000000: 0000 0000
+ ###
+ encoding of 1 (01)
+ encoding of 2 (01)
+read 0
+>> player 0: `ldi` has correct encoding
+ ### op `ldi`:
+ 3   encoding : 94 10010100    expecting arg1: 0111, arg2: 0011, arg3: 0001
+   idx_mod encoded sizeof short 
+
+    arg 0: short(15) int(15) 0000000f: 0000 000f
+    arg 1: short(2) int(2) 00000002: 0000 0002
+    arg 2: short(1) int(1) 00000001: 0000 0001
+ ###
+player 0: `ldi` operation, scheduled after 25 cycles
+player 0: `ldi` operation has more 24 cycles to wait
+player 0: `ldi` operation has more 23 cycles to wait
+player 0: `ldi` operation has more 22 cycles to wait
+player 0: `ldi` operation has more 21 cycles to wait
+player 0: `ldi` operation has more 20 cycles to wait
+player 0: `ldi` operation has more 19 cycles to wait
+player 0: `ldi` operation has more 18 cycles to wait
+player 0: `ldi` operation has more 17 cycles to wait
+player 0: `ldi` operation has more 16 cycles to wait
+player 0: `ldi` operation has more 15 cycles to wait
+player 0: `ldi` operation has more 14 cycles to wait
+player 0: `ldi` operation has more 13 cycles to wait
+player 0: `ldi` operation has more 12 cycles to wait
+player 0: `ldi` operation has more 11 cycles to wait
+player 0: `ldi` operation has more 10 cycles to wait
+player 0: `ldi` operation has more 9 cycles to wait
+player 0: `ldi` operation has more 8 cycles to wait
+player 0: `ldi` operation has more 7 cycles to wait
+player 0: `ldi` operation has more 6 cycles to wait
+player 0: `ldi` operation has more 5 cycles to wait
+player 0: `ldi` operation has more 4 cycles to wait
+player 0: `ldi` operation has more 3 cycles to wait
+player 0: `ldi` operation has more 2 cycles to wait
+player 0: `ldi` operation has more 1 cycles to wait
+>	 encoding of ldi is 10100100 000000a4
+ encoding of 0 (10)

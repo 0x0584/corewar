@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 11:11:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 09:05:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			print_arena(void)
 	while (i < MEM_SIZE)
 	{
 		ft_dprintf(fd, "%02x ", g_vm.arena[i]);
-		if ((i+1) % 32 == 0)
+		if ((i+1) % 64 == 0)
 			ft_putendl_fd("", fd);
 		i++;
 	}
