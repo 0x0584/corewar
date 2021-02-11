@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 10:33:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 15:37:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset)
 	}
 	else
 	{
-		read_reg_size = !p->op.meta.of.short_chunk && encoded(op_encoding(p, arg)) == T_DIR;
+		read_reg_size = !p->op.meta.of.short_chunk && (encoded(op_encoding(p, arg)) == T_DIR);
 		mem_read_chunk(p, &p->op.args.c[arg], read_reg_size, *offset);
 		op_dump(&p->op, true, false);
 		if (encoded(op_encoding(p, arg)) == T_IND)

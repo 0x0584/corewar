@@ -1,5 +1,6 @@
 #include "vm.h"
 #include "process.h"
+#include "memory.h"
 
 void		set_nop(t_proc p)
 {
@@ -20,10 +21,11 @@ void	live(t_proc proc)
 
 void	zjmp(t_proc proc)
 {
-	(void)proc;
+	if (proc->carry)
+		proc->pc = shift_pc(proc, arg_value(proc, 0, false));
 }
 
 void	aff(t_proc proc)
 {
-	(void)proc;
+	ft_printf("AFF: %c\n", proc->op.args.c[0].val.byte_1);
 }

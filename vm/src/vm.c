@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 10:36:28 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/11 18:59:52 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ void			print_arena(void)
 	fd = open("arena.log", O_RDWR | O_CREAT | O_TRUNC, 0777);
 	ft_dprintf(fd, "Cycle: %u\nNumber of Process: %zu\n",
 			   g_vm.cycles, lst_size(g_pool));
+	/* ft_dprintf(fd, "0x%04x : ", 0); */
 	while (i < MEM_SIZE)
 	{
-		ft_dprintf(fd, "%02x ", g_vm.arena[i]);
-		if ((i+1) % 64 == 0)
-			ft_putendl_fd("", fd);
-		i++;
+		if (i % 64 == 0)
+			ft_dprintf(fd, "0x%04x : ", i);
+		ft_dprintf(fd, "%02x ", g_vm.arena[i++]);
+		if (i % 64 == 0)
+			ft_dprintf(fd, "\n");
 	}
 	ft_putendl_fd("", fd);
 	close(fd);
@@ -66,6 +68,8 @@ void			print_arena(void)
 t_st			vm_loop(void)
 {
     t_st			st;
+
+	print_arena();
 
 	if (g_visu)
 		draw_setup(true);

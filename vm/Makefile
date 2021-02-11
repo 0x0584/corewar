@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/11 15:24:06 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/11 17:28:21 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -49,14 +49,14 @@ all: setup $(NAME)
 setup:
 	@make -C $(FT_DIR) DEBUG=$(DEBUG)
 	@echo
-	@printf "\033[0;35mCC\033[0m=$(CC)\n"
-	@printf "\033[0;35mCFLAGS\033[0m=$(CFLAGS)\n"
-	@printf "\033[0;35mLDFLAGS\033[0m=$(LDFLAGS)\n"
+	@printf "\033[0;35mCC\033[0m      = $(CC)\n"
+	@printf "\033[0;35mCFLAGS\033[0m  = $(CFLAGS)\n"
+	@printf "\033[0;35mLDFLAGS\033[0m = $(LDFLAGS)\n"
 	@echo
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-	@printf "$(GRN)built $(NAME).\n"
+	@printf "\n$(GRN) built $(NAME).\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@mkdir -p $(@D)
