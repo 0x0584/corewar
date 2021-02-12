@@ -1,7 +1,9 @@
-.name "tester"
-.comment "test fork"
+	.name "tester"
+	.comment "test fork"
 
 
-fork %65535
+	ld %10, r3
+	st r3, 57
+	fork %64
 
-#this will created the same process at the same place
+	#this will created the same process at the same place

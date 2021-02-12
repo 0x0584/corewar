@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:08:52 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 17:26:43 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ t_proc						new_process(t_u8 num, t_pc at);
 **
 ** \return shifted program counter
 */
-t_u16						shift_pc(t_proc p, t_pc offset);
+t_pc						shift_pc(t_proc p, t_pc offset);
 
-t_u16						pc_shift(t_pc pc, t_pc offset, bool long_op);
+t_pc						pc_shift(t_pc pc, t_pc offset, bool long_op);
 
 /**
 ** \brief move the process program counter by an offset
@@ -110,9 +110,9 @@ t_u16						pc_shift(t_pc pc, t_pc offset, bool long_op);
 **
 ** \return new value of the program counter
 */
-t_u16						move_pc(t_proc p, t_pc offset);
+t_pc						move_pc(t_proc p, t_pc offset);
 
-t_u16						pc_move(t_pc *pc, t_pc offset, bool long_op);
+t_pc						pc_move(t_pc *pc, t_pc offset, bool long_op);
 
 /**
 ** \brief the global process id counter

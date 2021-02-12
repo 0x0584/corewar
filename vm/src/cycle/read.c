@@ -6,12 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:10:10 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 19:08:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "process.h"
+#include "builtin.h"
 
 void				vm_read(void *proc, void *arg)
 {
@@ -23,9 +24,16 @@ void				vm_read(void *proc, void *arg)
 		set_nop(p);
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"player %d: %02x is not a valid operation!\n", p->num, g_vm.arena[p->pc]);
+		ft_dprintf(g_fd ,"player %d: %02x is not a valid operation, pc at %hu!\n",
+				   p->num, g_vm.arena[p->pc], p->pc);
 	}
-	else if (p->op.cycles >= 0)
+	else if (g_ops[mem_at(p)].callback == nop)
+	{
+		move_pc(p, 1);
+		*(t_st *)arg = st_fail;
+		ft_dprintf(g_fd ,"player %d: nop, pc at %hu\n", p->num, p->pc);
+	}
+	else if (p->op.cycles > 0)
 	{
 		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;

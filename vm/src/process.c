@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:14:03 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 17:27:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,8 @@ void	reset_alive(void *proc)
 void	process_cleanup()
 {
 	g_vm.cycles++;
+
 	lst_iter(g_pool, true, reset_alive);
 
-// check cyle to die
-}
-
-t_u16	shift_pc(t_proc p, t_pc offset)
-{
-	if (p->op.meta.of.long_op)
-		return ((p->pc + offset) % MEM_SIZE);
-	else
-		return ((p->pc + (offset % IDX_MOD)) % MEM_SIZE);
-}
-
-t_u16	pc_shift(t_pc pc, t_pc offset, bool long_op)
-{
-	if (long_op)
-		return ((pc + offset) % MEM_SIZE);
-	else
-		return ((pc + (offset % IDX_MOD)) % MEM_SIZE);
-}
-
-t_u16	move_pc(t_proc p, t_pc offset)
-{
-	return (p->pc = shift_pc(p, offset));
-}
-
-t_u16	pc_move(t_pc *pc, t_pc offset, bool long_op)
-{
-	if (!pc)
-		return (0);
-	else
-		return (*pc = pc_shift(*pc, offset, long_op));
+	// check cycle to die
 }

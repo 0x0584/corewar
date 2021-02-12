@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:41:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 18:41:31 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 12:52:15 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void    fork_(t_proc proc)
 {
 	t_proc	foo;
 
-	foo = new_process(proc->num, shift_pc(proc, proc->op.args.v[0]));
-	ft_memcpy(foo->reg, proc->reg, sizeof(t_u32) * (REG_NUMBER + 1));
+	foo = new_process(proc->num, shift_pc(proc, proc->op.args.c[0].short_chunk));
+	ft_memcpy(foo->reg, proc->reg, sizeof(t_reg) * (REG_NUMBER + 1));
 	foo->carry = proc->carry;
 }
 

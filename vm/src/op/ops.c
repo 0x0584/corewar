@@ -27,5 +27,5 @@ void	zjmp(t_proc proc)
 
 void	aff(t_proc proc)
 {
-	ft_printf("AFF: %c\n", proc->op.args.c[0].val.byte_1);
+	ft_printf("AFF: %c\n", arg_value(proc, 0, false));
 }

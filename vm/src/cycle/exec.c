@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:13:32 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 19:10:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ void				vm_exec(void *proc, void *arg)
 	if (!(offset = vm_decode_exec(proc, arg)))
 		return ;
 	else if (!g_jumped)
+	{
 		move_pc(proc, offset);
+		ft_dprintf(g_fd, ">> player %d: pc at address %0#4x\n", ((t_proc)proc)->num, ((t_proc)proc)->pc);
+	}
 }
