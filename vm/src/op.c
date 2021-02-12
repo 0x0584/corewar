@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:02:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 15:11:46 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:12:59 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void				op_dump(const t_op *op, bool dump_args, bool dump_verbose)
 		while (arg < op->nargs)
 		{
 			ft_dprintf(g_fd, "    arg %u: short(%u) int(%u) %08x: %02x%02x %02x%02x\n", arg,
-					   op->args.c[arg].u16,
-					   op->args.c[arg].u32,
-					   op->args.c[arg].u32,
+					   op->args.c[arg].short_chunk,
+					   op->args.c[arg].chunk,
+					   op->args.c[arg].chunk,
 
 					   op->args.c[arg].val.byte_4, op->args.c[arg].val.byte_3,
 					   op->args.c[arg].val.byte_2, op->args.c[arg].val.byte_1

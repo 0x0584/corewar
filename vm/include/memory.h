@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 11:10:12 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:08:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 */
 void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ);
 
-t_st				handle_chunk(t_proc p, t_arg arg, t_u16 *offset);
+t_st				handle_chunk(t_proc p, t_arg arg, t_pc *offset);
 
 /**
 ** \brief write the chunk into the VM's memory realtive to op's meta
@@ -37,7 +37,7 @@ t_st				handle_chunk(t_proc p, t_arg arg, t_u16 *offset);
 ** \see op.h
 */
 void				mem_write_chunk(const t_proc p, const union u_chunk *chnk,
-									t_u16 offset);
+									t_pc offset);
 
 /**
  * \brief read from pc relative to offset into operation arg
@@ -46,7 +46,7 @@ void				mem_write_chunk(const t_proc p, const union u_chunk *chnk,
  * we read T_DIR else we read T_IND
  */
 void				mem_read_chunk(const t_proc p, union u_chunk *chnk,
-								   bool read_reg_size, t_u16 offset);
+								   bool read_reg_size, t_pc offset);
 
 /**
 ** \brief read arguments of an operation held by process `p`
@@ -59,7 +59,7 @@ void				mem_read_chunk(const t_proc p, union u_chunk *chnk,
 **
 **   - `st_succ`
 */
-t_st				read_arg_chunk(t_proc p, t_u16 *offset);
+t_st				read_arg_chunk(t_proc p, t_pc *offset);
 
 /**
 ** \brief reads a `chuck_size` relative to the process's program counter
@@ -72,7 +72,7 @@ t_st				read_arg_chunk(t_proc p, t_u16 *offset);
 **  \param value a reference to where to write the content
 **  \param offset out refernce of program counter offset
 */
-void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset);
+void				mem_chunk(t_proc p, t_arg arg, t_pc *offset);
 
 /*
 ** Accessors
@@ -87,7 +87,7 @@ void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset);
 **
 ** \return a byte
 */
-t_u8				mem_deref(t_proc p, t_u16 offset);
+t_u8				mem_deref(t_proc p, t_pc offset);
 
 /**
 ** \brief get the value of the memory address on which the
@@ -99,7 +99,7 @@ t_u8				mem_deref(t_proc p, t_u16 offset);
 */
 t_u8				mem_at(t_proc p);
 
-t_u8				at_mem(t_u16 p);
+t_u8				at_mem(t_pc p);
 
 /*
 ** Encoding
@@ -120,7 +120,7 @@ t_arg				op_encoding(t_proc p, t_arg which);
 
 t_arg				op_meta_encoding(t_proc p, t_arg which);
 
-t_arg				encoded(t_u8 arg);
+t_arg				encoded(t_u8 arg_code);
 
 t_u32				arg_value(t_proc proc, t_arg arg, bool deref);
 

@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/10 15:35:25 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:09:38 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "process.h"
 
-t_st		vm_decode(t_proc p, t_u16 *offset)
+t_st		vm_decode(t_proc p, t_pc *offset)
 {
 	t_st st;
 

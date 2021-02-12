@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 19:30:12 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:08:52 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ struct						s_process
 	**
 	** `g_vm.arena` counter
 	*/
-	t_u16			pc;
+    t_pc			pc;
 
 	/**
 	** \brief each process has it's own register
 	*/
-	t_u32			reg[REG_NUMBER + 1];
+	t_reg			reg[REG_NUMBER + 1];
 
 	/**
 	** \brief carry sis et by operations in case of either yielding zero,
@@ -86,7 +86,7 @@ void						process_cleanup();
 **
 ** \return a new process with the next available pid
 */
-t_proc						new_process(t_u8 num, t_u16 at);
+t_proc						new_process(t_u8 num, t_pc at);
 
 /**
 ** \brief shift the program counter of the process by an offset
@@ -99,9 +99,9 @@ t_proc						new_process(t_u8 num, t_u16 at);
 **
 ** \return shifted program counter
 */
-t_u16						shift_pc(t_proc p, t_u16 offset);
+t_u16						shift_pc(t_proc p, t_pc offset);
 
-t_u16						pc_shift(t_u16 pc, t_u16 offset, bool long_op);
+t_u16						pc_shift(t_pc pc, t_pc offset, bool long_op);
 
 /**
 ** \brief move the process program counter by an offset
@@ -110,9 +110,9 @@ t_u16						pc_shift(t_u16 pc, t_u16 offset, bool long_op);
 **
 ** \return new value of the program counter
 */
-t_u16						move_pc(t_proc p, t_u16 offset);
+t_u16						move_pc(t_proc p, t_pc offset);
 
-t_u16						pc_move(t_u16 *pc, t_u16 offset, bool long_op);
+t_u16						pc_move(t_pc *pc, t_pc offset, bool long_op);
 
 /**
 ** \brief the global process id counter

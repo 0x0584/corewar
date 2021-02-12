@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 09:16:28 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:13:32 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_st			verify_proc(t_proc p, void *arg)
 
 static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 {
-	t_u16				op_arg_offset;
+	t_pc				op_arg_offset;
 
 	if (verify_proc(proc, arg))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 15:37:48 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:11:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 	}
 }
 
-void				mem_chunk(t_proc p, t_arg arg, t_u16 *offset)
+void				mem_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
 	bool				read_reg_size;
 

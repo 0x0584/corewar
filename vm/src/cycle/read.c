@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 09:11:26 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:10:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void				vm_read(void *proc, void *arg)
  **	  - `st_fail` if the argument is not a register
  **	  - `st_error` if the argument is indeed a register, but not a *valid* one
  */
-static inline t_st		handle_reg(t_proc p, t_arg arg, t_u16 *offset)
+static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 {
 	if (encoded(op_encoding(p, arg)) == T_REG)
 		if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
@@ -80,7 +80,7 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_u16 *offset)
 ** \see op.h
 ** \see op_impl.h
 */
-t_st					handle_chunk(t_proc p, t_arg arg, t_u16 *offset)
+t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
 	if (encoded(op_encoding(p, arg)) == T_DIR
 			|| encoded(op_encoding(p, arg)) == T_IND)
@@ -95,7 +95,7 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_u16 *offset)
 	}
 }
 
-static t_st				handle_arg(t_proc p, t_arg arg, t_u16 *offset)
+static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 {
 	t_st					st;
 
@@ -120,7 +120,7 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_u16 *offset)
 	return (st);
 }
 
-t_st					read_arg_chunk(t_proc p, t_u16 *offset)
+t_st					read_arg_chunk(t_proc p, t_pc *offset)
 {
 	t_arg					arg;
 	t_st					st;

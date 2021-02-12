@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/09 16:37:58 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:14:03 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 pid_t	g_pid = 1;
 t_lst	g_pool = NULL;
 
-t_proc	new_process(t_u8 player_num, t_u16 at)
+t_proc	new_process(t_u8 player_num, t_pc at)
 {
 	t_proc	foo;
 
@@ -42,7 +42,7 @@ void	process_cleanup()
 // check cyle to die
 }
 
-t_u16	shift_pc(t_proc p, t_u16 offset)
+t_u16	shift_pc(t_proc p, t_pc offset)
 {
 	if (p->op.meta.of.long_op)
 		return ((p->pc + offset) % MEM_SIZE);
@@ -50,7 +50,7 @@ t_u16	shift_pc(t_proc p, t_u16 offset)
 		return ((p->pc + (offset % IDX_MOD)) % MEM_SIZE);
 }
 
-t_u16	pc_shift(t_u16 pc, t_u16 offset, bool long_op)
+t_u16	pc_shift(t_pc pc, t_pc offset, bool long_op)
 {
 	if (long_op)
 		return ((pc + offset) % MEM_SIZE);
@@ -58,12 +58,12 @@ t_u16	pc_shift(t_u16 pc, t_u16 offset, bool long_op)
 		return ((pc + (offset % IDX_MOD)) % MEM_SIZE);
 }
 
-t_u16	move_pc(t_proc p, t_u16 offset)
+t_u16	move_pc(t_proc p, t_pc offset)
 {
 	return (p->pc = shift_pc(p, offset));
 }
 
-t_u16	pc_move(t_u16 *pc, t_u16 offset, bool long_op)
+t_u16	pc_move(t_pc *pc, t_pc offset, bool long_op)
 {
 	if (!pc)
 		return (0);

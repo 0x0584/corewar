@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2021/02/11 15:18:40 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:08:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #define OP_IMPL_H
 
 # include "op.h"
+
+typedef t_s32				t_reg;
+typedef t_s16				t_pc;
 
 /**
 ** \brief each created process is a node of `g_pool`.

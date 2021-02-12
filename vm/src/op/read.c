@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 17:57:47 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 11:12:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ldi(t_proc proc)
 
 	offset = arg_value(proc, 0, true) + arg_value(proc, 1, false);
 	mem_read_chunk(proc, &chnk, true, offset);
-	proc->reg[proc->op.args.v[2]] = chnk.u32;
+	proc->reg[proc->op.args.v[2]] = chnk.chunk;
 }
 
 void	lldi(t_proc proc)

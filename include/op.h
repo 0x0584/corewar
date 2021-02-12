@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/11 19:30:02 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/12 10:59:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ typedef union				u_blob
 	/**
 	 ** \brief at most an argument of size `REG_SIZE` is read/written
 	 */
-	t_u32		v[MAX_ARGS_NUMBER];
+	t_s32		v[MAX_ARGS_NUMBER];
 
 	union				    u_chunk
 	{
@@ -177,12 +177,12 @@ typedef union				u_blob
 		/**
 		** \brief argument value as a Big Endian 32-bit integer
 		*/
-		t_u32		u32;
+		t_s32		chunk;
 
 		/**
 		 ** \breif argument value as a Big Endian 16-bit integer
 		 */
-		t_u16		u16;
+		t_s16		short_chunk;
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 
