@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 19:10:20 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/13 18:25:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool			g_jumped = false;
 static t_st			verify_proc(t_proc p, void *arg)
 {
 
-	if (p->op.callback == op_nop)
+	if (!p->op.callback || p->op.callback == nop)
 		return (st_error);
     p->op.cycles++;
 	if (!p->op.cycles)
@@ -71,4 +71,5 @@ void				vm_exec(void *proc, void *arg)
 		move_pc(proc, offset);
 		ft_dprintf(g_fd, ">> player %d: pc at address %0#4x\n", ((t_proc)proc)->num, ((t_proc)proc)->pc);
 	}
+	set_nop(proc);
 }

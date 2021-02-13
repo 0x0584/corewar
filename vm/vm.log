@@ -1,17 +1,307 @@
+
+ [1m####### [32mIt's cycle [36m1[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfresh[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation, scheduled after 10 cycles
 player 0: `fork` operation has more 9 cycles to wait
+
+ [1m####### [32mIt's cycle [36m2[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 8 cycles to wait
+
+ [1m####### [32mIt's cycle [36m3[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 7 cycles to wait
+
+ [1m####### [32mIt's cycle [36m4[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 6 cycles to wait
+
+ [1m####### [32mIt's cycle [36m5[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 5 cycles to wait
+
+ [1m####### [32mIt's cycle [36m6[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 4 cycles to wait
+
+ [1m####### [32mIt's cycle [36m7[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 3 cycles to wait
+
+ [1m####### [32mIt's cycle [36m8[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 2 cycles to wait
+
+ [1m####### [32mIt's cycle [36m9[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 player 0: `fork` operation has more 1 cycles to wait
+
+ [1m####### [32mIt's cycle [36m10[0m[1m[32m having [36m1[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
 >> player 0: `fork` has correct encoding
  ### op `fork`:
  1   encoding : 00 00000000    expecting arg1: 0010, arg2: 0000, arg3: 0000
    idx_mod not encoded sizeof short 
 
-    arg 0: short(65535) int(65535) 0000ffff: 0000 ffff
+    arg 0: short(-1) int(65535) 0000ffff: 0000 ffff
  ###
+>> player 0: pc at address 0x03
+
+ [1m####### [32mIt's cycle [36m11[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0fff[0m) holding: [1mfresh[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0003[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 0
+player 0: nop, pc at 4
+
+ [1m####### [32mIt's cycle [36m12[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfresh[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0004[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: `fork` operation, scheduled after 10 cycles
+player 0: nop, pc at 5
+player 0: `fork` operation has more 9 cycles to wait
+
+ [1m####### [32mIt's cycle [36m13[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0005[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 6
+player 0: `fork` operation has more 8 cycles to wait
+
+ [1m####### [32mIt's cycle [36m14[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0006[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 7
+player 0: `fork` operation has more 7 cycles to wait
+
+ [1m####### [32mIt's cycle [36m15[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0007[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 8
+player 0: `fork` operation has more 6 cycles to wait
+
+ [1m####### [32mIt's cycle [36m16[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0008[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 9
+player 0: `fork` operation has more 5 cycles to wait
+
+ [1m####### [32mIt's cycle [36m17[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x0009[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 10
+player 0: `fork` operation has more 4 cycles to wait
+
+ [1m####### [32mIt's cycle [36m18[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x000a[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 11
+player 0: `fork` operation has more 3 cycles to wait
+
+ [1m####### [32mIt's cycle [36m19[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x000b[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
+player 0: nop, pc at 12
+player 0: `fork` operation has more 2 cycles to wait
+
+ [1m####### [32mIt's cycle [36m20[0m[1m[32m having [36m2[0m[1m[32m processe(s):[0m
+
+ --- Process ([32m[1m2[0m) of player [32m0[0m (at [35m0x0000[0m) holding: [1mfork[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+ --- Process ([32m[1m1[0m) of player [32m0[0m (at [35m0x000c[0m) holding: [1mnop[0m [3mwith[0m carry: [36mfalse[0m lives: [36m0[0m
+   registers: [
+     r[33m1 [0m = 0xffffffff { [36mshort[0m:         -1, [36mint[0m:         -1 }
+  ]
+ ---
+
+ [1m#########################################[0m
+
