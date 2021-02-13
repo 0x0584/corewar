@@ -1,0 +1,17 @@
+player 0: `fork` operation, scheduled after 10 cycles
+player 0: `fork` operation has more 9 cycles to wait
+player 0: `fork` operation has more 8 cycles to wait
+player 0: `fork` operation has more 7 cycles to wait
+player 0: `fork` operation has more 6 cycles to wait
+player 0: `fork` operation has more 5 cycles to wait
+player 0: `fork` operation has more 4 cycles to wait
+player 0: `fork` operation has more 3 cycles to wait
+player 0: `fork` operation has more 2 cycles to wait
+player 0: `fork` operation has more 1 cycles to wait
+>> player 0: `fork` has correct encoding
+ ### op `fork`:
+ 1   encoding : 00 00000000    expecting arg1: 0010, arg2: 0000, arg3: 0000
+   idx_mod not encoded sizeof short 
+
+    arg 0: short(65535) int(65535) 0000ffff: 0000 ffff
+ ###

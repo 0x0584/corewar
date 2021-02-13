@@ -31,14 +31,42 @@ t_proc	new_process(t_u8 player_num, t_pc at)
 
 void	reset_alive(void *proc)
 {
-	(*(t_proc)proc).alive = false;
+	(void)proc;
 }
 
-void	process_cleanup()
+static void dump_reg(t_proc p)
+{
+	t_reg r;
+
+	r = 1;
+	ft_dprintf(g_fd, "Registers: [");
+	while (r <= REG_NUMBER)
+	{		
+		ft_dprintf(g_fd, "   r%d = %08x short(%hd) int(%d)\n", r, p->reg[r], p->reg[r], p->reg[r]);
+		r++;
+	}
+	ft_dprintf(g_fd, "]\n");
+}
+
+static void proc_dump(void *blob)
+{
+	t_proc p;
+
+	p = blob;
+	ft_dprintf(g_fd, "Player %hhu (%d at %hd): ", p->num, p->pid, p->pc, p->lives);
+	dump_reg(p);
+	ft_dprintf(g_fd, "carry: %s with lives: %hu", p->carry ? "true" : "false", p->lives);
+	ft_dprintf(g_fd, " holding %s\n",  p->op.name);	
+}
+
+void	process_cleanup(void)
 {
 	g_vm.cycles++;
-
-	lst_iter(g_pool, true, reset_alive);
+	ft_dprintf(g_fd, "It's cycle %u\n\n -------Processes:\n\n", g_vm.cycles);
+	lst_iter(g_pool, true, proc_dump);
+	ft_dprintf(g_fd, "\n -------\n\n");
+	
+	// lst_iter(g_pool, true, reset_alive);
 
 	// check cycle to die
 }

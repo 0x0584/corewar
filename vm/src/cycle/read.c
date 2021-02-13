@@ -33,7 +33,7 @@ void				vm_read(void *proc, void *arg)
 		*(t_st *)arg = st_fail;
 		ft_dprintf(g_fd ,"player %d: nop, pc at %hu\n", p->num, p->pc);
 	}
-	else if (p->op.cycles > 0)
+	else if (!p->op.callback || p->op.cycles > 0)
 	{
 		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;

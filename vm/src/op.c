@@ -40,7 +40,7 @@ void				op_dump(const t_op *op, bool dump_args, bool dump_verbose)
 		arg = 0;
 		while (arg < op->nargs)
 		{
-			ft_dprintf(g_fd, "    arg %u: short(%hu) int(%u) %08x: %02x%02x %02x%02x\n", arg,
+			ft_dprintf(g_fd, "    arg %u: short(%hd) int(%d) %08x: %02x%02x %02x%02x\n", arg,
 					   op->args.c[arg].short_chunk,
 					   op->args.c[arg].chunk,
 					   op->args.c[arg].chunk,
@@ -77,5 +77,5 @@ t_op		g_ops[op_count] = {
 
 	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,					T_PAD,			        T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"},
 
-	[op_nop] = { .name = "nop" },
+	[op_nop] = { .name = "nop", .callback = nop, .doc = "(0x0) no operation" },
 };

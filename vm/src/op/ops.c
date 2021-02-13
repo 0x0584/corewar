@@ -12,11 +12,15 @@ void	nop(t_proc proc)
 	(void)proc;
 }
 
+static t_u8 update_live(t_s32 id)
+{
+	return id;
+}
+
 void	live(t_proc proc)
 {
-	g_vm.winner = proc->op.args.v[0];
-	proc->alive = true;
 	g_vm.lives++;
+	g_vm.winner = update_live(proc->op.args.v[0]);
 }
 
 void	zjmp(t_proc proc)
