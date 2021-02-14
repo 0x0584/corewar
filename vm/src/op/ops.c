@@ -7,25 +7,29 @@ void		set_nop(t_proc p)
 	ft_memcpy(&p->op, &g_ops[op_nop], sizeof(t_op));
 }
 
-void	nop(t_proc proc)
+void		nop(t_proc proc)
 {
 	(void)proc;
 }
 
-void	live(t_proc proc)
+static t_u8 update_live(t_s32 id)
 {
-	g_vm.winner = proc->op.args.v[0];
-	proc->alive = true;
-	g_vm.lives++;
+	return id;
 }
 
-void	zjmp(t_proc proc)
+void		live(t_proc proc)
+{
+	g_vm.lives++;
+	g_vm.winner = update_live(proc->op.args.v[0]);
+}
+
+void		zjmp(t_proc proc)
 {
 	if (proc->carry)
 		proc->pc = shift_pc(proc, arg_value(proc, 0, false));
 }
 
-void	aff(t_proc proc)
+void		aff(t_proc proc)
 {
 	ft_printf("AFF: %c\n", arg_value(proc, 0, false));
 }

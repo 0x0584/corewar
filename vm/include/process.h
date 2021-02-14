@@ -58,7 +58,7 @@ struct						s_process
 	/**
 	** \brief when called `op_live`
     */
-	bool			alive;
+	t_u16			lives;
 
 	/**
 	** \brief operation of the current process
