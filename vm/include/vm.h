@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:07:32 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/14 17:14:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,17 @@ typedef struct		s_vm
 	/**
 	** \brief how many cycles has the game been running
 	*/
-	t_u32		cycles;
+	t_s32		cycles;
+
+	t_s32		current_cycles;
+
+	t_u8		n_checks;
 
 	/**
 	** \brief cycles to die keeps on diminishing. initialized with `CYCLE_TO_DIE`
 	*/
-	t_u16		delta;
+	t_s16		delta;
+
 
 	/**
 	** \brief how many lives have been executed since last delta

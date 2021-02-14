@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/13 18:15:49 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/14 18:30:17 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,57 @@ static void proc_dump(void *blob, size_t i)
 	ft_dprintf(g_fd, " ---\n");
 }
 
-void		process_cleanup(void)
+void		process_dump(void)
 {
-	g_vm.cycles++;
 	ft_dprintf(g_fd, "\n %{bold}####### %{green_fg}It's cycle"
 			   " %{cyan_fg}%zu%{reset}%{bold}%{green_fg}"
 			   " having %{cyan_fg}%zu%{reset}%{bold}%{green_fg} processe(s):%{reset}\n\n",
 			   g_vm.cycles, lst_size(g_pool));
 	lst_iteri(g_pool, true, proc_dump);
 	ft_dprintf(g_fd, "\n %{bold}#########################################%{reset}\n\n");
-	// lst_iter(g_pool, true, reset_alive);
 
-	// check cycle to die
 }
+
+static void kill_process(void)
+{
+	t_lstnode	walk;
+	t_proc		p;
+
+	walk = lst_front(g_pool);
+	while (walk)
+	{
+		p = walk->blob;
+		lst_node_forward(&walk);
+		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
+			lst_remove_previous(g_pool, walk);
+		else
+			p->lives = 0;
+	}
+}
+
+static void check_vm(void)
+{
+	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks == MAX_CHECKS)
+	{
+		g_vm.n_checks = 0;
+		g_vm.delta -= CYCLE_DELTA;
+	}
+	else
+		g_vm.n_checks++;
+	g_vm.current_cycles = 0;
+	g_vm.lives = 0;
+}
+
+void		process_cleanup(void)
+{
+	check_vm();
+	kill_process();
+}
+
+/*
+
+Also, if cycles_to_die <= 0 all carriages are considered dead.
+
+In addition to deletion of cursors, value of variable cycles_to_die is modified during the check.
+
+ */

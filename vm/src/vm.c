@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/13 16:38:11 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/14 19:04:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,30 @@ static void		unset_vm()
     	draw_setup(false);
 }
 
+ void dummy(void) {
+	process_dump();
+ }
+
 t_st			vm_loop(void)
 {
     t_st			st;
 
 	set_vm();
-	process_cleanup();
+	process_dump();
     while (!lst_empty(g_pool))
     {
+		g_vm.cycles++;
+		g_vm.current_cycles++;
     	lst_iter_arg(g_pool, true, &st, vm_read);
     	lst_iter_arg(g_pool, true, &st, vm_exec);
-    	process_cleanup();
+		if (g_vm.cycles == 94 || g_vm.cycles == 155)
+			dummy();
+		if (g_vm.current_cycles == g_vm.delta || g_vm.delta < 0)
+		{
+			process_dump();
+			process_cleanup();
+		}
+
     }
 	unset_vm();
     return (st_succ);
@@ -69,6 +82,6 @@ void			print_arena(void)
 }
 
 int				g_fd;
-t_vm			g_vm = {.delta = CYCLE_TO_DIE, .cycles = 0};
+t_vm			g_vm = {.delta = CYCLE_TO_DIE, .lives = 0};
 
 bool			g_visu = false;

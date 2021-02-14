@@ -6,12 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/13 17:57:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/14 19:21:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "process.h"
+#include "builtin.h"
 
 t_st		vm_decode(t_proc p, t_pc *offset)
 {
@@ -31,7 +32,7 @@ t_st		vm_decode(t_proc p, t_pc *offset)
 	{
 		*offset += 1;
 		mem_read_chunk(p, &p->op.args.c[0], false, *offset);
-		*offset += IND_SIZE;
+		*offset += p->op.callback == live ? REG_SIZE : IND_SIZE;
 		return (st_succ);
 	}
 }
