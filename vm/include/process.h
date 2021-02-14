@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 17:26:43 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/14 16:17:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ t_pc						pc_shift(t_pc pc, t_pc offset, bool long_op);
 t_pc						move_pc(t_proc p, t_pc offset);
 
 t_pc						pc_move(t_pc *pc, t_pc offset, bool long_op);
+
+void						process_dump(void);
 
 /**
 ** \brief the global process id counter

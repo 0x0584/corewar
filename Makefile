@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/11 14:35:35 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/14 14:56:55 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,11 +23,11 @@ $(LIBFT): $(FT_HEADERS)
 
 vm: $(DEPS)
 	@echo building $(VM_DIR)
-	@make all -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR) DEBUG=$(DEBUG)
+	@make all -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 asm: $(DEPS)
 	@echo building $(ASM_DIR)
-	@make all -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR) DEBUG=$(DEBUG)
+	@make all -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 clean:
 	@make clean -C $(FT_DIR)  > /dev/null
@@ -36,7 +36,7 @@ clean:
 
 fclean:
 	@make fclean -C $(FT_DIR) > /dev/null
-	@make -C $(VM_DIR)  fclean > /dev/null 
+	@make -C $(VM_DIR)  fclean > /dev/null
 	@make -C $(ASM_DIR)	fclean > /dev/null
 
 re: fclean all
