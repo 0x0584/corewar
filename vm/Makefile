@@ -13,46 +13,27 @@
 include config.mk
 
 NAME		 = corewar
-DEPS_DIR	:= ../$(DEPS_DIR)
-FT_DIR		:= ../$(FT_DIR)
-
-LIBFT		= $(FT_DIR)/libft.a
 
 INC_DIR		?= include
 SRC_DIR		?= src
 OBJ_DIR		?= .obj
 
-EXTRA_DIR	 = .extra
-
-CC			 = gcc
-LD			 = ld
-
-ifeq ($(DEBUG), 1)
-	CFLAGS	 = -g -Og
-else
-	CFLAGS	 = -O3 -Werror
-endif
-
 GRN			 = \033[0;35m[o]\033[0m
 
-CFLAGS		+= -I$(FT_DIR) -I$(DEPS_DIR) -I$(INC_DIR) -Wall -Wextra -Wpedantic
-LDFLAGS		 = -lft -L$(FT_DIR) -lncurses
-
-HEADERS		:= $(shell find $(DEPS_DIR) -name '*.[hH]' -type f)
-HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
+CFLAGS		+= -I$(INC_DIR) 
+LDFLAGS		+= -lncurses
 
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
-OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+OBJS		:= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+
+HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 
 all: setup $(NAME)
 
 setup:
-	@make -C $(FT_DIR) DEBUG=$(DEBUG)
-	@echo
 	@printf "\033[0;35mCC\033[0m      = $(CC)\n"
 	@printf "\033[0;35mCFLAGS\033[0m  = $(CFLAGS)\n"
 	@printf "\033[0;35mLDFLAGS\033[0m = $(LDFLAGS)\n"
-	@echo
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
@@ -64,11 +45,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@make clean -C $(FT_DIR) > /dev/null
 	@rm -rf $(OBJS)
 
 fclean:
-	@make fclean -C $(FT_DIR) > /dev/null
 	@rm -rf $(OBJ_DIR) $(NAME)
 
 re: fclean all

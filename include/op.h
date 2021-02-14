@@ -186,4 +186,6 @@ typedef union				u_blob
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 
+extern const char	*g_op_names[op_count];
+
 #endif
