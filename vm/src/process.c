@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 18:30:17 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 11:58:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void kill_process(void)
 
 static void check_vm(void)
 {
-	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks == MAX_CHECKS)
+	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks + 1 == MAX_CHECKS)
 	{
 		g_vm.n_checks = 0;
 		g_vm.delta -= CYCLE_DELTA;
@@ -119,11 +119,3 @@ void		process_cleanup(void)
 	check_vm();
 	kill_process();
 }
-
-/*
-
-Also, if cycles_to_die <= 0 all carriages are considered dead.
-
-In addition to deletion of cursors, value of variable cycles_to_die is modified during the check.
-
- */

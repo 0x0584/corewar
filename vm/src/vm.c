@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 19:04:23 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:03:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_st			vm_loop(void)
 		{
 			process_dump();
 			process_cleanup();
+			usleep(5000);
 		}
-
     }
 	unset_vm();
     return (st_succ);

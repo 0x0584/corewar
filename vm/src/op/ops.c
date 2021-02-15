@@ -14,8 +14,12 @@ void		nop(t_proc proc)
 
 void		live(t_proc proc)
 {
+	t_dir id;
+
 	g_vm.lives++;
 	proc->lives++;
+	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers)
+		g_vm.winner = id;
 }
 
 void		zjmp(t_proc proc)

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 10:59:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 11:49:02 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,10 @@ typedef union				u_op_meta
 */
 typedef t_u8				t_arg;
 
+typedef t_u8				t_byte;
+typedef t_s16				t_ind;
+typedef t_s32				t_dir;
+
 /**
 ** \brief arguments encoding is reversed because the encoding byte
 ** is big endian
@@ -158,7 +162,7 @@ typedef union				u_blob
 	/**
 	 ** \brief at most an argument of size `REG_SIZE` is read/written
 	 */
-	t_s32		v[MAX_ARGS_NUMBER];
+	t_dir		v[MAX_ARGS_NUMBER];
 
 	union				    u_chunk
 	{
@@ -177,12 +181,12 @@ typedef union				u_blob
 		/**
 		** \brief argument value as a Big Endian 32-bit integer
 		*/
-		t_s32		chunk;
+		t_dir		chunk;
 
 		/**
 		 ** \breif argument value as a Big Endian 16-bit integer
 		 */
-		t_s16		short_chunk;
+		t_ind		short_chunk;
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 

@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 10:38:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:11:12 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 11:52:14 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "process.h"
 
-t_u32		arg_value(t_proc proc, t_arg arg, bool deref)
+t_dir		arg_value(t_proc proc, t_arg arg, bool deref)
 {
 	t_arg type;
 
