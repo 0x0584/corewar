@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 16:37:36 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/13 16:37:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:38:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_st			parse_arguments(int ac, char *av[])
 	assert(j <= MAX_PLAYERS);
 	g_vm.nplayers = j;
 	while (j--)
-		if (player_read(files[j], j, g_vm.gladiators + j))
+		if (player_read(files[j], j + 1, g_vm.gladiators + j))
 			return (false);
 	return (true);
 }

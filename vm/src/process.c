@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 11:58:20 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:01:47 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,23 @@ static void kill_process(void)
 	t_lstnode	walk;
 	t_proc		p;
 
-	walk = lst_front(g_pool);
-	while (walk)
+	ft_dprintf(g_fd, " >>>>>>>>>>>>\n");
+	walk = g_pool->head;
+	while (walk->next != g_pool->tail)
 	{
-		p = walk->blob;
-		lst_node_forward(&walk);
+		p = walk->next->blob;
 		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
-			lst_remove_previous(g_pool, walk);
+		{
+			ft_dprintf(g_fd, " >>>>>>>>>>>> killed %d %s\n", p->pid, p->op.name);
+			lst_remove_next(g_pool, walk);
+		}
 		else
+		{
 			p->lives = 0;
+			lst_node_forward(&walk);
+		}
 	}
+	ft_dprintf(g_fd, " >>>>>>>>>>>>\n");
 }
 
 static void check_vm(void)
@@ -116,6 +123,6 @@ static void check_vm(void)
 
 void		process_cleanup(void)
 {
-	check_vm();
 	kill_process();
+	check_vm();
 }

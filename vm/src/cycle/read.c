@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 18:03:09 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:24:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				vm_read(void *proc, void *arg)
 		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
+		/* ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles); */
 	}
 }
 
@@ -109,7 +109,7 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	t_st					st;
 
 	if (arg < p->op.nargs)
-		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
+		/* ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg)) */;
 	else
 	{
 		ft_dprintf(g_fd ," encoding is not padded (%02b)\n", op_encoding(p, arg));

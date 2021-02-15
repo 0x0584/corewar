@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 11:12:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 17:51:51 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 void	ld(t_proc proc)
 {
-	print_arena();
+	/* print_arena(); */
 	if (!(proc->reg[proc->op.args.v[1]] = arg_value(proc, 0, true)))
 		proc->carry = true;
-	print_arena();
+	/* print_arena(); */
 }
 
 void	lld(t_proc proc)

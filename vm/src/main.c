@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:01:05 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 12:21:09 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:21:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@ static int		print_usage(void)
 
 static void		declare_winner(void)
 {
+	int i = 0;
+		ft_printf("delta %d winner %hhu %hhu\n", g_vm.delta, g_vm.winner, g_vm.nplayers);
+
+	while (i < g_vm.nplayers)
+	{
+		ft_printf("Player %d %s\n", i, g_vm.gladiators[i].prog_name);
+		++i;
+	}
 	if (g_vm.winner)
-		ft_printf("Winner is %s!", g_vm.gladiators[g_vm.winner - 1]);
+		ft_printf("Winner is %{red_fg}%s%{reset}!\n", g_vm.gladiators[g_vm.winner - 1].prog_name);
 	else
 		ft_putendl("No Winner!!");
 }

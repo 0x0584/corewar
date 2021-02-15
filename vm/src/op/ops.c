@@ -19,7 +19,10 @@ void		live(t_proc proc)
 	g_vm.lives++;
 	proc->lives++;
 	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers)
+	{
 		g_vm.winner = id;
+		ft_printf("process %d said player (%d) (%d) is alive\n", proc->pid, id, arg_value(proc, 0, false));
+	}
 }
 
 void		zjmp(t_proc proc)

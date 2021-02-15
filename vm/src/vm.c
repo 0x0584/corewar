@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 12:03:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:10:30 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "process.h"
 #include "draw.h"
 
-static bool		g_dump_arena = true;
+/* static bool		g_dump_arena = true; */
 
 static void		set_vm(void)
 {
-	if (g_visu)
-		draw_setup(true);
-	if (g_dump_arena)
-		print_arena();
+	/* if (g_visu) */
+	/* 	draw_setup(true); */
+	/* if (g_dump_arena) */
+	/* 	print_arena(); */
 }
 
 static void		unset_vm()
@@ -30,31 +30,29 @@ static void		unset_vm()
     	draw_setup(false);
 }
 
- void dummy(void) {
-	process_dump();
- }
-
 t_st			vm_loop(void)
 {
     t_st			st;
 
 	set_vm();
-	process_dump();
+	/* process_dump(); */
+	print_arena();
     while (!lst_empty(g_pool))
     {
 		g_vm.cycles++;
 		g_vm.current_cycles++;
+		/* ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles); */
+		/* process_dump(); */
     	lst_iter_arg(g_pool, true, &st, vm_read);
     	lst_iter_arg(g_pool, true, &st, vm_exec);
-		if (g_vm.cycles == 94 || g_vm.cycles == 155)
-			dummy();
 		if (g_vm.current_cycles == g_vm.delta || g_vm.delta < 0)
 		{
-			process_dump();
+			/* process_dump(); */
 			process_cleanup();
-			usleep(5000);
 		}
+		ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles);
     }
+	/* ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles); */
 	unset_vm();
     return (st_succ);
 }
