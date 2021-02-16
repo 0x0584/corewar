@@ -21,7 +21,7 @@ void		live(t_proc proc)
 	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers)
 	{
 		g_vm.winner = id;
-		ft_printf("process %d said player (%d) (%d) is alive\n", proc->pid, id, arg_value(proc, 0, false));
+		ft_dprintf(g_fd, "process %d said player (%d) (%d) is alive\n", proc->pid, id, arg_value(proc, 0, false));
 	}
 }
 
@@ -33,5 +33,10 @@ void		zjmp(t_proc proc)
 
 void		aff(t_proc proc)
 {
-	ft_printf("AFF: %c\n", arg_value(proc, 0, false));
+	t_dir		c;
+
+	if (ft_isprint(c = arg_value(proc, 0, false)))
+		ft_printf("AFF: %c\n", c);
+	else
+		ft_printf("AFF: %x\n", c);
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:01:05 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 18:21:05 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:30:39 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static int		print_usage(void)
 
 static void		declare_winner(void)
 {
-	int i = 0;
-		ft_printf("delta %d winner %hhu %hhu\n", g_vm.delta, g_vm.winner, g_vm.nplayers);
+	int i;
 
+	i = 0;
+	ft_printf("delta %d winner %hhu %hhu\n", g_vm.delta, g_vm.winner, g_vm.nplayers);
 	while (i < g_vm.nplayers)
 	{
 		ft_printf("Player %d %s\n", i, g_vm.gladiators[i].prog_name);
@@ -37,15 +38,22 @@ static void		declare_winner(void)
 
 int				main(int argc, char *argv[])
 {
+	int ret;
+
+
 	if ((g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
 		return (EXIT_FAILURE);
-	else if (!parse_arguments(argc, argv))
-		print_usage();
-	else
+	else if (parse_arguments(argc, argv))
 	{
 		vm_loop();
 		declare_winner();
+		ret =  EXIT_SUCCESS;
+	}
+	else
+	{
+		print_usage();
+		ret = EXIT_FAILURE;
 	}
 	close(g_fd);
-    return (EXIT_SUCCESS);
+    return (ret);
 }

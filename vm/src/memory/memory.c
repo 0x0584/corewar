@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 18:44:42 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:33:52 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ)
 	assert(p != NULL);
 	j = 0;
 	i = (MEM_SIZE / g_vm.nplayers) * player_num;
-	p->prog = new_process(player_num, i);
-	p->prog->reg[1] = -(int)player_num;
+	p->prog = new_process(player_num + 1, i);
+	p->prog->reg[1] = -(int)(player_num + 1);
 	while (j < champ->prog_size)
 	{
-		/* set_color(player_num, i); */
+		set_color(player_num, i);
 		g_vm.arena[i++] = champ->file[j++];
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 17:43:54 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:39:02 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_st			verify_proc(t_proc p, void *arg)
 	else
 	{
 		*(t_st *)arg = st_succ;
-		/* ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.name, -p->op.cycles); */
+		ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.name, -p->op.cycles);
 		return (st_fail);
 	}
 }
@@ -39,20 +39,20 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	else if (vm_decode(proc, &op_arg_offset))
 	{
 		*(t_st *)arg = st_fail;
-		/* ft_dprintf(g_fd, ">> player %d: skip `%s` incorrect encoding!\n", proc->num, proc->op.name); */
+		ft_dprintf(g_fd, ">> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n", proc->num, proc->op.name);
 		move_pc(proc, op_arg_offset);
 		return (0);
 	}
 	else
 	{
 		*(t_st *)arg = st_succ;
-		/* ft_dprintf(g_fd, ">> player %d: `%s` has correct encoding\n", proc->num, proc->op.name); */
-		/* op_dump(&proc->op, true, true); */
+		ft_dprintf(g_fd, ">> player %d: `%s` has correct encoding\n", proc->num, proc->op.name);
+		op_dump(&proc->op, true, true);
 		proc->op.callback(proc);
 		if (proc->op.callback == zjmp)
 		{
 			g_jumped = true;
-			/* ft_dprintf(g_fd, ">> player %d g_jumped to address: %0#4x\n", proc->num, proc->pc); */
+			ft_dprintf(g_fd, ">> player %d g_jumped to address: %0#4x\n", proc->num, proc->pc);
 		}
 		return (op_arg_offset);
 	}
@@ -69,7 +69,7 @@ void				vm_exec(void *proc, void *arg)
 	else if (!g_jumped)
 	{
 		move_pc(proc, offset);
-		/* ft_dprintf(g_fd, ">> player %d: pc at address %0#4x\n", ((t_proc)proc)->num, ((t_proc)proc)->pc); */
+		ft_dprintf(g_fd, ">> player %d: pc at address %0#4x\n", ((t_proc)proc)->num, ((t_proc)proc)->pc);
 	}
 	set_nop(proc);
 }

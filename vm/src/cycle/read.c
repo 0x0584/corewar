@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 12:24:23 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:40:55 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void				vm_read(void *proc, void *arg)
 		set_nop(p);
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"player %d: %02x is not a valid operation, pc at %hu!\n",
+		ft_dprintf(g_fd ,"%{red_fg}player %d: %02x is not a valid operation, pc at %hu!%{reset}\n",
 				   p->num, g_vm.arena[p->pc], p->pc);
 	}
 	else if (!mem_at(p))
@@ -32,14 +32,14 @@ void				vm_read(void *proc, void *arg)
 		set_nop(p);
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"player %d: nop, pc at %hu\n", p->num, p->pc);
+		ft_dprintf(g_fd ,"%{cyan_fg}player %d: nop, pc at %hu%{reset}\n", p->num, p->pc);
 	}
 	else if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{
 		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;
 		*(t_st *)arg = st_succ;
-		/* ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles); */
+		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
 	}
 }
 
@@ -72,7 +72,7 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 		}
 		else
 		{
-			ft_dprintf(g_fd ,"invalid register (%08b) access\n", mem_deref(p, *offset));
+			ft_dprintf(g_fd ,"%{red_fg}invalid register (%08b) access%{reset}\n", mem_deref(p, *offset));
 			return (st_error);
 		}
 	else
@@ -99,7 +99,7 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 	}
 	else
 	{
-		ft_dprintf(g_fd ,"unknown encoding of arg %d", arg);
+		ft_dprintf(g_fd ,"%{red_fg}unknown encoding of arg %d%{reset}", arg);
 		return (st_fail);
 	}
 }
@@ -109,10 +109,10 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	t_st					st;
 
 	if (arg < p->op.nargs)
-		/* ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg)) */;
+		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
 	else
 	{
-		ft_dprintf(g_fd ," encoding is not padded (%02b)\n", op_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(p, arg));
 		return st_fail;
 	}
 	if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
@@ -123,7 +123,7 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	}
 	else
 	{
-		ft_dprintf(g_fd ," unexpected argument encoding %2b vs %8b\n", op_encoding(p, arg), op_meta_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(p, arg), op_meta_encoding(p, arg));
 		return st_fail;
 	}
 	return (st);
@@ -145,7 +145,7 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 		return (st_succ);
 	else
 	{
-		ft_dprintf(g_fd ," arguments are not padded (%08b)\n", op_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(p, arg));
 		return (st_fail);
 	}
 }
