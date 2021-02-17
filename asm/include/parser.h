@@ -13,9 +13,10 @@ typedef struct		s_operation
 
 t_st			read_file(const int ac, const char *av[]);
 
-t_st			parse_file(t_lst lines, const char *filename);
+t_st			parse_line(const char *line);
 t_st			parse_op(t_op *op, const char *buff);
 
+t_lst			parse_ops(t_lst lines);
 t_st			write_bin(t_lst ops, const char *out);
 
 #endif
