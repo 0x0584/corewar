@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 17:22:26 by archid-           #+#    #+#             */
+/*   Updated: 2021/02/17 17:50:27 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static t_champ	g_champ;
@@ -22,7 +34,7 @@ static char		*filename(const char *in)
 	}
 }
 
-static t_st match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *line)
+static t_st		match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *line)
 {
 	size_t			len;
 	size_t			i;
@@ -74,7 +86,7 @@ static t_st match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *li
 	}
 }
 
-static t_st match_name(const char *line)
+static t_st		match_name(const char *line)
 {
 	t_st			st;
 
@@ -94,7 +106,7 @@ static t_st match_name(const char *line)
 		return (st_fail);
 }
 
-static t_st match_comment(const char *line)
+static t_st		match_comment(const char *line)
 {
 	t_st			st;
 
@@ -114,7 +126,7 @@ static t_st match_comment(const char *line)
 		return (st_fail);
 }
 
-static t_st	parse_header(const char *line)
+static t_st		parse_header(const char *line)
 {
 	const char		*walk;
 	t_st			st;
@@ -138,7 +150,7 @@ static t_st	parse_header(const char *line)
 		return (g_header_status == 2 ? st_succ : st_error);
 }
 
-t_st		parse_line(char **line)
+t_st			parse_line(char **line)
 {
 	const char		*instr;
 	t_st			st;
@@ -176,23 +188,70 @@ static void		dump_line(void *str)
 	ft_printf("`%s`\n", str);
 }
 
+static t_st		compile(t_lst file, const char *outname)
+{
+	t_lst			ops;
+	t_st			st;
+
+	if ((ops = parse_ops(file)))
+	{
+		st = write_bin(ops, outname);
+		lst_del(&ops);
+		return st;
+	}
+	else
+		return st_error;
+}
+
+t_st			parse_op(t_blob *args, const char *buff)
+{
+
+	return st_error;
+}
+
+t_lst			parse_ops(t_lst lines)
+{
+	t_lst			ops;
+	t_lstnode		walk;
+	t_blob			blob;
+
+	ops = lst_alloc(blob_free);
+	walk = lst_front(lines);
+	while (walk)
+	{
+		if (parse_op(&blob, walk->blob))
+		{
+			lst_del(&ops);
+			break;
+		}
+		lst_node_forward(&walk);
+	}
+	return ops;
+}
+
+t_st			write_bin(t_lst ops, const char *out)
+{
+	return st_succ;
+}
+
 t_st			read_file(const int ac, const char *av[])
 {
+	t_lst			file;
+	int				fd;
 	char			*buff;
 	char			*outname;
-	int				fd;
-	t_lst			file;
+	t_st			st;
 
 	if (ac < 2)
 	{
-		ft_dprintf(2, "no file was provided to %s.", *av);
+		ft_dprintf(2, "no file was provided to %s.", av[0]);
 		return (st_error);
 	}
 	else if (!(outname = filename(av[1])))
 		return (st_error);
 	else if ((fd = open(av[1], O_RDONLY)) < 0)
 	{
-		ft_dprintf(2, "no file was provided to %s.", *av);
+		ft_dprintf(2, "cannot open file", av[1]);
 		return (st_fail);
 	}
 	else
@@ -203,19 +262,11 @@ t_st			read_file(const int ac, const char *av[])
 				free(buff);
 			else
 				lst_push_back_blob(file, buff, sizeof(char *), false);
-		ft_printf("name: `%s`\ncomment: `%s`\n", g_name, g_champ.comment);
-		lst_iter(file, true, dump_line);
-		exit(0);
-		return (write_bin(parse_ops(file), outname));
+		gnl_clean(fd);
+		st = compile(file, outname);
+		lst_del(&file);
+		free(outname);
+		close(fd);
+		return st;
 	}
-}
-
-t_lst			parse_ops(t_lst lines)
-{
-	return (NULL);
-}
-
-t_st			write_bin(t_lst ops, const char *out)
-{
-	return st_succ;
 }

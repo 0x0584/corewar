@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/12 10:59:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/17 17:53:07 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,46 @@ typedef union				u_blob
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 
-extern const char	*g_op_names[op_count];
+typedef struct s_op_info
+{
+	/**
+	** \brief operation name as a string used to log the current operation
+	*/
+	const char			*name;
+
+	/**
+	** \brief a singular argument type require at most 4-bits to be stored
+	**
+	**   hence 3-Bytes should handle `MAX_ARGS_NUMBER`. the remainning Bytez
+	**   indicates the number an operation takes, the the chunk size.
+	**
+	**   Also, if the operation is encoded and if it is a long operation.
+	**
+	**    padding  chunk size  encoded  long           args
+	**    [00000]  [0]         [0]      [0]    [0000 | 0000 | 0000]
+	**
+	**   meta has little endianess
+	**
+	** \see op.h
+	*/
+	const t_op_meta		meta;
+
+
+	/**
+	** \brief operation docs
+	*/
+	const char			*doc;
+
+	/**
+    ** \brief global arguments for operations
+	**
+	**   the size of 32-bit is at most the size required by all opearations
+	**
+	** \see op.h
+	*/
+	t_blob				args;
+}					t_op_info;
+
+extern const t_op_info g_ops[op_count];
 
 #endif
