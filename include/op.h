@@ -18,6 +18,11 @@
 # include "hash.h"
 # include "lst.h"
 
+# define LONG_OP						true
+# define ENC							true
+# define SHORT							true
+# define CARRY							true
+
 /**
 ** \brief all operations have a `callback` function
 **
@@ -192,7 +197,7 @@ typedef struct s_op_info
 	** \brief operation name as a string used to log the current operation
 	*/
 	const char			*name;
-
+  
 	/**
 	** \brief a singular argument type require at most 4-bits to be stored
 	**
@@ -210,12 +215,11 @@ typedef struct s_op_info
 	*/
 	const t_op_meta		meta;
 
-
 	/**
-	** \brief operation docs
-	*/
-	const char			*doc;
-
+	** \brief number of argument takes by the operation
+    */
+	const t_u8			nargs;
+  
 	/**
     ** \brief global arguments for operations
 	**
@@ -224,8 +228,23 @@ typedef struct s_op_info
 	** \see op.h
 	*/
 	t_blob				args;
+
+	/**
+	** \brief some operation does *not* have a parameter encoding byte
+	*/
+	t_op_encoding		encoded;
+  
+	/**
+	** \brief operation docs
+	*/
+	const char			*doc;  
 }					t_op_info;
 
+/**
+** \brief operation interact with the VM's memory address range `arena`
+** by either reading or writing to it. they also interact with process
+** and might read/alter program counter and carry
+*/
 extern const t_op_info g_ops[op_count];
 
 #endif

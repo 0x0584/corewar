@@ -14,11 +14,6 @@
 #include "builtin.h"
 #include "process.h"
 
-#define LONG_OP							true
-#define ENC								true
-#define SHORT							true
-#define CARRY							true
-
 void				op_dump(const t_op *op, bool dump_args, bool dump_verbose)
 {
 	t_arg arg;
@@ -54,28 +49,28 @@ void				op_dump(const t_op *op, bool dump_args, bool dump_verbose)
 	ft_dprintf(g_fd, " ###\n");
 }
 
-t_op		g_ops[op_count] = {
-	[op_live]	=	 {"live",       live,	10,	   1,    .meta.of = {T_DIR,				    T_PAD,				    T_PAD,		 	  LONG_OP, !ENC, !SHORT, !CARRY, T_PAD}, "annouce player asnumber of first argument as alive, forwhich the process remaine on cycle by the vm"},
+/* t_op		g_ops[op_count] = { */
+/* 	[op_live]	=	 {"live",       live,	10,	   1,    .meta.of = {T_DIR,				    T_PAD,				    T_PAD,		 	  LONG_OP, !ENC, !SHORT, !CARRY, T_PAD}, "annouce player asnumber of first argument as alive, forwhich the process remaine on cycle by the vm"}, */
 
-	[op_zjmp]	=	 {"zjmp",		zjmp,	20,	   1, 	 .meta.of = {T_DIR,			        T_PAD,			        T_PAD,           !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "if the carry is set, jump to the address at the argument"},
+/* 	[op_zjmp]	=	 {"zjmp",		zjmp,	20,	   1, 	 .meta.of = {T_DIR,			        T_PAD,			        T_PAD,           !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "if the carry is set, jump to the address at the argument"}, */
 
-	[op_add]	=	 {"add",		add,	10,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "add the first two arguments and put result in the 3rd"},
-	[op_sub]	=	 {"sub",		sub,	10,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
-	[op_and]	=	 {"and",		and,    6,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
-	[op_or]		=	 {"or",			or,	    6,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
-	[op_xor]	=	 {"xor",		xor,    6,	   3,    .meta.of = {T_REG,					T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"},
+/* 	[op_add]	=	 {"add",		add,	10,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "add the first two arguments and put result in the 3rd"}, */
+/* 	[op_sub]	=	 {"sub",		sub,	10,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"}, */
+/* 	[op_and]	=	 {"and",		and,    6,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"}, */
+/* 	[op_or]		=	 {"or",			or,	    6,	   3,    .meta.of = {T_REG,			        T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"}, */
+/* 	[op_xor]	=	 {"xor",		xor,    6,	   3,    .meta.of = {T_REG,					T_REG,			        T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "ALU"}, */
 
-	[op_ld]		=	 {"ld",	        ld,		5,	   2,    .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			 !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "load from argument to register, set carry if loaded zero"},
-	[op_st]		=	 {"st",			st,		5,	   2,	 .meta.of = {T_REG,					T_IND | T_REG,			T_PAD,           !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "set memory value from the register"},
-	[op_ldi]	=	 {"ldi",		ldi,    25,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,			T_REG,           !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same as ld but can address a further range"},
-	[op_sti]	=	 {"sti",		sti,	25,	   3,    .meta.of = {T_REG,					T_REG | T_DIR | T_IND,  T_DIR | T_REG,   !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same concept of ldi applied on st"},
-	[op_lld]	=	 {"lld",		lld,	10,    2,	 .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			  LONG_OP,  ENC ,!SHORT,  CARRY, T_PAD}, "same as normal ld, but does not the memory restriction of IDX_MOD"},
-	[op_lldi]	=	 {"lldi",		lldi,	50,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,	    	T_REG,			  LONG_OP,  ENC,  SHORT,  CARRY, T_PAD}, "same as lldi, but also does not have the memory restriction of IDX_MOD"},
+/* 	[op_ld]		=	 {"ld",	        ld,		5,	   2,    .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			 !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, "load from argument to register, set carry if loaded zero"}, */
+/* 	[op_st]		=	 {"st",			st,		5,	   2,	 .meta.of = {T_REG,					T_IND | T_REG,			T_PAD,           !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "set memory value from the register"}, */
+/* 	[op_ldi]	=	 {"ldi",		ldi,    25,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,			T_REG,           !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same as ld but can address a further range"}, */
+/* 	[op_sti]	=	 {"sti",		sti,	25,	   3,    .meta.of = {T_REG,					T_REG | T_DIR | T_IND,  T_DIR | T_REG,   !LONG_OP,  ENC,  SHORT, !CARRY, T_PAD}, "same concept of ldi applied on st"}, */
+/* 	[op_lld]	=	 {"lld",		lld,	10,    2,	 .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			  LONG_OP,  ENC ,!SHORT,  CARRY, T_PAD}, "same as normal ld, but does not the memory restriction of IDX_MOD"}, */
+/* 	[op_lldi]	=	 {"lldi",		lldi,	50,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,	    	T_REG,			  LONG_OP,  ENC,  SHORT,  CARRY, T_PAD}, "same as lldi, but also does not have the memory restriction of IDX_MOD"}, */
 
-	[op_fork]	=	 {"fork",		fork_,	800,   1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			 !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "creates a new process with program counter at the given argument"},
-	[op_lfork]	=	 {"lfork",		lfork,	1000,  1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			  LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "same a normal fork, but it has no memory restriction on the argument"},
+/* 	[op_fork]	=	 {"fork",		fork_,	800,   1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			 !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "creates a new process with program counter at the given argument"}, */
+/* 	[op_lfork]	=	 {"lfork",		lfork,	1000,  1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			  LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "same a normal fork, but it has no memory restriction on the argument"}, */
 
-	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,					T_PAD,			        T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"},
+/* 	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,					T_PAD,			        T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"}, */
 
-	[op_nop] = { .name = "nop", .callback = nop, .doc = "(0x0) no operation" },
-};
+/* 	[op_nop] = { .name = "nop", .callback = nop, .doc = "(0x0) no operation" }, */
+/* }; */

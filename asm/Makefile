@@ -18,8 +18,6 @@ INC_DIR		?= include
 SRC_DIR		?= src
 OBJ_DIR		?= .obj
 
-GRN			 = \033[0;35m[o]\033[0m
-
 CFLAGS		+= -I$(INC_DIR)
 LDFLAGS		+= -lncurses
 
@@ -27,6 +25,8 @@ SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
 OBJS		:= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
+
+GRN			 = \033[0;35m[o]\033[0m
 
 all: setup $(NAME)
 
@@ -37,7 +37,7 @@ setup:
 	@printf "\033[0;35mLDFLAGS\033[0m = $(LDFLAGS)\n"
 	@echo
 
-$(NAME): $(OBJS)
+$(NAME): $(DEPS) $(OBJS) 
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	@printf "\n$(GRN) built $(NAME).\n"
 
@@ -58,15 +58,4 @@ build:
 	@rm -rf $(OBJ_DIR) $(NAME)
 	@make
 
-distcheck:
-	@$(CC) -v
-	@$(LD) -v
-	@git --version
-	@uname -a
-
-check: all
-
-test: all
-	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
-
-.PHONY: all clean fclean re test check distcheck ft
+.PHONY: all clean fclean re build

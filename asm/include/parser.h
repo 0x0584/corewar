@@ -12,6 +12,6 @@ t_st			parse_op(t_blob *args, const char *buff);
 t_lst			parse_ops(t_lst lines);
 t_st			write_bin(t_lst ops, const char *out);
 
-extern t_hash	g_ops;
+extern t_hash	g_op_lookup;
 
 #endif

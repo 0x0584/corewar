@@ -26,3 +26,4 @@ CFLAGS		          += -Wall -Wextra -Wpedantic
 CFLAGS		          += -I$(DEPS_DIR) -I$(FT_DIR)
 
 LDFLAGS				   = -lft -L$(FT_DIR)
+

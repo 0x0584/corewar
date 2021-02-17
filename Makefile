@@ -12,7 +12,7 @@
 
 include config.mk
 
-all: $(LIBFT) $(DEPS) vm asm
+all: $(LIBFT) $(DEPS) asm vm
 
 $(DEPS_DIR)/%.o: $(DEPS_DIR)/%.c $(LIBFT)
 	@echo "compiling $<.."
@@ -41,4 +41,15 @@ fclean:
 
 re: fclean all
 
-.PHONY: all re clean fclean vm asm
+distcheck:
+	@$(CC) -v
+	@$(LD) -v
+	@git --version
+	@uname -a
+
+check: all
+
+test: all
+	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
+
+.PHONY: all re clean fclean vm asm distcheck check test
