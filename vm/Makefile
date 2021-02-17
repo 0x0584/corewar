@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/11 17:28:21 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/17 16:02:03 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ OBJ_DIR		?= .obj
 
 GRN			 = \033[0;35m[o]\033[0m
 
-CFLAGS		+= -I$(INC_DIR) 
+CFLAGS		+= -I$(INC_DIR)
 LDFLAGS		+= -lncurses
 
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
@@ -31,9 +31,11 @@ HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 all: setup $(NAME)
 
 setup:
+	@echo
 	@printf "\033[0;35mCC\033[0m      = $(CC)\n"
 	@printf "\033[0;35mCFLAGS\033[0m  = $(CFLAGS)\n"
 	@printf "\033[0;35mLDFLAGS\033[0m = $(LDFLAGS)\n"
+	@echo
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
