@@ -6,18 +6,16 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:22:26 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/17 17:50:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 16:08:15 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "op_impl.h"
 
 static t_champ	g_champ;
 static int		g_header_status = 0;
 static t_u8		g_name[PROG_NAME_LENGTH + 1];
-static char		g_comment_prefix[] = {
-	COMMENT_CHAR, ';', '\0'
-};
 
 static char		*filename(const char *in)
 {
@@ -150,6 +148,16 @@ static t_st		parse_header(const char *line)
 		return (g_header_status == 2 ? st_succ : st_error);
 }
 
+bool			delimiter(t_deli d)
+{
+	return d != deli_unknown;
+}
+
+static t_deli		is_comment_char(t_deli d)
+{
+	return (d == deli_eol || d == deli_comment || d == deli_asm_comment ? d : deli_unknown) ;
+}
+
 t_st			parse_line(char **line)
 {
 	const char		*instr;
@@ -163,23 +171,26 @@ t_st			parse_line(char **line)
 		return (st_fail);
 	else
 	{
-		if (ft_strchr(g_comment_prefix, *line[0]))
+		if (delimiter(is_comment_char(*line[0])))
 			return (st_fail);
 		else
+			return (st_error);
+		instr = *line;
+		while (*instr && ft_isspace(*instr))
+			instr++;
+		if (!*instr)
+			return st_fail;
+		while (*instr)
 		{
-			instr = *line;
-			while (*instr)
+			if (is_comment_char(*instr))
 			{
-				if (ft_strchr(g_comment_prefix, *instr))
-				{
-					ft_strchange(line, ft_strrdup(*line, instr));
-					break;
-				}
-				else
-					instr++;
+				ft_strchange(line, ft_strrdup(*line, instr));
+				break;
 			}
-			return (st_succ);
+			else
+				instr++;
 		}
+		return (st_succ);
 	}
 }
 
@@ -203,27 +214,145 @@ static t_st		compile(t_lst file, const char *outname)
 		return st_error;
 }
 
-t_st			parse_op(t_blob *args, const char *buff)
+static t_st		parse_label(const char *line, const char **op_start, const t_op *op)
+{
+	const char	*tmp;
+	const char	*walk;
+	char		*label;
+	t_st		st;
+
+	if (*line == LABEL_CHAR)
+	{
+		ft_dprintf(2, "empty label is illegal\n");
+		return st_error;
+	}
+	if (!(tmp = ft_strchr(line, LABEL_CHAR)))
+		return st_fail;
+	walk = line;
+	while (walk != tmp)
+	{
+		if (!ft_strchr(LABEL_CHARS, *walk))
+		{
+			ft_dprintf(2, "label contains illigale characters\n");
+			return st_error;
+		}
+		walk++;
+	}
+	if (!hash_add(g_labels, label = ft_strrdup(line, tmp - 1), op))
+	{
+		ft_dprintf(2, "duplicated labet\n");
+		st = st_error;
+	}
+	else
+	{
+		st = st_succ;
+		*op_start = walk;
+	}
+	free(label);
+	return st;
+}
+
+/* ------------------------------------------------------------ */
+
+static char		op_str[5];
+
+static void		find_op(const char *key, void *blob, void *arg)
+{
+	if (((t_pair *)arg)->first)
+		return ;
+	else if (!ft_strcmp(key, op_str))
+	{
+		((t_op *)((t_pair *)arg)->second)->info = *(t_op_info *)blob;
+		((t_pair *)arg)->first = ((t_pair *)arg)->second;
+	}
+}
+
+static void		skip_whitespace(const char **ptr)
+{
+	if (ptr && *ptr)
+		while (ft_isspace(**ptr))
+			*ptr += 1;
+}
+
+static t_deli	check_prefix(t_deli d)
 {
 
-	return st_error;
+}
+
+static t_st		fetch_arg(t_op *op, const char **arg_line)
+{
+
+	return st_succ;
+}
+
+static t_st		fetch_args(t_op *op, const char *args_line)
+{
+	t_arg			arg;
+	t_st			st;
+
+	while (*args_line && ft_isspace(*args_line))
+		args_line++;
+	arg = 0;
+	while (arg < op->info.nargs)
+	{
+		if ((st = fetch_arg(op, &args_line)))
+			return st;
+		arg++;
+	}
+	return st_succ;
+}
+
+static t_st		parse_op(t_op *op, const char *buff)
+{
+	const char	*spc;
+	t_pair		op_fetcher;
+
+	skip_whitespace(&buff);
+	if (!*buff)
+	{
+		ft_dprintf(2, " >> empty line\n");
+		return st_fail;
+	}
+	else if (!(spc = ft_strchr(buff, ' ')))
+	{
+		ft_dprintf(2, "no arguments are found\n");
+		return st_error;
+	}
+
+	ft_bzero(op_str, 5);
+	ft_strncpy(op_str, buff, min(spc - buff - 1, 4));
+	op_fetcher = (t_pair){NULL, op};
+	hash_iter_arg(g_op_lookup, &op_fetcher, find_op);
+	if (op_fetcher.first)
+		return fetch_args(op, spc);
+	else
+	{
+		ft_dprintf(2, "unknow operation `%s`\n", op_str);
+		return st_error;
+	}
 }
 
 t_lst			parse_ops(t_lst lines)
 {
 	t_lst			ops;
 	t_lstnode		walk;
-	t_blob			blob;
+	t_op			*op;
+	const char		*op_at;
+
+	t_st			st;
 
 	ops = lst_alloc(blob_free);
 	walk = lst_front(lines);
 	while (walk)
 	{
-		if (parse_op(&blob, walk->blob))
+		if (parse_label(walk->blob, &op_at, op = ft_calloc(1, sizeof(t_op))) == st_error ||
+			(st = parse_op(op, op_at)) == st_error)
 		{
 			lst_del(&ops);
 			break;
 		}
+		else if (st == st_succ)
+			lst_push_back_blob(ops, op, sizeof(t_op), false);
 		lst_node_forward(&walk);
 	}
 	return ops;
@@ -270,3 +399,5 @@ t_st			read_file(const int ac, const char *av[])
 		return st;
 	}
 }
+
+t_hash			g_labels = NULL;

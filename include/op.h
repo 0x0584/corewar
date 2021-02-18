@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/17 17:53:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 15:16:55 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@
 */
 enum						e_operations
 {
-	op_nop,			op_live,       op_ld,
-	op_st,      	op_add,        op_sub,
-	op_and,     	op_or,         op_xor,
-	op_zjmp,    	op_ldi,        op_sti,
-	op_fork,    	op_lld,        op_lldi,
-	op_lfork,   	op_aff,
+	op_nop,			op_live,	   op_ld,
+	op_st,			op_add,		   op_sub,
+	op_and,			op_or,		   op_xor,
+	op_zjmp,		op_ldi,		   op_sti,
+	op_fork,		op_lld,		   op_lldi,
+	op_lfork,		op_aff,
 
 	op_count
 };
@@ -43,75 +43,75 @@ enum						e_operations
 /**
 ** \brief all information about the operation
 **
-**   the arguments and if it is encoded, chunk_size
+**	 the arguments and if it is encoded, chunk_size
 */
 typedef union				u_op_meta
 {
 	/**
 	** \brief the encoding used a 16-bit little endian integer
 	**
-	**   this is defined only in the code base and doesn't *not* relate to
-	**   the actual binary (`.cor` file)
+	**	 this is defined only in the code base and doesn't *not* relate to
+	**	 the actual binary (`.cor` file)
 	*/
 	t_u16		meta;
 
 	/**
 	** \brief meta data of the opeartion
-    */
+	*/
 	struct					s_meta
 	{
 		/**
 		** \brief expected type for the first argument
 		**
 		**	all operations hat least one argument
-	    */
+		*/
 		t_u8		arg1_t:4;
 
 		/**
 		** \brief type of the second argument
 		**
-		**   some oprations have only two arguments
-		**   the third is used along as a type extension
-	    */
+		**	 some oprations have only two arguments
+		**	 the third is used along as a type extension
+		*/
 		t_u8		arg2_t:4;
 
 		/**
 		** \brief third argument type
 		**
 		**	all operations hat least one argument
-	    */
+		*/
 		t_u8		arg3_t:4;
 
 		/**
 		** \brief some operations access a memory range with an `IDX_MOD`.
 		** Long opeartions does't not.
-	    */
-	    bool		long_op:1;
+		*/
+		bool		long_op:1;
 
 		/**
-	    ** \brief all operations have an encoding byte
+		** \brief all operations have an encoding byte
 		**
-		**   *except* `op_zjmp`, `op_live`, `op_fork`, `op_lfork`
+		**	 *except* `op_zjmp`, `op_live`, `op_fork`, `op_lfork`
 		*/
-	    bool		encoded:1;
+		bool		encoded:1;
 
 		/**
 		** \brief some chunks read a short, some read `REG_SIZE`
 		**
-		**   `op_zjmp`, `op_live`, `op_fork`, `op_lfork` have a `SHORT_CHUNK`
-	    */
-	    bool		short_chunk:1;
+		**	 `op_zjmp`, `op_live`, `op_fork`, `op_lfork` have a `SHORT_CHUNK`
+		*/
+		bool		short_chunk:1;
 
 		/**
 		** \brief only certain opeartions modify the carry
 		**
-		**   namely ALU and read operations
-	    */
+		**	 namely ALU and read operations
+		*/
 		bool		carry:1;
 
 		/**
 		** \brief complete a full 16-bit word
-	    */
+		*/
 		t_u8		padding:4;
 	}			of;
 }							t_op_meta;
@@ -136,7 +136,7 @@ typedef union				u_op_encoding
 	/**
 	** \brief operation that takes one argument does *not* have an ecoding byte
 	**
-	**   except `aff`
+	**	 except `aff`
 	*/
 	t_u8		encod;
 
@@ -165,12 +165,12 @@ typedef union				u_blob
 	 */
 	t_s32		v[MAX_ARGS_NUMBER];
 
-	union				    u_chunk
+	union					u_chunk
 	{
 		/**
 		** \brief arguments value is reversed because the encoding byte
 		** is big endian
-	    */
+		*/
 		struct				s_fragment
 		{
 			t_u8		byte_1;
@@ -197,19 +197,19 @@ typedef struct s_op_info
 	** \brief operation name as a string used to log the current operation
 	*/
 	const char			*name;
-  
+
 	/**
 	** \brief a singular argument type require at most 4-bits to be stored
 	**
-	**   hence 3-Bytes should handle `MAX_ARGS_NUMBER`. the remainning Bytez
-	**   indicates the number an operation takes, the the chunk size.
+	**	 hence 3-Bytes should handle `MAX_ARGS_NUMBER`. the remainning Bytez
+	**	 indicates the number an operation takes, the the chunk size.
 	**
-	**   Also, if the operation is encoded and if it is a long operation.
+	**	 Also, if the operation is encoded and if it is a long operation.
 	**
-	**    padding  chunk size  encoded  long           args
-	**    [00000]  [0]         [0]      [0]    [0000 | 0000 | 0000]
+	**	  padding  chunk size  encoded	long		   args
+	**	  [00000]  [0]		   [0]		[0]	   [0000 | 0000 | 0000]
 	**
-	**   meta has little endianess
+	**	 meta has little endianess
 	**
 	** \see op.h
 	*/
@@ -217,13 +217,13 @@ typedef struct s_op_info
 
 	/**
 	** \brief number of argument takes by the operation
-    */
+	*/
 	const t_u8			nargs;
-  
+
 	/**
-    ** \brief global arguments for operations
+	** \brief global arguments for operations
 	**
-	**   the size of 32-bit is at most the size required by all opearations
+	**	 the size of 32-bit is at most the size required by all opearations
 	**
 	** \see op.h
 	*/
@@ -233,11 +233,11 @@ typedef struct s_op_info
 	** \brief some operation does *not* have a parameter encoding byte
 	*/
 	t_op_encoding		encoded;
-  
+
 	/**
 	** \brief operation docs
 	*/
-	const char			*doc;  
+	const char			*doc;
 }					t_op_info;
 
 /**

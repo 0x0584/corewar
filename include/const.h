@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 08:33:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/06 12:00:10 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 15:28:39 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,11 @@ typedef enum				e_state
     */
     st_fail
 }							t_st;
+
+typedef struct				pair
+{
+	void			*first;
+	void			*second;
+}							t_pair;
 
 #endif
