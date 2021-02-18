@@ -27,8 +27,10 @@ void		live(t_proc proc)
 
 void		zjmp(t_proc proc)
 {
-	if (proc->carry)
+	{
+		if (proc->carry)
 		proc->pc = shift_pc(proc, arg_value(proc, 0, false));
+	}
 }
 
 void		aff(t_proc proc)

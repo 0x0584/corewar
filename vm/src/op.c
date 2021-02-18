@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:02:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 17:44:47 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 18:10:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_op		g_ops[op_count] = {
 	[op_lld]	=	 {"lld",		lld,	10,    2,	 .meta.of = {T_DIR | T_IND,			T_REG,					T_PAD,			  LONG_OP,  ENC ,!SHORT,  CARRY, T_PAD}, "same as normal ld, but does not the memory restriction of IDX_MOD"},
 	[op_lldi]	=	 {"lldi",		lldi,	50,	   3,	 .meta.of = {T_REG | T_DIR | T_IND, T_DIR | T_REG,	    	T_REG,			  LONG_OP,  ENC,  SHORT,  CARRY, T_PAD}, "same as lldi, but also does not have the memory restriction of IDX_MOD"},
 
-	[op_fork]	=	 {"fork",		fork_,	800,   1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			 !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "creates a new process with program counter at the given argument"},
+	[op_fork]	=	 {"fork",		fork_,	2,   1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			 !LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "creates a new process with program counter at the given argument"},
 	[op_lfork]	=	 {"lfork",		lfork,	1000,  1,	 .meta.of = {T_DIR,					T_PAD,			    	T_PAD,			  LONG_OP, !ENC,  SHORT, !CARRY, T_PAD}, "same a normal fork, but it has no memory restriction on the argument"},
 
 	[op_aff]	=	 {"aff",		aff,	2,	   1,	 .meta.of = {T_REG,					T_PAD,			        T_PAD,			 !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, "show a character as ascii"},

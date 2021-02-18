@@ -6,12 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 18:25:17 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/16 18:27:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 17:28:53 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "process.h"
+
+int			g_fd_check;
 
 static void kill_process(void)
 {
@@ -39,15 +41,21 @@ static void kill_process(void)
 
 static void check_vm(void)
 {
+
+	ft_dprintf(g_fd_check, "Cycle %d: ", g_vm.cycles);
 	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks + 1 == MAX_CHECKS)
 	{
+		g_vm.lives = 0;
 		g_vm.n_checks = 0;
 		g_vm.delta -= CYCLE_DELTA;
+		ft_dprintf(g_fd_check, " new delta %hd\n", g_vm.delta);
 	}
 	else
+	{
 		g_vm.n_checks++;
+		ft_dprintf(g_fd_check, " check number: %hhu\n", g_vm.n_checks);
+	}
 	g_vm.current_cycles = 0;
-	g_vm.lives = 0;
 }
 
 void		process_cleanup(void)

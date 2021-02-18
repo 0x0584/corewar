@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 17:14:34 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 16:59:35 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct		s_vm
     t_memory	arena;
 
     /**
-    ** \brief Arena Memory colors
+	 ** \brief Arena Memory colors
     ** \see draw.h
     */
     t_memory	colors;

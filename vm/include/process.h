@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/14 16:17:24 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/18 16:49:43 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,5 @@ extern pid_t				g_pid;
 */
 extern t_lst				g_pool;
 
+extern int					g_fd_check;
 #endif
