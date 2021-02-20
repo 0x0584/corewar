@@ -23,11 +23,11 @@ $(LIBFT): $(FT_HEADERS)
 
 vm: $(DEPS)
 	@echo building $(VM_DIR)
-	@make all -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@make -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 asm: $(DEPS)
 	@echo building $(ASM_DIR)
-	@make all -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@make -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 clean:
 	@make clean -C $(FT_DIR)  > /dev/null

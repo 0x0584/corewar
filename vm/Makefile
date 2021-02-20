@@ -30,6 +30,8 @@ HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 
 GRN			 = \033[0;35m[o]\033[0m
 
+none:
+
 all: setup $(NAME)
 
 setup:

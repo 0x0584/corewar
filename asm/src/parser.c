@@ -6,12 +6,27 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:22:26 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/19 16:58:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/20 17:46:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "op_impl.h"
+
+t_st			skip_whitespace(const char **ptr)
+{
+	if (ptr && *ptr && **ptr)
+	{
+		while (ft_isspace(**ptr))
+			*ptr += 1;
+		return (st_succ);
+	}
+	else
+	{
+		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
+		return (st_error);
+	}
+}
 
 static t_st		parse_header(const char *line)
 {
@@ -97,7 +112,7 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 	}
 	if (!hash_add(g_labels, label = ft_strrdup(line, tmp - 1), op))
 	{
-		ft_dprintf(2, "duplicated labet\n");
+		ft_dprintf(2, "duplicated label\n");
 		st = st_error;
 	}
 	else
@@ -106,7 +121,7 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 		*op_start = walk;
 	}
 	free(label);
-	return st;	
+	return st;
 }
 
 t_lst			parse_ops(t_lst lines)
@@ -133,6 +148,11 @@ t_lst			parse_ops(t_lst lines)
 		lst_node_forward(&walk);
 	}
 	return ops;
+}
+
+t_st		parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
+{
+
 }
 
 t_hash			g_labels = NULL;
