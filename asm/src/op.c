@@ -15,6 +15,13 @@
 
 static char		op_str[MAX_OP_NAME];
 
+static void		skip_whitespace(const char **ptr)
+{
+	if (ptr && *ptr)
+		while (ft_isspace(**ptr))
+			*ptr += 1;
+}
+
 static void		find_op(const char *key, void *blob, void *arg)
 {
 	if (((t_pair *)arg)->first)
@@ -27,39 +34,102 @@ static void		find_op(const char *key, void *blob, void *arg)
 	}
 }
 
-static void		skip_whitespace(const char **ptr)
+
+static inline t_u8		arg_valid_types(const t_op *op, t_arg arg)
 {
-	if (ptr && *ptr)
-		while (ft_isspace(**ptr))
-			*ptr += 1;
+	if (arg == 0)
+		return op->info.meta.of.arg1_t;
+	else if (arg == 1)
+		return op->info.meta.of.arg2_t;
+	else if (arg == 2)
+		return op->info.meta.of.arg3_t;
+	else
+		return op->info.meta.of.padding;
 }
 
-static t_deli	check_prefix(t_deli d)
+static t_st		read_arg_type(const t_op *op, const char **arg_line, t_arg *out_type)
 {
-
+	const char *ptr;
+	char reg[3];
+	
+	if (!*(ptr = *arg_line))
+	{
+		ft_dprintf(2, " end of line while expecting argument \n");		
+		return st_error;
+	}
+	else if (*ptr == deli_reg)
+	{
+		if (!ft_isdigit(reg[0] = *++ptr))
+		{
+			ft_dprintf(2, " register is invalide \n");					
+			return st_error;
+		}
+	}
+	else if (*ptr == DIRECT_CHAR)
+	{
+		if (*++ptr == LABEL_CHAR)
+		{
+			*out_type = T_LAB;
+		}
+		else
+		{
+ 			*out_type = T_DIR;			
+		}
+	}
+	else		
+	{
+		if (*++ptr == LABEL_CHAR)
+		{
+			*out_type = T_LAB;			
+		}
+		else
+		{
+			*out_type = T_IND;						
+		}		
+	}
+	return st_fail;
 }
 
-static t_st		fetch_arg(t_op *op, const char **arg_line)
+static t_st		fetch_arg(t_op *op, t_arg arg, const char **arg_line)
 {
-
-	return st_succ;
+	t_arg			type;
+	t_st			st;
+	
+	ft_dprintf(2, " reading argument %hhu of operation %s at `%s`\n",
+			   op->info.name, arg, arg_line);
+	if ((st = read_arg_type(op, arg_line, &type)))
+		return st;
+	else if (arg_valid_types(op, arg) | type)
+	{
+		op->info.args.v[arg];
+		return st_succ;		
+	}
+	else
+	{
+		ft_dprintf(2, " argument %hhu accept types %04b\n", arg, arg_valid_types(op, arg));		
+		return st_fail;		
+	}
 }
 
-static t_st		fetch_args(t_op *op, const char *args_line)
+static t_st		fetch_op_args(t_op *op, const char *args_line)
 {
 	t_arg			arg;
 	t_st			st;
 
-	while (*args_line && ft_isspace(*args_line))
-		args_line++;
 	arg = 0;
+	ft_dprintf(2, " fetching args for `%s`\n", args_line);
+	skip_whitespace(&args_line);
 	while (arg < op->info.nargs)
+		if ((st = fetch_arg(op, arg++, &args_line)))
+			return (st);
+	
+	if (*args_line)
 	{
-		if ((st = fetch_arg(op, &args_line)))
-			return st;
-		arg++;
+		ft_dprintf(2, " operetaion arguments exceeded : `%s`\n", args_line);
+		return st_fail;
 	}
-	return st_succ;
+	else
+		return st_succ;
 }
 
 t_st			parse_op(t_op *op, const char *buff)
@@ -84,11 +154,11 @@ t_st			parse_op(t_op *op, const char *buff)
 	op_fetcher = (t_pair){NULL, op};
 	hash_iter_arg(g_op_lookup, &op_fetcher, find_op);
 	if (op_fetcher.first)
-		return fetch_args(op, spc);
+		return (fetch_op_args(op, spc));
 	else
 	{
 		ft_dprintf(2, "unknow operation `%s`\n", op_str);
-		return st_error;
+		return (st_error);
 	}
 }
 

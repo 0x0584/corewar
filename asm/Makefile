@@ -26,15 +26,22 @@ OBJS		:= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 
-GRN			 = \033[0;35m[o]\033[0m
+ifeq ($(COLORED), 1)
+    GRN		= \033[0;35m[o]\033[0m
+
+    YLW		= \033[0;33m[o]\033[0m
+    MGNT    = \033[0;35m
+    RESET   = \033[0m
+endif
+
 
 all: setup $(NAME)
 
 setup:
 	@echo
-	@printf "\033[0;35mCC\033[0m      = $(CC)\n"
-	@printf "\033[0;35mCFLAGS\033[0m  = $(CFLAGS)\n"
-	@printf "\033[0;35mLDFLAGS\033[0m = $(LDFLAGS)\n"
+	@printf "$(MGNT)CC$(RESET)      = $(CC)\n"
+	@printf "$(MGNT)CFLAGS$(RESET)  = $(CFLAGS)\n"
+	@printf "$(MGNT)LDFLAGS$(RESET) = $(LDFLAGS)\n"
 	@echo
 
 $(NAME): $(DEPS) $(OBJS) 

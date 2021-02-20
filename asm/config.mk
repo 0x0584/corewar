@@ -1,4 +1,5 @@
 DEBUG		          ?= 1
+COLORED				  ?= 0
 
 VM_DIR				   = vm
 ASM_DIR				   = asm
@@ -23,6 +24,6 @@ else
 endif
 
 CFLAGS		          += -Wall -Wextra -Wpedantic
-CFLAGS		          += -I$(DEPS_DIR) -I$(FT_DIR)
+CFLAGS		          += -I$(FT_DIR) -I$(DEPS_DIR)
 
 LDFLAGS				   = -lft -L$(FT_DIR)

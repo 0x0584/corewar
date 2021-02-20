@@ -21,3 +21,9 @@ bool		is_comment_char(t_deli d)
 {
 	return (d == deli_eol || d == deli_comment || d == deli_asm_comment);
 }
+
+
+static t_deli	check_prefix(t_deli d)
+{
+
+}

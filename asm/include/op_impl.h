@@ -35,8 +35,8 @@ typedef union	u_args_base
 
 typedef struct	s_operation
 {
-	const t_op_info		info;
-	t_u16				addr;
+	t_op_info			info;
+	t_u16				labels[MAX_ARGS_NUMBER];
 }				t_op;
 
 t_st			write_op(t_op *op, t_u8 *buff, t_u16 size);

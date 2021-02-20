@@ -106,7 +106,7 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 		*op_start = walk;
 	}
 	free(label);
-	return st;
+	return st;	
 }
 
 t_lst			parse_ops(t_lst lines)
