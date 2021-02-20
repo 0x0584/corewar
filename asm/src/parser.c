@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:22:26 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/20 17:46:05 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/20 17:48:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ t_lst			parse_ops(t_lst lines)
 
 t_st		parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
+	op->info.args.v[arg] ;
 
 }
 

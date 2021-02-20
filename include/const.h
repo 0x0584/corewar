@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 08:33:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 15:28:39 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/20 18:05:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CONST_H
 
 # include <assert.h>
+# include "types.h"
 
 # define IND_SIZE				2
 # define REG_SIZE				4
@@ -84,5 +85,8 @@ typedef struct				pair
 	void			*first;
 	void			*second;
 }							t_pair;
+
+t_u32						beword(t_u32 word);
+t_u8						bebyte(t_u8 byte);
 
 #endif

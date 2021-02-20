@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 15:16:55 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/20 18:06:57 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ typedef union				u_blob
 	}			c[MAX_ARGS_NUMBER];
 }							t_blob;
 
-typedef struct s_op_info
+typedef struct				s_op_info
 {
 	/**
 	** \brief operation name as a string used to log the current operation
@@ -238,13 +238,17 @@ typedef struct s_op_info
 	** \brief operation docs
 	*/
 	const char			*doc;
-}					t_op_info;
+}							t_op_info;
+
+t_arg						op_encoding(const t_op_info *info, t_arg which);
+t_arg						op_meta_encoding(const t_op_info *info, t_arg which);
+t_arg						encoded(t_u8 arg_code);
 
 /**
 ** \brief operation interact with the VM's memory address range `arena`
 ** by either reading or writing to it. they also interact with process
 ** and might read/alter program counter and carry
 */
-extern const t_op_info g_ops[op_count];
+extern const t_op_info		g_ops[op_count];
 
 #endif

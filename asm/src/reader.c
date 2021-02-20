@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:30:44 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/20 17:45:28 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/20 18:08:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,65 +65,21 @@ t_st			read_file(const int ac, const char *av[])
 	}
 }
 
- t_st				read_reg(t_op *op, const t_arg arg, const char **arg_line)
+static inline t_u8	fetch_type(t_u8 type, const char **arg_line)
 {
-	char			reg[3];
-	t_u8			reg_num;
+	return type | (*(*arg_line + 1) == LABEL_CHAR ? T_LAB : 0);
+}
 
-	/* if (!ft_isdigit(reg[0] = *++ptr)) */
-	/* { */
-	/* 	ft_dprintf(2, " register is invalide \n"); */
-	/* 	return st_error; */
-	/* } */
-
-	ft_bzero(reg, 3);
-	if (ascii_to_digit(arg_line, reg))
-	{
-		if (ascii_to_digit(arg_line, reg + 1))
-		{
-			if (!(reg_num = ft_atoi(reg)) || reg_num > REG_NUMBER)
-			{
-				ft_dprintf(2, " %{yellow_fg}argument %hhu of operation `%s`"
-						   " has invalid register access%{reset}\n",
-						   op->info.name, arg);
-				return st_fail;
-			}
-			else
-			{
-				op->info.args.v[0] = reg_num;
-				return st_succ;
-			}
-		}
-		else
-		{
-			ft_dprintf(2, " %{red_fg}register is invalide%{reset} \n");
-			return st_error;
-		}
-	}
+static inline void	set_type(t_op *op, t_arg arg, t_u8 type, const char **arg_line)
+{
+	if (arg == 0)
+		op->info.encoded.args.arg_1 = fetch_type(type, arg_line);
+	else if (arg == 1)
+		op->info.encoded.args.arg_2 = fetch_type(type, arg_line);
+	else if (arg == 2)
+		op->info.encoded.args.arg_3 = fetch_type(type, arg_line);
 	else
-	{
-		ft_dprintf(2, " register is invalide \n");
-		return st_error;
-	}
-}
-
- t_st				read_dir(t_op *op, const t_arg arg, const char **arg_line)
-{
-
-}
-
- t_st				read_ind(t_op *op, const t_arg arg, const char **arg_line)
-{
-
-}
-
-
-
-static void			set_type(const char **arg_line, t_arg *type, t_u8 type_)
-{
-	*type = type_;
-	if (*(*arg_line + 1) == LABEL_CHAR)
-		*type |= T_LAB;
+		assert(arg < MAX_ARGS_NUMBER);
 }
 
 t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
@@ -133,27 +89,21 @@ t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
 	if (**arg_line == deli_reg)
 		return read_reg(op, arg, arg_line);
 	else if (**arg_line == DIRECT_CHAR)
-		set_type(arg_line, &type, T_DIR);
+		set_type(op, arg, T_DIR, arg_line);
 	else if (ft_isdigit(**arg_line))
-		set_type(arg_line, &type, T_IND);
+		set_type(op, arg, T_IND, arg_line);
 	else
 	{
 		ft_dprintf(2, "%{cyan_fg}%s: arg %d: %{red_fg}unknown argument type%{reset}",
 				   op->info.name, arg);
 		return (st_error);
 	}
-
-	if (type | arg_valid_types(op, arg))
-	{
-		op->info.args.v[arg] = ;
+	if (op_encoding(&op->info, arg) | arg_valid_types(op, arg))
 		return (parse_arg_value(op, arg, arg_line));
-	}
 	else
 	{
 		ft_dprintf(2, " %{yellow_fg}argument %hhu accept types %04b%{reset}\n",
 				   arg, arg_valid_types(op, arg));
 		return (st_fail);
 	}
-
-	return (st_fail);
 }
