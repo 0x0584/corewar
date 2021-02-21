@@ -28,7 +28,7 @@
 **
 ** \see op.h
 */
-enum						e_operations
+typedef enum				e_operation
 {
 	op_nop,			op_live,	   op_ld,
 	op_st,			op_add,		   op_sub,
@@ -38,7 +38,7 @@ enum						e_operations
 	op_lfork,		op_aff,
 
 	op_count
-};
+}							t_op_code;
 
 /**
 ** \brief all information about the operation
@@ -193,6 +193,8 @@ typedef union				u_blob
 
 typedef struct				s_op_info
 {
+	const t_op_code		code;
+	
 	/**
 	** \brief operation name as a string used to log the current operation
 	*/

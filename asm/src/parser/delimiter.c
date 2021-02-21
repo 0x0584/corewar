@@ -27,3 +27,19 @@ static t_deli	check_prefix(t_deli d)
 {
 
 }
+
+
+t_st			skip_whitespace(const char **ptr)
+{
+	if (ptr && *ptr && **ptr)
+	{
+		while (ft_isspace(**ptr))
+			*ptr += 1;
+		return (st_succ);
+	}
+	else
+	{
+		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
+		return (st_error);
+	}
+}

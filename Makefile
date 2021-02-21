@@ -22,11 +22,11 @@ $(LIBFT): $(FT_HEADERS)
 	@make -C $(FT_DIR) DEBUG=$(DEBUG)
 
 vm: $(DEPS)
-	@echo building $(VM_DIR)
+#	@echo building $(VM_DIR)
 	@make -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 asm: $(DEPS)
-	@echo building $(ASM_DIR)
+#	@echo building $(ASM_DIR)
 	@make -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 clean:
@@ -39,7 +39,13 @@ fclean:
 	@make -C $(VM_DIR)  fclean > /dev/null
 	@make -C $(ASM_DIR)	fclean > /dev/null
 
+cleanup:
+	@make -C $(VM_DIR)  fclean > /dev/null
+	@make -C $(ASM_DIR)	fclean > /dev/null
+
 re: fclean all
+
+build: cleanup all
 
 distcheck:
 	@$(CC) -v

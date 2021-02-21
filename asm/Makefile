@@ -14,12 +14,11 @@ include config.mk
 
 NAME		 = asm
 
-INC_DIR		?= include
-SRC_DIR		?= src
+INC_DIR		?= $(realpath include)
+SRC_DIR		?= $(realpath src)
 OBJ_DIR		?= .obj
 
 CFLAGS		+= -I$(INC_DIR)
-LDFLAGS		+= -lncurses
 
 SRCS		:= $(shell find $(SRC_DIR) -name '*.[cC]' -type f)
 OBJS		:= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -50,7 +49,7 @@ $(NAME): $(DEPS) $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@mkdir -p $(@D)
-	@printf " compiling $<..\n"
+	@printf " compiling $(notdir $<)..\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

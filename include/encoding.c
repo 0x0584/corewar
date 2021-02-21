@@ -32,13 +32,13 @@ t_u32		beword(t_u32 word)
 t_arg		op_encoding(const t_op_info *info, t_arg which)
 {
 	if (which == 0)
-		return info->encoded.args.arg_1;
+		return (info->encoded.args.arg_1);
 	else if (which == 1)
-		return info->encoded.args.arg_2;
+		return (info->encoded.args.arg_2);
 	else if (which == 2)
-		return info->encoded.args.arg_3;
+		return (info->encoded.args.arg_3);
 	else
-		return info->encoded.args.padding;
+		return (info->encoded.args.padding);
 }
 
 t_arg		op_meta_encoding(const t_op_info *info, t_arg which)
@@ -54,10 +54,10 @@ t_arg		op_meta_encoding(const t_op_info *info, t_arg which)
 }
 
 /**
-** \brief convert from encoding to argumen type
-** \param arg encoding of opeartion
-** \return t_arg
-*/
+ ** \brief convert from encoding to argumen type
+ ** \param arg encoding of opeartion
+ ** \return t_arg
+ */
 t_arg		encoded(t_u8 arg_code)
 {
 	if (arg_code == REG_CODE)

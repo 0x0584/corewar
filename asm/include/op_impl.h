@@ -36,14 +36,12 @@ typedef union	u_args_base
 typedef struct	s_operation
 {
 	t_op_info			info;
+	t_u16				addr;
 	t_u16				labels[MAX_ARGS_NUMBER];
 }				t_op;
 
-t_st			write_op(t_op *op, t_u8 *buff, t_u16 size);
-t_st			write_prog(t_lst ops, const char *out);
-t_st			parse_op(t_op *op, const char *buff);
-
 t_st			compile(t_lst lines, const char *outname);
+t_st			write_prog(t_lst ops, const char *out);
 
 extern t_hash	g_labels;
 extern t_u16	g_max_op_length;
