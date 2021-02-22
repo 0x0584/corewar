@@ -13,7 +13,7 @@
 #include "args.h"
 #include "op_impl.h"
 
-static char				op_str[MAX_OP_NAME];
+static char				op_str[MAX_OP_NAME + 1];
 
 static void				find_op(const char *key, void *blob, void *arg)
 {
@@ -44,8 +44,8 @@ t_st					parse_op(t_op *op, const char *buff)
 		return st_error;
 	}
 
-	ft_bzero(op_str, 5);
-	ft_strncpy(op_str, buff, min(spc - buff - 1, 4));
+	ft_bzero(op_str, MAX_OP_NAME + 1);
+	ft_strncpy(op_str, buff, min(spc - buff - 1, MAX_OP_NAME));
 	op_fetcher = (t_pair){NULL, op};
 	hash_iter_arg(g_op_lookup, &op_fetcher, find_op);
 	if (op_fetcher.first)
@@ -67,10 +67,14 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 	if (*line == LABEL_CHAR)
 	{
 		ft_dprintf(2, "empty label is illegal\n");
-		return st_error;
+		return (st_error);
 	}
-	if (!(tmp = ft_strchr(line, LABEL_CHAR)))
-		return st_fail;
+	else if (!(tmp = ft_strchr(line, LABEL_CHAR)))
+	{
+		ft_dprintf(2, "no label\n");
+		return (st_fail);
+	}
+	
 	walk = line;
 	while (walk != tmp)
 	{
@@ -101,7 +105,6 @@ t_lst			parse_ops(t_lst lines)
 	t_lstnode		walk;
 	t_op			*op;
 	const char		*op_at;
-
 	t_st			st;
 
 	ops = lst_alloc(blob_free);

@@ -37,11 +37,11 @@ typedef struct	s_operation
 {
 	t_op_info			info;
 	t_u16				addr;
-	t_u16				labels[MAX_ARGS_NUMBER];
+	const char			*labels[MAX_ARGS_NUMBER];
 }				t_op;
 
 t_st			compile(t_lst lines, const char *outname);
-t_st			write_prog(t_lst ops, const char *out);
+t_st			write_prog(t_lst ops);
 
 extern t_hash	g_labels;
 extern t_u16	g_max_op_length;

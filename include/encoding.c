@@ -69,3 +69,15 @@ t_arg		encoded(t_u8 arg_code)
 	else
 		return (T_PAD);
 }
+
+t_u8		uncode(t_arg arg_type)
+{
+	if (arg_type == T_REG)
+		return (REG_CODE);
+	else if (arg_type == T_DIR)
+		return (DIR_CODE);
+	else if (arg_type == T_IND)
+		return (IND_CODE);
+	else
+		return (T_PAD);  
+}

@@ -1,19 +1,30 @@
 #include "reader.h"
 #include "args.h"
 
-static inline t_u8	fetch_type(t_u8 type, const char **arg_line)
+static inline t_u8	fetch_type(t_op_info *info, t_arg arg, t_u8 type, const char **arg_line)
 {
-	return (type | (*(*arg_line + 1) == LABEL_CHAR ? T_LAB : 0));
+	if (*(*arg_line + 1) == LABEL_CHAR)
+	{
+		if (arg == 0)
+			info->meta.of.arg1_t |= T_LAB;
+		else if (arg == 1)
+			info->meta.of.arg2_t |= T_LAB;
+		else if (arg == 2)
+			info->meta.of.arg3_t |= T_LAB;
+		else
+			assert(arg < MAX_ARGS_NUMBER);
+	}
+	return uncode(type);
 }
 
 static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type, const char **arg_line)
 {
 	if (arg == 0)
-		op->info.encoded.args.arg_1 = fetch_type(type, arg_line);
+		op->info.encoded.args.arg_1 = fetch_type(&op->info, arg, type, arg_line);
 	else if (arg == 1)
-		op->info.encoded.args.arg_2 = fetch_type(type, arg_line);
+		op->info.encoded.args.arg_2 = fetch_type(&op->info, arg, type, arg_line);
 	else if (arg == 2)
-		op->info.encoded.args.arg_3 = fetch_type(type, arg_line);
+		op->info.encoded.args.arg_3 = fetch_type(&op->info, arg, type, arg_line);
 	else
 	    op->info.encoded.args.padding = T_PAD;
 }
