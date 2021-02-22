@@ -17,7 +17,7 @@
 void	ld(t_proc proc)
 {
 	/* print_arena(); */
-	if (!(proc->reg[proc->op.args.v[1]] = arg_value(proc, 0, true)))
+	if (!(proc->reg[proc->op.info.args.v[1]] = arg_value(proc, 0, true)))
 		proc->carry = true;
 	/* print_arena(); */
 }
@@ -34,7 +34,7 @@ void	ldi(t_proc proc)
 
 	offset = arg_value(proc, 0, true) + arg_value(proc, 1, false);
 	mem_read_chunk(proc, &chnk, true, offset);
-	proc->reg[proc->op.args.v[2]] = chnk.chunk;
+	proc->reg[proc->op.info.args.v[2]] = chnk.chunk;
 }
 
 void	lldi(t_proc proc)

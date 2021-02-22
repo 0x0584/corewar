@@ -1,4 +1,5 @@
 DEBUG		          ?= 1
+COLORED			      ?= 0
 
 VM_DIR				   = vm
 ASM_DIR				   = asm

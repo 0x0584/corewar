@@ -27,7 +27,7 @@ static void kill_process(void)
 		p = walk->next->blob;
 		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
 		{
-			ft_dprintf(g_fd, " >>>>>>>>>>>> killed %d %s\n", p->pid, p->op.name);
+			ft_dprintf(g_fd, " >>>>>>>>>>>> killed %d %s\n", p->pid, p->op.info.name);
 			lst_remove_next(g_pool, walk);
 		}
 		else

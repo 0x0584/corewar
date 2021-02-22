@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   args.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/25 09:41:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 18:27:05 by archid-          ###   ########.fr       */
+/*   Created: 2021/02/20 16:31:42 by archid-           #+#    #+#             */
+/*   Updated: 2021/02/20 16:34:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#ifndef ARGS_H
+# define ARGS_H
 
-void    fork_(t_proc proc)
-{
-	t_proc	foo;
+#include "parser.h"
 
-	foo = new_process(proc->num, shift_pc(proc, proc->op.info.args.c[0].short_chunk));
-	ft_memcpy(foo->reg, proc->reg, sizeof(t_reg) * (REG_NUMBER + 1));
-	foo->carry = proc->carry;
-	/* g_vm.lives++; */
-	/* foo->lives = proc->lives; */
-}
+t_u8			arg_valid_types(const t_op *op, t_arg arg);
+void			set_op_encoding(t_op *op, t_arg arg, t_u8 type);
+bool			ascii_to_digit(const char **astr, char *reg);
 
-void    lfork(t_proc proc)
-{
-	// cleanup only if exectude on op
-	fork_(proc);
-}
+t_st			fetch_op_args(t_op *op, const char *args_line);
+
+#endif

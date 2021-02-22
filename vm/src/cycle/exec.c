@@ -25,7 +25,7 @@ static t_st			verify_proc(t_proc p, void *arg)
 	else
 	{
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.name, -p->op.cycles);
+		ft_dprintf(g_fd, "player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.info.name, -p->op.cycles);
 		return (st_fail);
 	}
 }
@@ -39,14 +39,14 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	else if (vm_decode(proc, &op_arg_offset))
 	{
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd, ">> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n", proc->num, proc->op.name);
+		ft_dprintf(g_fd, ">> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n", proc->num, proc->op.info.name);
 		move_pc(proc, op_arg_offset);
 		return (0);
 	}
 	else
 	{
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, ">> player %d: `%s` has correct encoding\n", proc->num, proc->op.name);
+		ft_dprintf(g_fd, ">> player %d: `%s` has correct encoding\n", proc->num, proc->op.info.name);
 		op_dump(&proc->op, true, true);
 		proc->op.callback(proc);
 		if (proc->op.callback == zjmp)

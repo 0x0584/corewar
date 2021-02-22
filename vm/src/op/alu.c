@@ -15,30 +15,30 @@
 
 void    add(t_proc proc)
 {
-	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] + proc->reg[proc->op.args.v[1]]))
+	if (!(proc->reg[proc->op.info.args.v[2]] = proc->reg[proc->op.info.args.v[0]] + proc->reg[proc->op.info.args.v[1]]))
 		proc->carry = true;
 }
 
 void    sub(t_proc proc)
 {
-	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] - proc->reg[proc->op.args.v[1]]))
+	if (!(proc->reg[proc->op.info.args.v[2]] = proc->reg[proc->op.info.args.v[0]] - proc->reg[proc->op.info.args.v[1]]))
 		proc->carry = true;
 }
 
 void    and(t_proc proc)
 {
-	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] & proc->reg[proc->op.args.v[1]]))
+	if (!(proc->reg[proc->op.info.args.v[2]] = proc->reg[proc->op.info.args.v[0]] & proc->reg[proc->op.info.args.v[1]]))
 		proc->carry = true;
 }
 
 void    or(t_proc proc)
 {
-	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] | proc->reg[proc->op.args.v[1]]))
+	if (!(proc->reg[proc->op.info.args.v[2]] = proc->reg[proc->op.info.args.v[0]] | proc->reg[proc->op.info.args.v[1]]))
 		proc->carry = true;
 }
 
 void    xor(t_proc proc)
 {
-	if (!(proc->reg[proc->op.args.v[2]] = proc->reg[proc->op.args.v[0]] ^ proc->reg[proc->op.args.v[1]]))
+	if (!(proc->reg[proc->op.info.args.v[2]] = proc->reg[proc->op.info.args.v[0]] ^ proc->reg[proc->op.info.args.v[1]]))
 		proc->carry = true;
 }

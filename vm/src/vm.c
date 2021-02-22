@@ -19,6 +19,7 @@ static bool		g_dump_arena = true;
 static void		set_vm(void)
 {
 	g_fd_check = open("cycles.log", O_RDWR | O_CREAT | O_TRUNC, 0777);
+	set_ops();
 	if (g_visu)
 		draw_setup(true);
 	if (g_dump_arena)

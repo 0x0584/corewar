@@ -30,7 +30,7 @@ t_pc	pc_shift(t_pc pc, t_pc offset, bool long_op)
 
 t_pc	shift_pc(t_proc p, t_pc offset)
 {
-	return pc_shift(p->pc, offset, p->op.meta.of.long_op);
+	return pc_shift(p->pc, offset, p->op.info.meta.of.long_op);
 }
 
 t_pc	move_pc(t_proc p, t_pc offset)

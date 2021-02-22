@@ -21,9 +21,9 @@
 void				mem_write_chunk(const t_proc p, const union u_chunk *chnk, t_pc offset)
 {
 	/* print_arena(); */
-	g_vm.arena[pc_shift(p->pc, offset, p->op.meta.of.long_op)] = chnk->val.byte_4;
-	g_vm.arena[pc_shift(p->pc, offset + 1, p->op.meta.of.long_op)] = chnk->val.byte_3;
-	g_vm.arena[pc_shift(p->pc, offset + 2, p->op.meta.of.long_op)] = chnk->val.byte_2;
-	g_vm.arena[pc_shift(p->pc, offset + 3, p->op.meta.of.long_op)] = chnk->val.byte_1;
+	g_vm.arena[pc_shift(p->pc, offset, p->op.info.meta.of.long_op)] = chnk->val.byte_4;
+	g_vm.arena[pc_shift(p->pc, offset + 1, p->op.info.meta.of.long_op)] = chnk->val.byte_3;
+	g_vm.arena[pc_shift(p->pc, offset + 2, p->op.info.meta.of.long_op)] = chnk->val.byte_2;
+	g_vm.arena[pc_shift(p->pc, offset + 3, p->op.info.meta.of.long_op)] = chnk->val.byte_1;
 	/* print_arena(); */
 }

@@ -36,10 +36,10 @@ void				vm_read(void *proc, void *arg)
 	}
 	else if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{
-		ft_memcpy(&p->op, &g_ops[mem_at(p)], sizeof(t_op));
+		ft_memcpy(&p->op, &g_op[mem_at(p)], sizeof(t_op));
 		p->op.cycles *= -1;
 		*(t_st *)arg = st_succ;
-		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.name, -p->op.cycles);
+		ft_dprintf(g_fd, "player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.info.name, -p->op.cycles);
 	}
 }
 
@@ -64,7 +64,7 @@ void				vm_read(void *proc, void *arg)
  */
 static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 {
-	if (encoded(op_encoding(p, arg)) == T_REG)
+	if (encoded(op_encoding(&p->op.info, arg)) == T_REG)
 		if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
 		{
 			mem_chunk(p, arg, offset);
@@ -91,8 +91,8 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 */
 t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
-	if (encoded(op_encoding(p, arg)) == T_DIR
-			|| encoded(op_encoding(p, arg)) == T_IND)
+	if (encoded(op_encoding(&p->op.info, arg)) == T_DIR
+			|| encoded(op_encoding(&p->op.info, arg)) == T_IND)
 	{
 		mem_chunk(p, arg, offset);
 		return (st_succ);
@@ -108,14 +108,14 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 {
 	t_st					st;
 
-	if (arg < p->op.nargs)
-		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(p, arg));
+	if (arg < p->op.info.nargs)
+		ft_dprintf(g_fd ," encoding of %d (%02b)\n", arg, op_encoding(&p->op.info, arg));
 	else
 	{
-		ft_dprintf(g_fd ," %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(&p->op.info, arg));
 		return st_fail;
 	}
-	if (op_meta_encoding(p, arg) & encoded(op_encoding(p, arg)))
+	if (op_meta_encoding(&p->op.info, arg) & encoded(op_encoding(&p->op.info, arg)))
 	{
 		if ((st = handle_reg(p, arg, offset)))
 			if ((st = handle_chunk(p, arg, offset)))
@@ -123,7 +123,7 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	}
 	else
 	{
-		ft_dprintf(g_fd ," %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(p, arg), op_meta_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(&p->op.info, arg), op_meta_encoding(&p->op.info, arg));
 		return st_fail;
 	}
 	return (st);
@@ -135,17 +135,17 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 	t_st					st;
 
 	arg = 0;
-	while (encoded(op_encoding(p, arg)) != T_PAD)
+	while (encoded(op_encoding(&p->op.info, arg)) != T_PAD)
 	{
 		if ((st = handle_arg(p, arg, offset)))
 			return (st);
 		arg++;
 	}
-	if (arg == p->op.nargs)
+	if (arg == p->op.info.nargs)
 		return (st_succ);
 	else
 	{
-		ft_dprintf(g_fd ," %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(p, arg));
+		ft_dprintf(g_fd ," %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(&p->op.info, arg));
 		return (st_fail);
 	}
 }
