@@ -74,7 +74,7 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 		ft_dprintf(2, "no label\n");
 		return (st_fail);
 	}
-	
+
 	walk = line;
 	while (walk != tmp)
 	{
@@ -115,6 +115,7 @@ t_lst			parse_ops(t_lst lines)
 			(st = parse_op(op, op_at)) == st_error)
 		{
 			lst_del(&ops);
+			free(op);
 			break;
 		}
 		else if (st == st_succ)

@@ -27,12 +27,10 @@ HEADERS		+= $(shell find $(INC_DIR) -name '*.[hH]' -type f)
 
 ifeq ($(COLORED), 1)
     GRN		= \033[0;35m[o]\033[0m
-
     YLW		= \033[0;33m[o]\033[0m
     MGNT    = \033[0;35m
     RESET   = \033[0m
 endif
-
 
 all: setup $(NAME)
 
@@ -43,7 +41,7 @@ setup:
 	@printf "$(MGNT)LDFLAGS$(RESET) = $(LDFLAGS)\n"
 	@echo
 
-$(NAME): $(DEPS) $(OBJS) 
+$(NAME): $(DEPS) $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	@printf "\n$(GRN) built $(NAME).\n"
 
