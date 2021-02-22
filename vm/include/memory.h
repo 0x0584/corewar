@@ -116,9 +116,9 @@ t_u8				at_mem(t_pc p);
 **
 ** \return a Byte containing the encoding
 */
-t_arg				op_encoding(t_proc p, t_arg which);
+/* t_arg				op_encoding(t_proc p, t_arg which); */
 
-t_arg				op_meta_encoding(t_proc p, t_arg which);
+/* t_arg				op_meta_encoding(t_proc p, t_arg which); */
 
 t_arg				encoded(t_u8 arg_code);
 

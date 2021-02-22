@@ -45,7 +45,7 @@ static void proc_dump(void *blob, size_t i)
 			   p->num,
 			   p->pc);
 	ft_dprintf(g_fd, " holding: %{bold}%s%{reset} %{italic}with%{reset}",
-			   p->op.name ? p->op.name : "fresh");
+			  p->op.info.name ? p->op.info.name : "fresh");
 	ft_dprintf(g_fd, " carry: %{cyan_fg}%s%{reset}"
 			   " lives: %{cyan_fg}%hu%{reset}\n",
 			   p->carry ? "true" : "false", p->lives);

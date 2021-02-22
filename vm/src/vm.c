@@ -18,6 +18,7 @@ static bool		g_dump_arena = true;
 
 static void		set_vm(void)
 {
+	set_ops();
 	if (g_visu)
 		draw_setup(true);
 	if (g_dump_arena)

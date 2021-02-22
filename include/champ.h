@@ -28,6 +28,13 @@ typedef struct				s_champ
 	t_u32		magic;
 
 	/**
+	** \brief a program name has at most `PROG_NAME_LENGTH`
+	**
+	**   padded with `\0` if less
+	*/
+	t_u8		prog_name[PROG_NAME_LENGTH + 1];
+
+	/**
 	** \brief 4-Bytes indicating the total program size
 	**
 	**   excluding `magic`, `prog_name` and `comment`

@@ -19,11 +19,11 @@ void    st(t_proc proc)
 	union u_chunk	chnk;
 
 	/* print_arena(); */
-	if (encoded(op_encoding(proc, 1)) == T_REG)
-		proc->reg[proc->op.args.v[1]] = proc->reg[proc->op.args.v[0]];
+	if (encoded(op_encoding(&proc->op.info, 1)) == T_REG)
+		proc->reg[proc->op.info.args.v[1]] = proc->reg[proc->op.info.args.v[0]];
 	else
 	{
-		chnk.chunk = proc->reg[proc->op.args.v[0]];
+		chnk.chunk = proc->reg[proc->op.info.args.v[0]];
 		mem_write_chunk(proc, &chnk, arg_value(proc, 1, false));
 	}
 	/* print_arena(); */
@@ -36,7 +36,7 @@ void    sti(t_proc proc)
 
 	/* print_arena(); */
 	offset = arg_value(proc, 1, false) + arg_value(proc, 2, false);
-	chnk.chunk = proc->reg[proc->op.args.v[0]];
+	chnk.chunk = proc->reg[proc->op.info.args.v[0]];
 	mem_write_chunk(proc, &chnk, offset);
 	/* print_arena(); */
 }

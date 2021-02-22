@@ -19,14 +19,14 @@ void				mem_read_chunk(const t_proc p, union u_chunk *chnk,
 	chnk->chunk = 0;
 	if (read_reg_size)
 	{
-		chnk->val.byte_4 = at_mem(pc_shift(p->pc, offset, p->op.meta.of.long_op));
-		chnk->val.byte_3 = at_mem(pc_shift(p->pc, offset + 1, p->op.meta.of.long_op));
-		chnk->val.byte_2 = at_mem(pc_shift(p->pc, offset + 2, p->op.meta.of.long_op));
-		chnk->val.byte_1 = at_mem(pc_shift(p->pc, offset + 3, p->op.meta.of.long_op));
+		chnk->val.byte_4 = at_mem(pc_shift(p->pc, offset, p->op.info.meta.of.long_op));
+		chnk->val.byte_3 = at_mem(pc_shift(p->pc, offset + 1, p->op.info.meta.of.long_op));
+		chnk->val.byte_2 = at_mem(pc_shift(p->pc, offset + 2, p->op.info.meta.of.long_op));
+		chnk->val.byte_1 = at_mem(pc_shift(p->pc, offset + 3, p->op.info.meta.of.long_op));
 	}
 	else
 	{
-		chnk->val.byte_2 = at_mem(pc_shift(p->pc, offset, p->op.meta.of.long_op));
-		chnk->val.byte_1 = at_mem(pc_shift(p->pc, offset + 1, p->op.meta.of.long_op));
+		chnk->val.byte_2 = at_mem(pc_shift(p->pc, offset, p->op.info.meta.of.long_op));
+		chnk->val.byte_1 = at_mem(pc_shift(p->pc, offset + 1, p->op.info.meta.of.long_op));
 	}
 }

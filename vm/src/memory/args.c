@@ -17,14 +17,14 @@ t_dir		arg_value(t_proc proc, t_arg arg, bool deref)
 {
 	t_arg type;
 
-	if ((type = encoded(op_encoding(proc, arg))) == T_IND && deref)
+	if ((type = encoded(op_encoding(&proc->op.info, arg))) == T_IND && deref)
 	{
 		/* ft_dprintf(g_fd, " ## indirect arg \n"); */
-		mem_read_chunk(proc, &proc->op.args.c[arg], true, proc->op.args.c[arg].short_chunk);
+		mem_read_chunk(proc, &proc->op.info.args.c[arg], true, proc->op.info.args.c[arg].short_chunk);
 		/* op_dump(&proc->op, true, false); */
-		return (proc->op.args.v[arg]);
+		return (proc->op.info.args.v[arg]);
 	}
 	else
-		return (type == T_REG ? (proc->reg[proc->op.args.v[arg]])
-				: (proc->op.args.v[arg]));
+		return (type == T_REG ? (proc->reg[proc->op.info.args.v[arg]])
+				: (proc->op.info.args.v[arg]));
 }

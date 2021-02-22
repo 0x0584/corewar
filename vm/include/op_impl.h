@@ -54,10 +54,7 @@ typedef void				(*t_op_callback)(t_proc proc);
 */
 typedef struct				s_operation
 {
-	/**
-	** \brief operation name as a string used to log the current operation
-	*/
-	const char			*name;
+	t_op_info			info;
 
 	/**
 	** \brief the callback function which does the job
@@ -70,47 +67,6 @@ typedef struct				s_operation
 	** it is part of the simulation where instruction take different periods
 	*/
 	t_s16				cycles;
-
-	/**
-	** \brief number of argument takes by the operation
-    */
-	const t_u8			nargs;
-
-	/**
-	** \brief a singular argument type require at most 4-bits to be stored
-	**
-	**   hence 3-Bytes should handle `MAX_ARGS_NUMBER`. the remainning Bytez
-	**   indicates the number an operation takes, the the chunk size.
-	**
-	**   Also, if the operation is encoded and if it is a long operation.
-	**
-	**    padding  chunk size  encoded  long           args
-	**    [00000]  [0]         [0]      [0]    [0000 | 0000 | 0000]
-	**
-	**   meta has little endianess
-	**
-	** \see op.h
-	*/
-	const t_op_meta		meta;
-
-	/**
-	** \brief operation docs
-	*/
-	const char			*doc;
-
-	/**
-	** \brief some operation does *not* have a parameter encoding byte
-	*/
-	t_op_encoding		encoded;
-
-	/**
-    ** \brief global arguments for operations
-	**
-	**   the size of 32-bit is at most the size required by all opearations
-	**
-	** \see op.h
-	*/
-	t_blob				args;
 }							t_op;
 
 /**
@@ -124,12 +80,8 @@ typedef struct				s_operation
 void						callback(void *proc);
 
 void						set_nop(t_proc p);
+void						set_ops(void);
 
-/**
-** \brief operation interact with the VM's memory address range `arena`
-** by either reading or writing to it. they also interact with process
-** and might read/alter program counter and carry
-*/
-extern t_op					g_ops[op_count];
+extern t_op					g_op[op_count];
 
 #endif

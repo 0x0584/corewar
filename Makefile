@@ -12,22 +12,32 @@
 
 include config.mk
 
-all: $(LIBFT) $(DEPS) vm asm
+all: $(LIBFT) deps asm vm
+
+deps: setup $(DEPS)
+	@echo "compiled dependencies"
+
+setup:
+	@echo
+	@printf "$(MGNT)CC$(RESET)      = $(CC)\n"
+	@printf "$(MGNT)CFLAGS$(RESET)  = $(CFLAGS)\n"
+	@printf "$(MGNT)LDFLAGS$(RESET) = $(LDFLAGS)\n"
+	@echo
 
 $(DEPS_DIR)/%.o: $(DEPS_DIR)/%.c $(LIBFT)
-	@echo "compiling $<.."
+	@echo "compiling $(notdir $<).."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT): $(FT_HEADERS)
 	@make -C $(FT_DIR) DEBUG=$(DEBUG)
 
 vm: $(DEPS)
-	@echo building $(VM_DIR)
-	@make all -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+#	@echo building $(VM_DIR)
+	@make -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 asm: $(DEPS)
-	@echo building $(ASM_DIR)
-	@make all -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+#	@echo building $(ASM_DIR)
+	@make -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 clean:
 	@make clean -C $(FT_DIR)  > /dev/null
@@ -39,6 +49,23 @@ fclean:
 	@make -C $(VM_DIR)  fclean > /dev/null
 	@make -C $(ASM_DIR)	fclean > /dev/null
 
+cleanup:
+	@make -C $(VM_DIR)  fclean > /dev/null
+	@make -C $(ASM_DIR)	fclean > /dev/null
+
 re: fclean all
 
-.PHONY: all re clean fclean vm asm
+build: cleanup all
+
+distcheck:
+	@$(CC) -v
+	@$(LD) -v
+	@git --version
+	@uname -a
+
+check: all
+
+test: all
+	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
+
+.PHONY: all re clean fclean vm asm distcheck check test
