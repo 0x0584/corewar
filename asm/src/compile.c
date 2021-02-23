@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/19 16:13:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/23 11:25:53 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ t_st			compile(t_lst lines, const char *outname)
 		st = write_prog(ops);
 		lst_del(&ops);
 		/* write(fd, ) */
+		close(fd);
 		return st;
 	}
 	else
 	{
 		ft_dprintf(2, "couldn't parse operations\n");
+		close(fd);
 		return st_error;
 	}
 }

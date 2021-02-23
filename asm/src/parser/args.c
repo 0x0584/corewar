@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:27:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/20 16:36:23 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/23 16:10:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,20 @@ void			set_op_encoding(t_op *op, t_arg arg, t_u8 type)
 
 bool			ascii_to_digit(const char **astr, char *reg)
 {
-	if (ft_isdigit(*reg = *++astr[0]))
-		return (true);
-	else
+	char			c;
+
+	if (ft_isdigit(c = *++astr[0]))
+		return (*reg = c);
+	else if (!(ft_isspace(c) || c == deli_comma))
 		return (!ft_dprintf(2, " %{red_fg}register is invalide%{reset} \n"));
+	else
+		return (true);
 }
 
 static t_st		fetch_arg(t_op *op, t_arg arg, const char **arg_line)
 {
 	ft_dprintf(2, " reading argument %hhu of operation %s at `%s`\n",
-			   op->info.name, arg, arg_line);
+			   arg, op->info.name, *arg_line);
 	if (!arg_line || !*arg_line || !**arg_line)
 	{
 		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
@@ -64,9 +68,9 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 	t_arg			arg;
 	t_st			st;
 
+	skip_whitespace(&args_line);
 	arg = 0;
 	ft_dprintf(2, " fetching args for `%s`\n", args_line);
-	skip_whitespace(&args_line);
 	while (arg < op->info.nargs)
 		if ((st = fetch_arg(op, arg++, &args_line)))
 			return (st);
