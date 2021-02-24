@@ -6,11 +6,12 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/19 16:13:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 17:59:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "write.h"
 #include "op_impl.h"
 
 static int i = 0;
@@ -18,6 +19,43 @@ static int i = 0;
 static void		dump_line(void *blob)
 {
 	ft_printf(" line %d `%s`\n", i++, blob);
+}
+
+void			dump_file(void)
+{
+	int i = 0;
+	ft_putendl("");
+	while (i < CHAMP_MAX_SIZE)
+	{
+		ft_printf("%02x%s", g_champ.file[i], (i+1)%2 == 0 ? " " : "");
+		i++;
+		if (i%32 == 0)
+			ft_putendl("");
+	}
+	ft_putendl("");
+}
+
+static t_st		write_champion(const int fd, const char *outname)
+{
+	int magic = COREWAR_EXEC_MAGIC;
+	int null = 0;
+
+	if (write(fd, &magic, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH ||
+		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, &g_champ.prog_size, (ssize_t)sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_name, COMMENT_LENGTH) < COMMENT_LENGTH ||
+		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
+	{
+		ft_dprintf(2, "cannot write %s\n", outname);
+		return st_error;
+	}
+	else
+	{
+		ft_dprintf(2, "wrote %s\n", outname);
+		return st_succ;
+	}
 }
 
 t_st			compile(t_lst lines, const char *outname)
@@ -34,109 +72,41 @@ t_st			compile(t_lst lines, const char *outname)
 	}
 	else if ((ops = parse_ops(lines)))
 	{
-		st = write_prog(ops);
+		if ((st = write_prog(ops)) == st_succ)
+			st = write_champion(fd, outname);
 		lst_del(&ops);
-		/* write(fd, ) */
+		close(fd);
 		return st;
 	}
 	else
 	{
 		ft_dprintf(2, "couldn't parse operations\n");
+		close(fd);
 		return st_error;
 	}
-}
-
-static t_u8		arg_offset(const t_op_info *info, t_arg arg)
-{
-	t_arg			type;
-
-	if ((type = encoded(op_encoding(info, arg++))) == T_REG)
-		return 1;
-	else if (type == T_DIR)
-		return info->meta.of.short_chunk ? IND_SIZE : REG_SIZE;
-	else
-		return IND_SIZE;
-
-}
-
-static t_u8		op_memory_footprint(const t_op *op)
-{
-	t_u8			size;
-	t_arg			arg;
-
-	size = 1;
-	if (op->info.meta.of.encoded)
-		size += 1;
-	arg = 0;
-	while (arg < op->info.nargs)
-		size += arg_offset(&op->info, arg++);
-	return (size);
-}
-
-
-static t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
-{
-	t_arg			type;
-
-	if ((type = encoded(op_encoding(info, arg))) == T_REG)
-		g_champ.file[at++] = info->args.v[arg];
-	else if (type == T_DIR && info->meta.of.short_chunk)
-	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
-		g_champ.file[at++] = info->args.c[arg].val.byte_2;
-		g_champ.file[at++] = info->args.c[arg].val.byte_3;
-		g_champ.file[at++] = info->args.c[arg].val.byte_4;
-	}
-	else
-	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
-		g_champ.file[at++] = info->args.c[arg].val.byte_2;
-	}
-	return (at);
-}
-
-static void		write_args(const t_op *op, t_s16 *size)
-{
-	t_arg			arg;
-
-	arg = 0;
-	while (arg < op->info.nargs)
-		*size += write_arg(&op->info, arg++, *size);
-}
-
-static void		write_op(void *blob, void *size)
-{
-	t_op			*op;
-	t_s16			at;
-
-	if (!(op = blob) || (at = *(t_s16 *)size) < 0)
-		return ;
-	else if ((at + op_memory_footprint(op)) < CHAMP_MAX_SIZE)
-	{
-		op->addr = *(t_s16 *)size;
-		g_champ.file[at++] = op->info.code;
-		g_champ.file[at++] = op->info.encoded.encod;
-		write_args(op, size);
-	}
-	else
-		*(t_s16 *)size = -1;
 }
 
 static void		substitute_label(void *blob, void *argu)
 {
 	t_op			*op;
+	t_op			*label;
 	t_arg			arg;
+	t_u8			offset;
 
 	if (*(t_st *)argu != st_succ)
 		return ;
 	arg = 0;
 	op = blob;
+	offset = op->addr + op->info.meta.of.encoded + 1;
 	while (arg < op->info.nargs)
 	{
-		if (op_meta_encoding(&op->info, arg) | T_LAB)
+		if (op->labels[arg])
 		{
-			if (hash_get(g_labels, op->labels[arg], NULL))
-				write_arg(&op->info, arg, op->addr + arg_offset(&op->info, arg));
+			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
+			{
+				op->info.args.c[arg].short_chunk = label->addr - op->addr;
+				write_arg(&op->info, arg, offset);
+			}
 			else
 			{
 				ft_dprintf(2, "referencing unknown label %s\n", op->labels[arg]);
@@ -144,8 +114,15 @@ static void		substitute_label(void *blob, void *argu)
 				break;
 			}
 		}
-		arg++;
+		offset += arg_offset(&op->info, arg++);
 	}
+}
+
+static void		label_dump(const char *key, void *blob)
+{
+	t_op *op = blob;
+
+	ft_dprintf(2, "%s -> [%s:%hu]\n", key, op->info.name, op->addr);
 }
 
 t_st			write_prog(t_lst ops)
@@ -161,7 +138,12 @@ t_st			write_prog(t_lst ops)
 				   CHAMP_MAX_SIZE);
 		return st_error;
 	}
+	dump_file();
+	ft_putendl("");
+	hash_iter(g_labels, label_dump);
+	g_champ.prog_size = size;
 	st = st_succ;
 	lst_iter_arg(ops, true, &st, substitute_label);
+	dump_file();
 	return (st);
 }

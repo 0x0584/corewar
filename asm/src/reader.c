@@ -37,29 +37,26 @@ t_st			read_file(const int ac, const char *av[])
 
 	if (ac < 2)
 	{
-		ft_dprintf(2, "no file was provided to %s.", av[0]);
+		ft_dprintf(2, "no file was provided to %s.\n", av[0]);
 		return (st_error);
 	}
 	else if (!(outname = filename(av[1])))
 		return (st_error);
 	else if ((fd = open(av[1], O_RDONLY)) < 0)
 	{
-		ft_dprintf(2, "cannot open file", av[1]);
+		ft_dprintf(2, "cannot open file\n", av[1]);
 		return (st_fail);
 	}
-	else
-	{
-		file = lst_alloc(blob_free);
-		while (gnl(fd, &buff))
-			if (!*buff || parse_line(&buff))
-				free(buff);
-			else
-				lst_push_back_blob(file, buff, sizeof(char *), false);
-		gnl_clean(fd);
-		st = compile(file, outname);
-		lst_del(&file);
-		free(outname);
-		close(fd);
-		return st;
-	}
+	file = lst_alloc(blob_free);
+	while (gnl(fd, &buff))
+		if (!*buff || parse_line(&buff))
+			free(buff);
+		else
+			lst_push_back_blob(file, buff, sizeof(char *), false);
+	gnl_clean(fd);
+	st = compile(file, outname);
+	lst_del(&file);
+	free(outname);
+	close(fd);
+	return st;
 }

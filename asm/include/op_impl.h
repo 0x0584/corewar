@@ -41,7 +41,6 @@ typedef struct	s_operation
 }				t_op;
 
 t_st			compile(t_lst lines, const char *outname);
-t_st			write_prog(t_lst ops);
 
 extern t_hash	g_labels;
 extern t_u16	g_max_op_length;

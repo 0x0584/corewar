@@ -6,40 +6,35 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:33:44 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/19 16:58:34 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/23 11:44:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "delimiter.h"
 
-bool		delimiter(t_deli d)
+bool		delimiter(char c)
 {
-	return d != deli_unknown;
+	return !c || ft_isspace(c) || is_comment_char(c) || c == deli_comma;
 }
 
-bool		is_comment_char(t_deli d)
+bool		is_comment_char(char d)
 {
 	return (d == deli_eol || d == deli_comment || d == deli_asm_comment);
 }
 
-
-static t_deli	check_prefix(t_deli d)
-{
-
-}
-
-
 t_st			skip_whitespace(const char **ptr)
 {
-	if (ptr && *ptr && **ptr)
+	if (ptr && *ptr)
 	{
 		while (ft_isspace(**ptr))
 			*ptr += 1;
+		if (is_comment_char(**ptr))
+			*(char *)*ptr = '\0';
 		return (st_succ);
 	}
 	else
 	{
-		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
+		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset}\n");
 		return (st_error);
 	}
 }
