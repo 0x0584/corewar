@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:27:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/23 16:10:05 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:20:52 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 	while (arg < op->info.nargs)
 		if ((st = fetch_arg(op, arg++, &args_line)))
 			return (st);
-
-	if (!*args_line)
+	skip_whitespace(&args_line);
+	if (!*args_line || is_comment_char(*args_line))
 		return (st_succ);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 17:54:57 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/23 17:48:12 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:00:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_st				read_reg(t_op *op, const t_arg arg, const char **arg_line)
 		return (st_error);
 	}
 	skip_whitespace(arg_line);
-	if (**arg_line != deli_comma)
+	if (**arg_line != deli_comma && **arg_line)
 	{
 		ft_dprintf(2, " %{red_fg}argument %hhu of operation `%s` has invalid register access%{reset}\n",
 				   op->info.name, arg);

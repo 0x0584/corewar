@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/23 11:25:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:27:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static t_u8		op_memory_footprint(const t_op *op)
 		size += arg_offset(&op->info, arg++);
 	return (size);
 }
-
 
 static t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
 {

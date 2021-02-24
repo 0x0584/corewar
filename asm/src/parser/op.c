@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 11:23:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/23 15:24:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:21:17 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,13 @@ static void		delete_ops(t_op *op, t_lst *ops)
 	free(op);
 }
 
+void			print_op(void *blob)
+{
+	t_op *op = blob;
+
+	ft_printf("name: %s\n", op->info.name);
+}
+
 t_lst			parse_ops(t_lst lines)
 {
 	t_lst			ops;
@@ -190,6 +197,8 @@ t_lst			parse_ops(t_lst lines)
 		{
 			lst_push_back_blob(ops, op, sizeof(t_op), false);
 			op_on_hold = true;
+			ft_printf(" >>>>>>>>>>>>>. . <<<<<<<<<<<<<<<<\n");
+			lst_iter(ops, true, print_op);
 		}
 
 		lst_node_forward(&walk);
