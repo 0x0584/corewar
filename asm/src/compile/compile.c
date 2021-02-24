@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "write.h"
 #include "op_impl.h"
 
 static int i = 0;
@@ -45,9 +46,14 @@ t_st			compile(t_lst lines, const char *outname)
 	}
 	else if ((ops = parse_ops(lines)))
 	{
-		st = write_prog(ops);
+		if ((st = write_prog(ops)) == st_succ)
+		{
+			if (write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
+				ft_dprintf(2, "cannot write %s\n", outname);
+			else
+				ft_dprintf(2, "wrote %s\n", outname);
+		}
 		lst_del(&ops);
-		/* write(fd, ) */
 		close(fd);
 		return st;
 	}
@@ -57,83 +63,6 @@ t_st			compile(t_lst lines, const char *outname)
 		close(fd);
 		return st_error;
 	}
-}
-
-static t_u8		arg_offset(const t_op_info *info, t_arg arg)
-{
-	t_arg			type;
-
-	if ((type = encoded(op_encoding(info, arg++))) == T_REG)
-		return 1;
-	else if (type == T_DIR)
-		return info->meta.of.short_chunk ? IND_SIZE : REG_SIZE;
-	else
-		return IND_SIZE;
-
-}
-
-static t_u8		op_memory_footprint(const t_op *op)
-{
-	t_u8			size;
-	t_arg			arg;
-
-	size = 1;
-	if (op->info.meta.of.encoded)
-		size += 1;
-	arg = 0;
-	while (arg < op->info.nargs)
-		size += arg_offset(&op->info, arg++);
-	return (size);
-}
-
-static t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
-{
-	t_arg			type;
-
-	if ((type = encoded(op_encoding(info, arg))) == T_REG)
-		g_champ.file[at++] = info->args.v[arg];
-	else if (type == T_DIR && !info->meta.of.short_chunk)
-	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
-		g_champ.file[at++] = info->args.c[arg].val.byte_2;
-		g_champ.file[at++] = info->args.c[arg].val.byte_3;
-		g_champ.file[at++] = info->args.c[arg].val.byte_4;
-	}
-	else
-	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
-		g_champ.file[at++] = info->args.c[arg].val.byte_2;
-	}
-	return (at);
-}
-
-static void		write_args(const t_op *op, t_s16 *size)
-{
-	t_arg			arg;
-
-	arg = 0;
-	while (arg < op->info.nargs)
-		*size += write_arg(&op->info, arg++, *size);
-}
-
-static void		write_op(void *blob, void *size)
-{
-	t_op			*op;
-	t_s16			at;
-
-	if (!(op = blob) || (at = *(t_s16 *)size) < 0)
-		return ;
-	else if ((at + op_memory_footprint(op)) < CHAMP_MAX_SIZE)
-	{
-		op->addr = *(t_s16 *)size;
-		g_champ.file[at++] = op->info.code;
-		if (op->info.meta.of.encoded)
-			g_champ.file[at++] = op->info.encoded.encod;
-		write_args(op, &at);
-		*(t_s16 *)size = at;
-	}
-	else
-		*(t_s16 *)size = -1;
 }
 
 static void		substitute_label(void *blob, void *argu)
@@ -175,6 +104,7 @@ t_st			write_prog(t_lst ops)
 				   CHAMP_MAX_SIZE);
 		return st_error;
 	}
+	g_champ.prog_size = size;
 	st = st_succ;
 	lst_iter_arg(ops, true, &st, substitute_label);
 	return (st);

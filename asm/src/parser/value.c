@@ -13,7 +13,7 @@
 #include "parser.h"
 #include "op_impl.h"
 
-t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
+static t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 {
 	const char *walk;
 	char		*label;
@@ -40,7 +40,8 @@ t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
 		return st_error;
 	}
-	else if (is_comment_char(*walk))
+
+	if (is_comment_char(*walk))
 	{
 		while (*walk)
 			walk++;
@@ -64,7 +65,7 @@ t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 	return (st_succ);
 }
 
-t_st		read_arg_value_base(t_op *op, t_arg arg, const char **arg_line)
+static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
 	char		*num;
 	const char	*walk;
@@ -81,6 +82,7 @@ t_st		read_arg_value_base(t_op *op, t_arg arg, const char **arg_line)
 
 	num = ft_strrdup(*arg_line, walk - 1);
 
+	skip_whitespace(&walk);
 	if (is_comment_char(*walk))
 	{
 		while (*walk)
@@ -97,7 +99,7 @@ t_st		read_arg_value_base(t_op *op, t_arg arg, const char **arg_line)
 t_st		parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
 	if (read_arg_label(op, arg, arg_line))
-		return (read_arg_value_base(op, arg, arg_line));
+		return (read_arg_value(op, arg, arg_line));
 	else
 		return (st_succ);
 }
