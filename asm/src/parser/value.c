@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 10:58:28 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 16:03:51 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 17:35:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 	while (*walk && !ft_isspace(*walk) && *walk != deli_comma)
 		walk++;
 
-	if (!*walk)
-	{
-		ft_dprintf(2, " %{yellow_fg}end of line%{reset}\n");
-		return st_succ;
-	}
-	else if (!(ft_isspace(*walk) || *walk == deli_comma || is_comment_char(*walk)))
+	if (*walk && !(ft_isspace(*walk) || *walk == deli_comma || is_comment_char(*walk)))
 	{
 		ft_dprintf(2, " %{red_fg}invalid separator%{reset}\n");
 		return st_error;

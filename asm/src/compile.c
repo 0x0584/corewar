@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 15:27:48 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/24 17:59:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ static int i = 0;
 static void		dump_line(void *blob)
 {
 	ft_printf(" line %d `%s`\n", i++, blob);
+}
+
+void			dump_file(void)
+{
+	int i = 0;
+	while (i < CHAMP_MAX_SIZE)
+	{
+		ft_printf("%02x ", g_champ.file[i++]);
+		if (i%32 == 0)
+			ft_putendl("");
+	}
 }
 
 t_st			compile(t_lst lines, const char *outname)
@@ -81,7 +92,7 @@ static t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
 
 	if ((type = encoded(op_encoding(info, arg))) == T_REG)
 		g_champ.file[at++] = info->args.v[arg];
-	else if (type == T_DIR && info->meta.of.short_chunk)
+	else if (type == T_DIR && !info->meta.of.short_chunk)
 	{
 		g_champ.file[at++] = info->args.c[arg].val.byte_1;
 		g_champ.file[at++] = info->args.c[arg].val.byte_2;
@@ -116,8 +127,10 @@ static void		write_op(void *blob, void *size)
 	{
 		op->addr = *(t_s16 *)size;
 		g_champ.file[at++] = op->info.code;
-		g_champ.file[at++] = op->info.encoded.encod;
-		write_args(op, size);
+		if (op->info.meta.of.encoded)
+			g_champ.file[at++] = op->info.encoded.encod;
+		write_args(op, &at);
+		*(t_s16 *)size = at;
 	}
 	else
 		*(t_s16 *)size = -1;
@@ -134,7 +147,7 @@ static void		substitute_label(void *blob, void *argu)
 	op = blob;
 	while (arg < op->info.nargs)
 	{
-		if (op_meta_encoding(&op->info, arg) | T_LAB)
+		if (op->labels[arg])
 		{
 			if (hash_get(g_labels, op->labels[arg], NULL))
 				write_arg(&op->info, arg, op->addr + arg_offset(&op->info, arg));
