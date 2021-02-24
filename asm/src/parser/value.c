@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   value.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 10:58:28 by archid-           #+#    #+#             */
+/*   Updated: 2021/02/24 10:58:32 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "op_impl.h"
 
-static t_st		parse_arg_label(t_op *op, t_arg arg, const char **arg_line)
+t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 {
 	const char *walk;
 	char		*label;
@@ -46,15 +58,16 @@ static t_st		parse_arg_label(t_op *op, t_arg arg, const char **arg_line)
 	}
 }
 
-static t_st		parse_arg_value_base(t_op *op, t_arg arg, const char **arg_line)
+t_st		read_arg_value_base(t_op *op, t_arg arg, const char **arg_line)
 {
+
 	return (st_error);
 }
 
 t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
-	if (parse_arg_label(op, arg, arg_line))
-		return (parse_arg_value_base(op, arg, arg_line));
+	if (read_arg_label(op, arg, arg_line))
+		return (read_arg_value_base(op, arg, arg_line));
 	else
 		return (st_succ);
 }
