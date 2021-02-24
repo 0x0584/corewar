@@ -13,6 +13,21 @@
 #include "parser.h"
 #include "op_impl.h"
 
+static t_st		seek_delimiter(const char **arg_line, const char *walk)
+{
+	skip_whitespace(&walk);
+	if (*walk && *walk != deli_comma)
+	{
+		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
+		return st_error;
+	}
+	else
+	{
+		*arg_line = walk + (*walk == deli_comma);
+		return st_succ;
+	}
+}
+
 static t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 {
 	const char *walk;
@@ -20,82 +35,48 @@ static t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 
 	if (**arg_line != LABEL_CHAR)
 		return (st_fail);
-
 	*arg_line += 1;
 	walk = *arg_line;
-	while (*walk && !ft_isspace(*walk) && *walk != deli_comma)
+	while (!delimiter(*walk))
 		walk++;
-
-	if (*walk && !(ft_isspace(*walk) || *walk == deli_comma || is_comment_char(*walk)))
+	if (valid_label(label = ft_strrdup(*arg_line, walk - 1)))
 	{
-		ft_dprintf(2, " %{red_fg}invalid separator%{reset}\n");
+		free(label);
 		return st_error;
-	}
-
-	label = ft_strrdup(*arg_line, walk - 1);
-
-	skip_whitespace(&walk);
-	if (*walk && !(*walk == deli_comma || is_comment_char(*walk)))
-	{
-		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
-		return st_error;
-	}
-
-	if (is_comment_char(*walk))
-	{
-		while (*walk)
-			walk++;
-		*arg_line = walk;
 	}
 	else
-		*arg_line = walk + (*walk == deli_comma);
-
-	walk = label;
-	while (*walk)
 	{
-		if (!ft_strchr(LABEL_CHARS, *walk))
-		{
-			ft_dprintf(2, "%{red_fg}label contains illigale characters%{reset}\n");
-			return st_error;
-		}
-		walk++;
+		op->labels[arg] = label;
+		return (seek_delimiter(arg_line, walk));
 	}
-	op->labels[arg] = label;
-
-	return (st_succ);
 }
 
 static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
 	char		*num;
+	short		sh;
+	int			n;
 	const char	*walk;
 
 	walk = *arg_line;
 	while (ft_isdigit(*walk) && walk - *arg_line < 11)
 		walk++;
-
-	if (*walk && !(ft_isspace(*walk) || *walk == deli_comma || is_comment_char(*walk)))
+	if (*walk && !delimiter(*walk))
 	{
 		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
 		return (st_error);
 	}
-
 	num = ft_strrdup(*arg_line, walk - 1);
-
-	skip_whitespace(&walk);
-	if (is_comment_char(*walk))
+	n = ft_atoi(num);
+	sh = n;
+	if (sh != n && op->info.meta.of.short_chunk)
 	{
-		while (*walk)
-			walk++;
-		*arg_line = walk;
+		ft_dprintf(2, "%{red_fg}warnign overflow of arg %hhu in op %s %{reset}\n",
+				   arg, op->info.name);
 	}
-	else
-		*arg_line = walk + (*walk == deli_comma);
-	int n = ft_atoi(num);
-	ft_dprintf(2, " read value %d\n", n);
 	op->info.args.v[arg] = n;
-
-	return st_succ;
+	free(num);
+	return seek_delimiter(arg_line, walk);
 }
 
 t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line)

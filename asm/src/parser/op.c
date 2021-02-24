@@ -43,7 +43,7 @@ static void				find_op(const char *key, void *blob, void *arg)
 */
 t_st					parse_op(t_op *op, const char *line)
 {
-	const char				*spc;
+	const char				*walk;
 	t_pair					op_fetcher;
 
 	skip_whitespace(&line);
@@ -52,27 +52,23 @@ t_st					parse_op(t_op *op, const char *line)
 		ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
 		return st_fail;
 	}
-	spc = line;
-	while (*spc && ft_isalpha(*spc) && spc - line < MAX_OP_NAME)
-		spc++;
 
-	if (!*spc)
-	{
-		ft_dprintf(2, "%{red_fg}no arguments are found%{reset}\n");
-		return st_error;
-	}
-	else if (!ft_isspace(*spc))
+	walk = line;
+	while (*walk && ft_isalpha(*walk) && walk - line < MAX_OP_NAME)
+		walk++;
+
+	if (!ft_isspace(*walk))
 	{
 		ft_dprintf(2, "%{red_fg}no arguments are found%{reset}\n");
 		return st_error;
 	}
 
 	ft_bzero(op_str, MAX_OP_NAME + 1);
-	ft_strncpy(op_str, line, min(spc - line, MAX_OP_NAME));
+	ft_strncpy(op_str, line, min(walk - line, MAX_OP_NAME));
 	op_fetcher = (t_pair){NULL, op};
 	hash_iter_arg(g_op_lookup, &op_fetcher, find_op);
 	if (op_fetcher.first)
-		return (fetch_op_args(op, spc));
+		return (fetch_op_args(op, walk));
 	else
 	{
 		ft_dprintf(2, "%{red_fg}unknown operation `%s`%{reset}\n", op_str);
@@ -95,7 +91,6 @@ t_st					parse_op(t_op *op, const char *line)
 */
 static t_st		parse_label(const char *line, const char **op_start, const t_op *op)
 {
-	const char	*tmp;
 	const char	*walk;
 	char		*label;
 	t_st		st;
@@ -107,35 +102,26 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 		return (st_error);
 	}
 
-	tmp = line;
-	while (*tmp && !(*tmp == LABEL_CHAR || ft_isspace(*tmp)))
-		tmp++;
+	walk = line;
+	while (*walk && !(*walk == LABEL_CHAR || delimiter(*walk)))
+		walk++;
 
-	if (!*tmp)
+	if (!*walk)
 	{
 		ft_dprintf(2, "%{yellow_fg}end of line%{reset}\n");
 		*op_start = line;
 		return st_fail;
 	}
-	else if (ft_isspace(*tmp))
+	else if (*walk != LABEL_CHAR)
 	{
 		ft_dprintf(2, "%{yellow_fg}not label%{reset}\n");
 		*op_start = line;
 		return st_fail;
 	}
 
-	walk = line;
-	while (walk != tmp)
-	{
-		if (!ft_strchr(LABEL_CHARS, *walk))
-		{
-			ft_dprintf(2, "%{red_fg}label contains illigale characters%{reset}\n");
-			return st_error;
-		}
-		walk++;
-	}
-
-	if (!hash_add(g_labels, label = ft_strrdup(line, tmp - 1), op))
+	if (valid_label(label = ft_strrdup(line, walk - 1)))
+		return st_error;
+	else if (!hash_add(g_labels, label, op))
 	{
 		ft_dprintf(2, "%{red_fg}duplicated label%{reset}\n");
 		st = st_error;
@@ -147,7 +133,6 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 	}
 
 	free(label);
-
 	return (st);
 }
 
@@ -197,7 +182,7 @@ t_lst			parse_ops(t_lst lines)
 		{
 			lst_push_back_blob(ops, op, sizeof(t_op), false);
 			op_on_hold = true;
-			ft_printf(" >>>>>>>>>>>>>. . <<<<<<<<<<<<<<<<\n");
+			ft_printf(" >>>>>>>>>>>>> .. <<<<<<<<<<<<<<<<\n");
 			lst_iter(ops, true, print_op);
 		}
 

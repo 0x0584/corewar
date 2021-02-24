@@ -15,7 +15,7 @@
 
 #include "op.h"
 
-typedef enum	e_op_delimiters
+enum	e_op_delimiters
 {
 	deli_eol			= '\0',
 
@@ -32,10 +32,10 @@ typedef enum	e_op_delimiters
 	deli_hexa	 		= 'x',
 
 	deli_unknown		= -1,
-}				t_deli;
+};
 
-bool			delimiter(t_deli d);
+bool			delimiter(char c);
 
-bool			is_comment_char(t_deli d);
+bool			is_comment_char(char c);
 
 #endif

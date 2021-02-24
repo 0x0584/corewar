@@ -12,22 +12,15 @@
 
 #include "delimiter.h"
 
-bool		delimiter(t_deli d)
+bool		delimiter(char c)
 {
-	return d != deli_unknown;
+	return !c || ft_isspace(c) || is_comment_char(c) || c == deli_comma;
 }
 
-bool		is_comment_char(t_deli d)
+bool		is_comment_char(char d)
 {
 	return (d == deli_eol || d == deli_comment || d == deli_asm_comment);
 }
-
-
-static t_deli	check_prefix(t_deli d)
-{
-
-}
-
 
 t_st			skip_whitespace(const char **ptr)
 {
@@ -35,6 +28,8 @@ t_st			skip_whitespace(const char **ptr)
 	{
 		while (ft_isspace(**ptr))
 			*ptr += 1;
+		if (is_comment_char(**ptr))
+			*(char *)*ptr = '\0';
 		return (st_succ);
 	}
 	else
