@@ -24,11 +24,37 @@ static void		dump_line(void *blob)
 void			dump_file(void)
 {
 	int i = 0;
+	ft_putendl("");
 	while (i < CHAMP_MAX_SIZE)
 	{
-		ft_printf("%02x ", g_champ.file[i++]);
+		ft_printf("%02x%s", g_champ.file[i], (i+1)%2 == 0 ? " " : "");
+		i++;
 		if (i%32 == 0)
 			ft_putendl("");
+	}
+	ft_putendl("");
+}
+
+static t_st		write_champion(const int fd, const char *outname)
+{
+	int magic = COREWAR_EXEC_MAGIC;
+	int null = 0;
+
+	if (write(fd, &magic, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH ||
+		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, &g_champ.prog_size, (ssize_t)sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_name, COMMENT_LENGTH) < COMMENT_LENGTH ||
+		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
+	{
+		ft_dprintf(2, "cannot write %s\n", outname);
+		return st_error;
+	}
+	else
+	{
+		ft_dprintf(2, "wrote %s\n", outname);
+		return st_succ;
 	}
 }
 
@@ -47,12 +73,7 @@ t_st			compile(t_lst lines, const char *outname)
 	else if ((ops = parse_ops(lines)))
 	{
 		if ((st = write_prog(ops)) == st_succ)
-		{
-			if (write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
-				ft_dprintf(2, "cannot write %s\n", outname);
-			else
-				ft_dprintf(2, "wrote %s\n", outname);
-		}
+			st = write_champion(fd, outname);
 		lst_del(&ops);
 		close(fd);
 		return st;
@@ -68,18 +89,24 @@ t_st			compile(t_lst lines, const char *outname)
 static void		substitute_label(void *blob, void *argu)
 {
 	t_op			*op;
+	t_op			*label;
 	t_arg			arg;
+	t_u8			offset;
 
 	if (*(t_st *)argu != st_succ)
 		return ;
 	arg = 0;
 	op = blob;
+	offset = op->addr + op->info.meta.of.encoded + 1;
 	while (arg < op->info.nargs)
 	{
 		if (op->labels[arg])
 		{
-			if (hash_get(g_labels, op->labels[arg], NULL))
-				write_arg(&op->info, arg, op->addr + arg_offset(&op->info, arg));
+			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
+			{
+				op->info.args.c[arg].short_chunk = label->addr - op->addr;
+				write_arg(&op->info, arg, offset);
+			}
 			else
 			{
 				ft_dprintf(2, "referencing unknown label %s\n", op->labels[arg]);
@@ -87,8 +114,15 @@ static void		substitute_label(void *blob, void *argu)
 				break;
 			}
 		}
-		arg++;
+		offset += arg_offset(&op->info, arg++);
 	}
+}
+
+static void		label_dump(const char *key, void *blob)
+{
+	t_op *op = blob;
+
+	ft_dprintf(2, "%s -> [%s:%hu]\n", key, op->info.name, op->addr);
 }
 
 t_st			write_prog(t_lst ops)
@@ -104,8 +138,12 @@ t_st			write_prog(t_lst ops)
 				   CHAMP_MAX_SIZE);
 		return st_error;
 	}
+	dump_file();
+	ft_putendl("");
+	hash_iter(g_labels, label_dump);
 	g_champ.prog_size = size;
 	st = st_succ;
 	lst_iter_arg(ops, true, &st, substitute_label);
+	dump_file();
 	return (st);
 }

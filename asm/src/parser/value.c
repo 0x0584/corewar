@@ -91,12 +91,14 @@ static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 	}
 	else
 		*arg_line = walk + (*walk == deli_comma);
-	op->info.args.v[arg] = ft_atoi(num);
+	int n = ft_atoi(num);
+	ft_dprintf(2, " read value %d\n", n);
+	op->info.args.v[arg] = n;
 
 	return st_succ;
 }
 
-t_st		parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
+t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
 	if (read_arg_label(op, arg, arg_line))
 		return (read_arg_value(op, arg, arg_line));

@@ -29,7 +29,7 @@ static t_u8		op_memory_footprint(const t_op *op)
 	return (size);
 }
 
-t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
+t_s16			write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
 {
 	t_arg			type;
 
@@ -37,15 +37,15 @@ t_s16		write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
 		g_champ.file[at++] = info->args.v[arg];
 	else if (type == T_DIR && !info->meta.of.short_chunk)
 	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
-		g_champ.file[at++] = info->args.c[arg].val.byte_2;
-		g_champ.file[at++] = info->args.c[arg].val.byte_3;
 		g_champ.file[at++] = info->args.c[arg].val.byte_4;
+		g_champ.file[at++] = info->args.c[arg].val.byte_3;
+		g_champ.file[at++] = info->args.c[arg].val.byte_2;
+		g_champ.file[at++] = info->args.c[arg].val.byte_1;
 	}
 	else
 	{
-		g_champ.file[at++] = info->args.c[arg].val.byte_1;
 		g_champ.file[at++] = info->args.c[arg].val.byte_2;
+		g_champ.file[at++] = info->args.c[arg].val.byte_1;
 	}
 	return (at);
 }
@@ -56,7 +56,7 @@ static void		write_args(const t_op *op, t_s16 *size)
 
 	arg = 0;
 	while (arg < op->info.nargs)
-		*size += write_arg(&op->info, arg++, *size);
+		*size = write_arg(&op->info, arg++, *size);
 }
 
 void			write_op(void *blob, void *size)

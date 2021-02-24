@@ -9,4 +9,4 @@ loop:
 
 live: live		%0			
 			ld		 %0,r2		
-        zjmp	 %:loop			
+        zjmp	 %2555			

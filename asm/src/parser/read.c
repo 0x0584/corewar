@@ -32,6 +32,7 @@ t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
 	if (**arg_line == deli_reg)
 	{
 		set_encoding(op, arg, T_REG);
+		*arg_line += 1;
 		return read_reg(op, arg, arg_line);
 	}
 	else if (**arg_line == DIRECT_CHAR)

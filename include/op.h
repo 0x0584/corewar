@@ -219,7 +219,7 @@ typedef struct				s_op_info
 	**
 	** \see op.h
 	*/
-	t_op_meta		meta;
+	t_op_meta			meta;
 
 	/**
 	** \brief number of argument takes by the operation

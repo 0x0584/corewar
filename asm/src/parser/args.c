@@ -42,9 +42,12 @@ bool			ascii_to_digit(const char **astr, char *reg)
 {
 	char			c;
 
-	if (ft_isdigit(c = *++astr[0]))
+	if (ft_isdigit(c = **astr))
+	{
+		*astr += 1;
 		return (*reg = c);
-	else if (!(ft_isspace(c) || c == deli_comma))
+	}
+	else if (c && !(ft_isspace(c) || c == deli_comma || is_comment_char(c)))
 		return (!ft_dprintf(2, " %{red_fg}register is invalide%{reset} \n"));
 	else
 		return (true);
