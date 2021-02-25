@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 18:23:49 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 11:58:02 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ static void _dump_process(void *blob)
 
 static void vm_dump()
 {
-	ft_dprintf(g_fd, "Cycle: %d\n",
-			   g_vm.cycles);
+	ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles);
 	if (!g_vm.current_cycles || g_vm.cycles == 1)
 		ft_dprintf(g_fd, "Delta: %d\n Checks: %hhu\nLives: %hu\n",
 				   g_vm.delta, g_vm.n_checks, g_vm.lives);
@@ -64,17 +63,18 @@ t_st			vm_loop(void)
     {
 		g_vm.cycles++;
 		g_vm.current_cycles++;
+		ft_dprintf(g_fd, "It is now cycle: %d\n", g_vm.cycles);
 		/* ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles); */
 		/* process_dump(); */
     	lst_iter_arg(g_pool, true, &st, vm_read);
     	lst_iter_arg(g_pool, true, &st, vm_exec);
 		if (g_vm.current_cycles == g_vm.delta || g_vm.delta < 0)
 		{
-			ft_dprintf(g_fd, " >>>>>>>>>>>>>>>>>>>> ");
-			process_dump();
+			/* ft_dprintf(g_fd, " >>>>>>>>>>>>>>>>>>>> "); */
+			/* process_dump(); */
 			process_cleanup();
 		}
-		vm_dump();
+		/* vm_dump(); */
     }
 
 	/* ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles); */
@@ -108,3 +108,4 @@ int				g_fd;
 t_vm			g_vm = {.delta = CYCLE_TO_DIE, .lives = 0};
 
 bool			g_visu = false;
+bool			g_show_logs = true;

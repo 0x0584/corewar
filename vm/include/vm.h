@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 16:59:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 10:23:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** \brief at most we have `MAX_PLAYERS`
 ** \see op.h
 */
-typedef t_player	t_players[MAX_PLAYERS];
+typedef t_champ		t_players[MAX_PLAYERS];
 
 /**
 ** \brief memory is circular
