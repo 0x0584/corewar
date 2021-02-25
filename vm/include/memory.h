@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 11:57:42 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:55:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,5 @@ t_u32				beword(t_u32 word);
 ** \return big endian byte
 */
 t_u8				bebyte(t_u8 byte);
-
-extern bool			g_show_logs;
 
 #endif

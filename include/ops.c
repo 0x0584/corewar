@@ -25,3 +25,21 @@ const t_op_info g_ops[op_count] = {
 
 	[op_nop]	= {op_nop,   "nop",   .meta.of = {0}}
 };
+
+const char *str;
+
+int foo(const char *s)
+{
+
+}
+
+int bar(const char **s)
+{
+
+}
+
+int main()
+{
+	foo(str);
+	bar(&str);
+}

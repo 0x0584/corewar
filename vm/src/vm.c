@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 11:58:02 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:46:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,4 @@ int				g_fd;
 t_vm			g_vm = {.delta = CYCLE_TO_DIE, .lives = 0};
 
 bool			g_visu = false;
-bool			g_show_logs = true;
+bool			g_show_logs = false;

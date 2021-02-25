@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 11:58:43 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:54:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void				vm_read(void *proc, void *arg)
 		p->op.cycles *= -1;
 		*(t_st *)arg = st_succ;
 		if (g_show_logs)
-		{
 			ft_dprintf(g_fd, " >>> player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.info.name, -p->op.cycles);
-		}
 	}
 }
 
@@ -79,7 +77,8 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 		}
 		else
 		{
-			ft_dprintf(g_fd ," >>> %{red_fg}invalid register (%08b) access%{reset}\n", mem_deref(p, *offset));
+			if (g_show_logs)
+				ft_dprintf(g_fd ," >>> %{red_fg}invalid register (%08b) access%{reset}\n", mem_deref(p, *offset));
 			return (st_error);
 		}
 	else
@@ -106,7 +105,8 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 	}
 	else
 	{
-		ft_dprintf(g_fd ," >>> %{red_fg}unknown encoding of arg %d%{reset}", arg);
+		if (g_show_logs)
+			ft_dprintf(g_fd ," >>> %{red_fg}unknown encoding of arg %d%{reset}", arg);
 		return (st_fail);
 	}
 }
@@ -116,10 +116,14 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	t_st					st;
 
 	if (arg < p->op.info.nargs)
-		ft_dprintf(g_fd ," >>> encoding of %d (%02b)\n", arg, op_encoding(&p->op.info, arg));
+	{
+		if (g_show_logs)
+			ft_dprintf(g_fd ," >>> encoding of %d (%02b)\n", arg, op_encoding(&p->op.info, arg));
+	}
 	else
 	{
-		ft_dprintf(g_fd ," >>> %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(&p->op.info, arg));
+		if (g_show_logs)
+			ft_dprintf(g_fd ," >>> %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(&p->op.info, arg));
 		return st_fail;
 	}
 	if (op_meta_encoding(&p->op.info, arg) & encoded(op_encoding(&p->op.info, arg)))
@@ -130,7 +134,8 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 	}
 	else
 	{
-		ft_dprintf(g_fd ," >>> %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(&p->op.info, arg), op_meta_encoding(&p->op.info, arg));
+		if (g_show_logs)
+			ft_dprintf(g_fd ," >>> %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(&p->op.info, arg), op_meta_encoding(&p->op.info, arg));
 		return st_fail;
 	}
 	return (st);
@@ -152,7 +157,8 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 		return (st_succ);
 	else
 	{
-		ft_dprintf(g_fd ," >>> %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(&p->op.info, arg));
+		if (g_show_logs)
+			ft_dprintf(g_fd ," >>> %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(&p->op.info, arg));
 		return (st_fail);
 	}
 }
