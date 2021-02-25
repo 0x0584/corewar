@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.h                                           :+:      :+:    :+:   */
+/*   champ_impl.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,23 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAYER_H
-# define PLAYER_H
+#ifndef CHAMP_IMPL_H
+# define CHAMP_IMPL_H
 
 # include "champ.h"
+
+# include "const.h"
+
 # include "op_impl.h"
+# include "memory.h"
+
+# include "draw.h"
 
 /**
-** \brief reads a player from a file
+** \brief reads a champ from a file
 **
 ** \param filename the .cor file
 ** \param player_num index in `g_vm.arena`
 **
 ** \return
 **
-**   - `st_succ` if player is read
+**   - `st_succ` if champ is read
 **   - otherwise `st_error` or`st_fail` are returned
 */
-t_st				player_read(const char *filename, t_u8 player_num, t_champ *champ);
+t_st				champ_read(const char *filename, t_u8 player_num, t_champ *champ);
 
 #endif

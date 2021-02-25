@@ -21,16 +21,18 @@ void		live(t_proc proc)
 	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers)
 	{
 		g_vm.winner = id;
-		ft_dprintf(g_fd, "process %d said player (%d) (%d) is alive\n", proc->pid, id, arg_value(proc, 0, false));
+		ft_dprintf(g_fd, "process %d said player (%d) is alive\n", proc->pid, id);
+	}
+	else
+	{
+		ft_dprintf(g_fd, "process %d declared (%d) as alive\n", proc->pid, id);
 	}
 }
 
 void		zjmp(t_proc proc)
 {
-	{
-		if (proc->carry)
+	if (proc->carry)
 		proc->pc = shift_pc(proc, arg_value(proc, 0, false));
-	}
 }
 
 void		aff(t_proc proc)

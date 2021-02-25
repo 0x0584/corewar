@@ -14,13 +14,13 @@
 # define VM_H
 
 # include "op_impl.h"
-# include "player.h"
+# include "champ_impl.h"
 
 /**
 ** \brief at most we have `MAX_PLAYERS`
 ** \see op.h
 */
-typedef t_champ		t_players[MAX_PLAYERS];
+typedef t_champ			t_gladiators[MAX_PLAYERS];
 
 /**
 ** \brief memory is circular
@@ -28,59 +28,59 @@ typedef t_champ		t_players[MAX_PLAYERS];
 ** long operations access memory via a `MEM_SIZE` mod
 ** while regular operations use `IDX_MODE` mod
 */
-typedef t_u8		t_memory[MEM_SIZE];
+typedef t_u8			t_memory[MEM_SIZE];
 
 /**
 ** \brief
 */
-typedef struct		s_vm
+typedef struct			s_vm
 {
     /**
     ** \brief the VM's random access memory space
     */
-    t_memory	arena;
+    t_memory		arena;
 
     /**
 	 ** \brief Arena Memory colors
     ** \see draw.h
     */
-    t_memory	colors;
+    t_memory		colors;
 
     /**
     ** \brief number of player read via command line args
     */
-    t_u8		nplayers;
+    t_u8			nplayers;
 
     /**
     ** \brief players read via command line arguments
     */
-    t_players	gladiators;
+    t_gladiators	champs;
 
 	/**
 	** \brief how many cycles has the game been running
 	*/
-	t_s32		cycles;
+	t_s32			cycles;
 
-	t_s32		current_cycles;
+	t_s32			current_cycles;
 
-	t_u8		n_checks;
+	t_u8			n_checks;
 
 	/**
 	** \brief cycles to die keeps on diminishing. initialized with `CYCLE_TO_DIE`
 	*/
-	t_s16		delta;
+	t_s16			delta;
 
 
 	/**
 	** \brief how many lives have been executed since last delta
 	*/
-	t_u16		lives;
+	t_u16			lives;
 
     /**
     ** \brief id of last player that reported alive
     */
-    t_u8		winner;
-}					t_vm;
+    t_u8			winner;
+}						t_vm;
 
 /**
 ** \brief  parse command-line arguments and initialize VM's global variables

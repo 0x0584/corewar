@@ -22,10 +22,10 @@ t_proc		new_process(t_u8 player_num, t_pc at)
 
 	foo = ft_calloc(1, sizeof(struct s_process));
 	foo->pid = g_pid++;
-	foo->num = player_num + 1;
+	foo->num = player_num;
 	foo->pc = at;
-	foo->reg[1] = -(int)(player_num + 1);
-	g_pool = lst_push_front_blob(g_pool ? g_pool : lst_alloc(blob_free),
+	foo->reg[1] = -(int)(player_num);
+ 	g_pool = lst_push_front_blob(g_pool ? g_pool : lst_alloc(blob_free),
 								 foo, sizeof foo, false);
 	return (foo);
 }

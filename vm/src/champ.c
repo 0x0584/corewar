@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   champ.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
-#include "memory.h"
-#include "draw.h"
+#include "champ_impl.h"
 
 static t_st			read_champ(const int fd, t_u8 player_num, t_champ *champ)
 {
@@ -45,7 +43,7 @@ static t_st			read_champ(const int fd, t_u8 player_num, t_champ *champ)
 	return st_succ;
 }
 
-t_st				player_read(const char *filename, t_u8 player_num, t_champ *champ)
+t_st				champ_read(const char *filename, t_u8 player_num, t_champ *champ)
 {
     t_st				st;
     int					fd;

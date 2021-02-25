@@ -21,25 +21,16 @@ static int		print_usage(void)
 
 static void		declare_winner(void)
 {
-	int i;
-
-	i = 0;
-	ft_printf("delta %d winner %hhu %hhu\n", g_vm.delta, g_vm.winner, g_vm.nplayers);
-	while (i < g_vm.nplayers)
-	{
-		ft_printf("Player %d %s\n", i, g_vm.gladiators[i].prog_name);
-		++i;
-	}
 	if (g_vm.winner)
-		ft_printf("Winner is %{red_fg}%s%{reset}!\n", g_vm.gladiators[g_vm.winner - 1].prog_name);
+		ft_printf("Winner is %{red_fg}%s%{reset}!\n",
+				  g_vm.champs[g_vm.winner - 1].prog_name);
 	else
 		ft_putendl("No Winner!!");
 }
 
 int				main(int argc, char *argv[])
 {
-	int ret;
-
+	int				ret;
 
 	if ((g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
 		return (EXIT_FAILURE);

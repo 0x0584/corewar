@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "flags.h"
 
 static char		*files[MAX_PLAYERS];
 
-// flags: [-dump nbr_cycles] [[-n number] champion1.cor]
 t_st			parse_arguments(int ac, char *av[])
 {
 	int				i;
@@ -22,6 +22,9 @@ t_st			parse_arguments(int ac, char *av[])
 
 	if (ac == 1)
 		return (false);
+	else
+		parse_flags(ac, av);
+
 	i = 1;
 	j = 0;
 	while (i < ac)
@@ -36,15 +39,15 @@ t_st			parse_arguments(int ac, char *av[])
 	assert(j <= MAX_PLAYERS);
 	g_vm.nplayers = j;
 	while (j--)
-		if (player_read(files[j], j, g_vm.gladiators + j))
+		if (champ_read(files[j], j, g_vm.champs + j))
 			return (false);
 	j = 0;
 	while (j < g_vm.nplayers)
 	{
 		ft_printf("* Player %d, weighting %hu, \"%s\" (\"%s\")\n",
-				  j + 1, g_vm.gladiators[j].prog_size,
-				  g_vm.gladiators[j].prog_name,
-				  g_vm.gladiators[j].comment);
+				  j + 1, g_vm.champs[j].prog_size,
+				  g_vm.champs[j].prog_name,
+				  g_vm.champs[j].comment);
 		j++;
 	}
 	return (true);

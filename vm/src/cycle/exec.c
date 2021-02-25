@@ -68,6 +68,8 @@ void				vm_exec(void *proc, void *arg)
 	t_u8				offset;
 	t_proc				p;
 	t_pc				old;
+	char				*bytecode;
+	const char			*op_name;
 
 	g_jumped = false;
 	p = proc;
@@ -76,8 +78,12 @@ void				vm_exec(void *proc, void *arg)
 	else if (!g_jumped)
 	{
 		old = p->pc;
+		op_name = p->op.info.name;
+		bytecode = op_bytecode(&p->op.info);
 		move_pc(proc, offset);
-		ft_dprintf(g_fd ,"P %-4d: ADV %hd (0x%04x ->0x%04x) | nop\n", p->num, p->pc - old, old, p->pc);
+		ft_dprintf(g_fd ,"P %-4d: ADV %hd (0x%04x ->0x%04x) [%s] |\t%s \n",
+				   p->num, p->pc - old, old, p->pc, op_name, bytecode);
+		free(bytecode);
 	}
 	set_nop(proc);
 }
