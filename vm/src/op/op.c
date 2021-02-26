@@ -4,7 +4,7 @@
 
 void		set_nop(t_proc p)
 {
-	ft_memcpy(&p->op, &g_ops[op_nop], sizeof(t_op));
+	ft_memcpy(&p->op, &g_op[op_nop], sizeof(t_op));
 }
 
 void		nop(t_proc proc)
@@ -31,8 +31,13 @@ void		live(t_proc proc)
 
 void		zjmp(t_proc proc)
 {
+	t_ind addr;
+
+	addr = arg_value(proc, 0, false);
+	ft_dprintf(g_fd, "zjmp %hd ", addr);
 	if (proc->carry)
-		proc->pc = shift_pc(proc, arg_value(proc, 0, false));
+		proc->pc = shift_pc(proc, addr);
+	ft_putendl_fd(proc->carry ? "OK" : "FAIL", g_fd);
 }
 
 void		aff(t_proc proc)
