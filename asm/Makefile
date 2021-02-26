@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/17 16:02:06 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/26 10:22:49 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -61,5 +61,8 @@ re: fclean all
 build:
 	@rm -rf $(OBJ_DIR) $(NAME)
 	@make
+
+check: all
+	@./test.sh
 
 .PHONY: all clean fclean re build

@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 10:58:28 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 17:35:34 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:52:41 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "op_impl.h"
 
-static t_st		seek_delimiter(const char **arg_line, const char *walk)
+static t_st				seek_delimiter(const char **arg_line, const char *walk)
 {
 	skip_whitespace(&walk);
 	if (*walk && *walk != deli_comma)
@@ -28,10 +28,10 @@ static t_st		seek_delimiter(const char **arg_line, const char *walk)
 	}
 }
 
-static t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
+static t_st				read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 {
-	const char *walk;
-	char		*label;
+	const char				*walk;
+	char					*label;
 
 	if (**arg_line != LABEL_CHAR)
 		return (st_fail);
@@ -51,17 +51,27 @@ static t_st		read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 	}
 }
 
-static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
+static const char		*parse_num(const char *walk)
 {
-	char		*num;
-	short		sh;
-	int			n;
-	const char	*walk;
+	const char				*ori;
+	bool					sign;
 
-	walk = *arg_line;
-	while (ft_isdigit(*walk) && walk - *arg_line < 11)
+	ori = walk;
+	sign = false;
+	while (((!sign && (sign = ft_strchr("+-", *walk) != NULL)) || ft_isdigit(*walk))
+		   && walk - ori < 11 + sign)
 		walk++;
-	if (*walk && !delimiter(*walk))
+	return walk;
+}
+
+static t_st				read_arg_value(t_op *op, t_arg arg, const char **arg_line)
+{
+	char			        *num;
+	short			        sh;
+	int				        n;
+	const char		        *walk;
+
+	if (*(walk = parse_num(*arg_line)) && !delimiter(*walk))
 	{
 		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
 		return (st_error);
@@ -71,7 +81,7 @@ static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 	sh = n;
 	if (sh != n && op->info.meta.of.short_chunk)
 	{
-		ft_dprintf(2, "%{red_fg}warnign overflow of arg %hhu in op %s %{reset}\n",
+		ft_dprintf(2, "%{red_fg}warning overflow of arg %hhu in op %s %{reset}\n",
 				   arg, op->info.name);
 	}
 	op->info.args.v[arg] = n;
@@ -79,7 +89,7 @@ static t_st		read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 	return seek_delimiter(arg_line, walk);
 }
 
-t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
+t_st					parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
 	if (read_arg_label(op, arg, arg_line))
 		return (read_arg_value(op, arg, arg_line));

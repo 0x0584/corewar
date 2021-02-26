@@ -6,11 +6,11 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 10:59:25 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 10:59:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 10:08:39 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "reader.h"
+#include "read.h"
 #include "op_impl.h"
 
 static void		ops_init(void)

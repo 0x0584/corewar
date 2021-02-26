@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 08:07:32 by archid-           #+#    #+#              #
-#    Updated: 2021/02/14 14:56:55 by archid-          ###   ########.fr        #
+#    Updated: 2021/02/26 10:20:48 by archid-          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -29,29 +29,29 @@ $(DEPS_DIR)/%.o: $(DEPS_DIR)/%.c $(LIBFT)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT): $(FT_HEADERS)
-	@make -C $(FT_DIR) DEBUG=$(DEBUG)
+	@$(MAKE) -C $(FT_DIR) DEBUG=$(DEBUG)
 
 vm: $(DEPS)
 #	@echo building $(VM_DIR)
-	@make -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@$(MAKE) -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 asm: $(DEPS)
 #	@echo building $(ASM_DIR)
-	@make -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@$(MAKE) -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
 
 clean:
-	@make clean -C $(FT_DIR)  > /dev/null
-	@make -C $(VM_DIR) clean  > /dev/null
-	@make -C $(ASM_DIR) clean > /dev/null
+	@$(MAKE) clean -C $(FT_DIR)  > /dev/null
+	@$(MAKE) -C $(VM_DIR) clean  > /dev/null
+	@$(MAKE) -C $(ASM_DIR) clean > /dev/null
 
 fclean:
-	@make fclean -C $(FT_DIR) > /dev/null
-	@make -C $(VM_DIR)  fclean > /dev/null
-	@make -C $(ASM_DIR)	fclean > /dev/null
+	@$(MAKE) fclean -C $(FT_DIR) > /dev/null
+	@$(MAKE) -C $(VM_DIR)  fclean > /dev/null
+	@$(MAKE) -C $(ASM_DIR)	fclean > /dev/null
 
 cleanup:
-	@make -C $(VM_DIR)  fclean > /dev/null
-	@make -C $(ASM_DIR)	fclean > /dev/null
+	@$(MAKE) -C $(VM_DIR)  fclean > /dev/null
+	@$(MAKE) -C $(ASM_DIR)	fclean > /dev/null
 
 re: fclean all
 
@@ -63,9 +63,8 @@ distcheck:
 	@git --version
 	@uname -a
 
-check: all
-
 test: all
-	./$(NAME) foo.cor Gagnant.cor foo.cor maxidef.cor
+	@$(MAKE) -C $(ASM_DIR) check
+	@$(MAKE) -C $(VM_DIR) check
 
 .PHONY: all re clean fclean vm asm distcheck check test

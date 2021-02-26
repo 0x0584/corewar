@@ -6,11 +6,11 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:27:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 16:20:52 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 10:09:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "reader.h"
+#include "read.h"
 #include "op_impl.h"
 
 t_u8			arg_valid_types(const t_op *op, t_arg arg)

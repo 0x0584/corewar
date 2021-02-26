@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 17:59:25 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 12:17:55 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void			dump_file(void)
 
 static t_st		write_champion(const int fd, const char *outname)
 {
-	int magic = COREWAR_EXEC_MAGIC;
+	int magic = beword(COREWAR_EXEC_MAGIC);
 	int null = 0;
 
 	if (write(fd, &magic, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, g_name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH ||
 		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, &g_champ.prog_size, (ssize_t)sizeof(int)) < (ssize_t)sizeof(int) ||
-		write(fd, g_name, COMMENT_LENGTH) < COMMENT_LENGTH ||
+		write(fd, g_champ.comment, COMMENT_LENGTH) < COMMENT_LENGTH ||
 		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
 	{

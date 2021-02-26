@@ -6,11 +6,11 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 10:59:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/24 18:00:39 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 10:09:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "reader.h"
+#include "read.h"
 #include "args.h"
 
 static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type)
