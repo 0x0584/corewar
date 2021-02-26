@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/15 11:52:01 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:55:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 **
 ** \see process.h
 */
-void				mem_load(t_u8 player_num, t_player *p, const t_champ *champ);
+void				mem_load(t_u8 player_idx, const t_champ *champ);
 
 t_st				handle_chunk(t_proc p, t_arg arg, t_pc *offset);
 

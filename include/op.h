@@ -246,6 +246,11 @@ typedef struct				s_op_info
 	const char			*doc;
 }							t_op_info;
 
+/**
+** \return allocated byte code string
+*/
+char						*op_bytecode(const t_op_info *info);
+
 t_arg						op_encoding(const t_op_info *info, t_arg which);
 t_arg						op_meta_encoding(const t_op_info *info, t_arg which);
 t_arg						encoded(t_u8 arg_code);

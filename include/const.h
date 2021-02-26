@@ -14,7 +14,8 @@
 # define CONST_H
 
 # include <assert.h>
-# include "types.h"
+
+# include "libft.h"
 
 # define IND_SIZE				2
 # define REG_SIZE				4

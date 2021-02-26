@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 18:25:17 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 17:28:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/02/26 12:43:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ static void kill_process(void)
 	t_lstnode	walk;
 	t_proc		p;
 
-	ft_dprintf(g_fd, " >>>>>>>>>>>>\n");
 	walk = g_pool->head;
 	while (walk->next != g_pool->tail)
 	{
 		p = walk->next->blob;
 		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
 		{
-			ft_dprintf(g_fd, " >>>>>>>>>>>> killed %d %s\n", p->pid, p->op.info.name);
+			ft_dprintf(g_fd_check, "killed %d %s\n", p->pid, p->op.info.name);
 			lst_remove_next(g_pool, walk);
 		}
 		else
@@ -36,7 +35,6 @@ static void kill_process(void)
 			lst_node_forward(&walk);
 		}
 	}
-	ft_dprintf(g_fd, " >>>>>>>>>>>>\n");
 }
 
 static void check_vm(void)
@@ -49,6 +47,7 @@ static void check_vm(void)
 		g_vm.n_checks = 0;
 		g_vm.delta -= CYCLE_DELTA;
 		ft_dprintf(g_fd_check, " new delta %hd\n", g_vm.delta);
+		ft_dprintf(g_fd, "Cycle to die is now %d\n", g_vm.delta);
 	}
 	else
 	{

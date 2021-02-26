@@ -1,0 +1,19 @@
+* Abstract
+
+#+BEGIN_QUOTE
+/Both the assembler and the virtual machine use the same operations and write/expect the same file structure, thus it makes sense to have those dependencies at the root level of the repo/
+#+END_QUOTE
+
+* Constants --- =const.h=
+
+* Operations --- =op.h=
+
+=t_op_info= holds all the information we might need on an operation in a visible way, as oppose to the provided =op.h= (obviously, it is so for motivation reasons)
+
+** Meta =t_op_meta=
+
+** Encoding =t_op_encoding=
+
+** Arguments Blob =t_blob=
+
+* Champions --- =champ.h=
