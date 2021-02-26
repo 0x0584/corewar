@@ -177,3 +177,8 @@ corewar
 #./core
 #/core
 docs
+.extra/
+*.log
+*.cor
+*.txt
+*.s
