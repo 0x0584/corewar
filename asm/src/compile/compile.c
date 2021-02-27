@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "write.h"
+#include "compile.h"
 #include "op_impl.h"
 
 static int i = 0;
@@ -75,15 +75,14 @@ t_st			compile(t_lst lines, const char *outname)
 		if ((st = write_prog(ops)) == st_succ)
 			st = write_champion(fd, outname);
 		lst_del(&ops);
-		close(fd);
-		return st;
 	}
 	else
 	{
 		ft_dprintf(2, "couldn't parse operations\n");
-		close(fd);
-		return st_error;
+		st = st_error;
 	}
+	close(fd);
+	return st;
 }
 
 static void		substitute_label(void *blob, void *argu)

@@ -21,4 +21,6 @@ void			write_op(void *blob, void *size);
 
 t_st			write_prog(t_lst ops);
 
+t_st			compile(t_lst lines, const char *outname);
+
 #endif

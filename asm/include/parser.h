@@ -24,6 +24,20 @@ t_st			match_comment(const char *line);
 
 t_st			valid_label(const char *label);
 
+t_u8			arg_valid_types(const t_op *op, t_arg arg);
+void			set_op_encoding(t_op *op, t_arg arg, t_u8 type);
+bool			ascii_to_digit(const char **astr, char *reg);
+
+t_st			fetch_op_args(t_op *op, const char *args_line);
+
+t_st			read_arg(t_op *op, const t_arg arg, const char **arg_line);
+
+/* t_st			read_arg_label(t_op *op, t_arg arg, const char **arg_line); */
+/* t_st			read_arg_value_base(t_op *op, t_arg arg, const char **arg_line); */
+t_st			read_reg(t_op *op, const t_arg arg, const char **arg_line);
+
+t_st			read_file(const int ac, const char *av[]);
+
 t_st			parse_line(char **line);
 t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line);
 t_st			parse_op(t_op *op, const char *buff);

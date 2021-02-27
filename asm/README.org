@@ -1,6 +1,11 @@
 #+TITLE: Simplified Assembly Language
 #+AUTHOR: Anas Rchid
 
+* TODO check source files [1/2]
+
+- [ ] bee_gees.s :: differ in comment
+- [X] bigzork.s :: correct
+- [ ] fluttershy.s :: differ in encoding byte
 * Abstract
 
 #+BEGIN_QUOTE

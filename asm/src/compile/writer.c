@@ -1,7 +1,6 @@
 #include "parser.h"
 #include "op_impl.h"
 
-
 t_u8			arg_offset(const t_op_info *info, t_arg arg)
 {
 	t_arg			type;

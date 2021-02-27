@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "read.h"
-#include "args.h"
+#include "parser.h"
 #include "op_impl.h"
 
 t_st				valid_label(const char *label)

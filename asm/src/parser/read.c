@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "read.h"
-#include "args.h"
+#include "parser.h"
 
 static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type)
 {
@@ -40,7 +39,7 @@ t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
 		*arg_line += 1;
 		set_encoding(op, arg, T_DIR);
 	}
-	else if (ft_isdigit(**arg_line) || **arg_line == LABEL_CHAR)
+	else if (ft_strchr("+-", **arg_line) || ft_isdigit(**arg_line) || **arg_line == LABEL_CHAR)
 		set_encoding(op, arg, T_IND);
 	else
 	{

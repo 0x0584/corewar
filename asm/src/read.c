@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "read.h"
-#include "args.h"
+#include "parser.h"
+#include "compile.h"
 
 static char		*filename(const char *in)
 {

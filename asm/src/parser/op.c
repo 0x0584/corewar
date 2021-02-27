@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "args.h"
+#include "parser.h"
 #include "op_impl.h"
 
 static char				op_str[MAX_OP_NAME + 1];
@@ -182,11 +182,9 @@ t_lst			parse_ops(t_lst lines)
 		{
 			lst_push_back_blob(ops, op, sizeof(t_op), false);
 			op_on_hold = true;
-			ft_printf(" >>>>>>>>>>>>> .. <<<<<<<<<<<<<<<<\n");
-			lst_iter(ops, true, print_op);
 		}
-
 		lst_node_forward(&walk);
 	}
+	lst_iter(ops, true, print_op);
 	return ops;
 }
