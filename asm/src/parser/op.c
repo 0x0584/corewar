@@ -57,7 +57,12 @@ t_st					parse_op(t_op *op, const char *line)
 	while (*walk && ft_isalpha(*walk) && walk - line < MAX_OP_NAME)
 		walk++;
 
-	if (!ft_isspace(*walk))
+	if (!*walk)
+	{
+		ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
+		return st_fail;
+	}
+	else if (!ft_isspace(*walk))
 	{
 		ft_dprintf(2, "%{red_fg}no arguments are found%{reset}\n");
 		return st_error;
@@ -136,12 +141,6 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 	return (st);
 }
 
-static void		delete_ops(t_op *op, t_lst *ops)
-{
-	lst_del(ops);
-	free(op);
-}
-
 void			print_op(void *blob)
 {
 	t_op *op = blob;
@@ -157,34 +156,27 @@ t_lst			parse_ops(t_lst lines)
 	const char		*op_at;
 	t_st			st;
 
-	bool			op_on_hold;
-
 	ops = lst_alloc(blob_free);
 	walk = lst_front(lines);
-
-	op_on_hold = true;
-
+	op = NULL;
 	while (walk)
 	{
-		if (op_on_hold)
-		{
+		if (!op)
 			op = ft_calloc(1, sizeof(t_op));
-			op_on_hold = false;
-		}
-
 		if (parse_label(walk->blob, &op_at, op) == st_error
 			|| (st = parse_op(op, op_at)) == st_error)
 		{
-			delete_ops(op, &ops);
+			lst_del(&ops);
 			break;
 		}
 		else if (st == st_succ)
 		{
 			lst_push_back_blob(ops, op, sizeof(t_op), false);
-			op_on_hold = true;
+			op = NULL;
 		}
 		lst_node_forward(&walk);
 	}
 	lst_iter(ops, true, print_op);
+	free(op);
 	return ops;
 }

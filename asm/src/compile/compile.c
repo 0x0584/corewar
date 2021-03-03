@@ -38,12 +38,13 @@ void			dump_file(void)
 static t_st		write_champion(const int fd, const char *outname)
 {
 	int magic = beword(COREWAR_EXEC_MAGIC);
+	int prog_size = beword(g_champ.prog_size);
 	int null = 0;
 
 	if (write(fd, &magic, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, g_name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH ||
 		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
-		write(fd, &g_champ.prog_size, (ssize_t)sizeof(int)) < (ssize_t)sizeof(int) ||
+		write(fd, &prog_size, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, g_champ.comment, COMMENT_LENGTH) < COMMENT_LENGTH ||
 		write(fd, &null, sizeof(int)) < (ssize_t)sizeof(int) ||
 		write(fd, g_champ.file, g_champ.prog_size) < g_champ.prog_size)
@@ -85,31 +86,37 @@ t_st			compile(t_lst lines, const char *outname)
 	return st;
 }
 
-static void		substitute_label(void *blob, void *argu)
+static void		substitute_label(void *blob, void *st)
 {
 	t_op			*op;
 	t_op			*label;
 	t_arg			arg;
-	t_u8			offset;
+	t_s16			offset;
 
-	if (*(t_st *)argu != st_succ)
+	if (*(t_st *)st != st_succ)
 		return ;
 	arg = 0;
 	op = blob;
-	offset = op->addr + op->info.meta.of.encoded + 1;
+	offset = op->addr + (op->info.meta.of.encoded != 0) + 1;
 	while (arg < op->info.nargs)
 	{
 		if (op->labels[arg])
 		{
 			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
 			{
-				op->info.args.c[arg].short_chunk = label->addr - op->addr;
+				op->info.args.c[arg].short_chunk = label->addr ? label->addr - op->addr : (t_ind)g_champ.prog_size;
+				ft_dprintf(2, "label at %hd | op at %hd\n", label->addr , op->addr);
+				ft_dprintf(2, "writing %s %04x (%hd) at %hd\n\n",
+						   op->labels[arg],
+						   op->info.args.c[arg].short_chunk,
+						   op->info.args.c[arg].short_chunk,
+						   offset);
 				write_arg(&op->info, arg, offset);
 			}
 			else
 			{
 				ft_dprintf(2, "referencing unknown label %s\n", op->labels[arg]);
-				*(t_st *)argu = st_error;
+				*(t_st *)st = st_error;
 				break;
 			}
 		}

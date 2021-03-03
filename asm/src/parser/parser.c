@@ -20,8 +20,7 @@ static t_st		parse_header(const char *line)
 
 	walk = line;
 	st = st_fail;
-	while (*walk && ft_isspace(*walk))
-		walk++;
+	skip_whitespace(&line);
 	if (!*walk)
 		return (st_fail);
 	else if ((st = match_name(line)) == st_fail)
