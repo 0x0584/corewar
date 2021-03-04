@@ -1,5 +1,5 @@
 #/bin/bash
-for f in ../.extra/champs/*.s
+for f in tests/valid/*.s
 do
 	echo $f;
 	./asm $f; od -tx1 ${f%.s}.cor > $f.A.hex;

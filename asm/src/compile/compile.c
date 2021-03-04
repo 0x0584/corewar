@@ -80,7 +80,8 @@ t_st			compile(t_lst lines, const char *outname)
 	}
 	else
 	{
-		ft_dprintf(2, "couldn't parse operations\n");
+		if (g_debug)
+			ft_dprintf(2, "couldn't parse operations\n");
 		st = st_error;
 	}
 	close(fd);

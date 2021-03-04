@@ -1,4 +1,5 @@
 .name "foo"
+.name "fofofo"
 .comment "bar"
 
 loop:

@@ -23,22 +23,20 @@ static t_st		parse_header(const char *line)
 	skip_whitespace(&line);
 	if (!*walk)
 		return (st_fail);
-	else if ((st = match_name(line)) == st_fail)
-	{
-		if ((st = match_comment(line)))
-			return (st);
-		else
-			return (st_succ);
-	}
-	else if (st == st_succ)
-		return (st);
+	else if ((st = match_name(line)) == st_succ)
+		return (g_header_status <= 2 ? st_succ : st_error);
+	else if (st == st_error)
+		return st_error;
+	else if ((st = match_comment(line)) == st_succ)
+		return (g_header_status <= 2 ? st_succ : st_error);
+	else if (st == st_error)
+		return st_error;
 	else
-		return (g_header_status == 2 ? st_succ : st_error);
+		return (st_fail);
 }
 
 t_st			parse_line(char **line)
 {
-	const char		*instr;
 	t_st			st;
 
 	if (!line || !*line)
@@ -47,27 +45,10 @@ t_st			parse_line(char **line)
 		return (st_error);
 	else if (st == st_succ)
 		return (st_fail);
+	else if (is_comment_char(*line[0]))
+		return (st_fail);
 	else
-	{
-		if (is_comment_char(*line[0]))
-			return (st_fail);
-		instr = *line;
-		while (*instr && ft_isspace(*instr))
-			instr++;
-		if (!*instr)
-			return st_fail;
-		while (*instr)
-		{
-			if (is_comment_char(*instr))
-			{
-				ft_strchange(line, ft_strrdup(*line, instr));
-				break;
-			}
-			else
-				instr++;
-		}
 		return (st_succ);
-	}
 }
 
 

@@ -49,7 +49,8 @@ t_st					parse_op(t_op *op, const char *line)
 	skip_whitespace(&line);
 	if (!*line)
 	{
-		ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
 		return st_fail;
 	}
 
@@ -59,7 +60,8 @@ t_st					parse_op(t_op *op, const char *line)
 
 	if (!*walk)
 	{
-		ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
 		return st_fail;
 	}
 	else if (!ft_isspace(*walk))
@@ -158,6 +160,8 @@ t_lst			parse_ops(t_lst lines)
 	const char		*op_at;
 	t_st			st;
 
+	if (lst_empty(lines))
+		return NULL;
 	ops = lst_alloc(blob_free);
 	walk = lst_front(lines);
 	op = NULL;

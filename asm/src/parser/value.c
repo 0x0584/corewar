@@ -96,8 +96,10 @@ static t_st				read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 
 t_st					parse_arg_value(t_op *op, t_arg arg, const char **arg_line)
 {
-	if (read_arg_label(op, arg, arg_line))
-		return (read_arg_value(op, arg, arg_line));
+	t_st					st;
+
+	if ((st = read_arg_label(op, arg, arg_line)) != st_fail)
+		return st;
 	else
-		return (st_succ);
+		return (read_arg_value(op, arg, arg_line));
 }
