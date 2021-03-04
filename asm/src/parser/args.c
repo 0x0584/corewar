@@ -55,8 +55,9 @@ bool			ascii_to_digit(const char **astr, char *reg)
 
 static t_st		fetch_arg(t_op *op, t_arg arg, const char **arg_line)
 {
-	ft_dprintf(2, " reading argument %hhu of operation %s at `%s`\n",
-			   arg, op->info.name, *arg_line);
+	if (g_debug)
+		ft_dprintf(2, " reading argument %hhu of operation %s at `%s`\n",
+				   arg, op->info.name, *arg_line);
 	if (!arg_line || !*arg_line || !**arg_line)
 	{
 		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
@@ -73,7 +74,8 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 
 	skip_whitespace(&args_line);
 	arg = 0;
-	ft_dprintf(2, " fetching args for `%s`\n", args_line);
+	if (g_debug)
+		ft_dprintf(2, " fetching args for `%s`\n", args_line);
 	while (arg < op->info.nargs)
 		if ((st = fetch_arg(op, arg++, &args_line)))
 			return (st);

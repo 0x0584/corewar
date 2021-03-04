@@ -113,13 +113,15 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 
 	if (!*walk)
 	{
-		ft_dprintf(2, "%{yellow_fg}end of line%{reset}\n");
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}end of line%{reset}\n");
 		*op_start = line;
 		return st_fail;
 	}
 	else if (*walk != LABEL_CHAR)
 	{
-		ft_dprintf(2, "%{yellow_fg}not label%{reset}\n");
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}not label%{reset}\n");
 		*op_start = line;
 		return st_fail;
 	}
@@ -176,7 +178,8 @@ t_lst			parse_ops(t_lst lines)
 		}
 		lst_node_forward(&walk);
 	}
-	lst_iter(ops, true, print_op);
+	if (g_debug)
+		lst_iter(ops, true, print_op);
 	free(op);
 	return ops;
 }

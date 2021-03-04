@@ -65,7 +65,8 @@ t_st			compile(t_lst lines, const char *outname)
 	t_st			st;
 	int				fd;
 
-	lst_iter(lines, true, dump_line);
+	if (g_debug)
+		lst_iter(lines, true, dump_line);
 	if ((fd = open(outname, O_CREAT | O_TRUNC | O_WRONLY, 0777)) < 0)
 	{
 		ft_dprintf(2, "cannot open file descriptor for writing %s!\n", outname);
@@ -104,13 +105,19 @@ static void		substitute_label(void *blob, void *st)
 		{
 			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
 			{
-				op->info.args.c[arg].short_chunk = label->addr ? label->addr - op->addr : (t_ind)g_champ.prog_size;
-				ft_dprintf(2, "label at %hd | op at %hd\n", label->addr , op->addr);
-				ft_dprintf(2, "writing %s %04x (%hd) at %hd\n\n",
-						   op->labels[arg],
-						   op->info.args.c[arg].short_chunk,
-						   op->info.args.c[arg].short_chunk,
-						   offset);
+				if (label->addr)
+					op->info.args.c[arg].short_chunk =  label->addr - op->addr;
+				else
+				    op->info.args.c[arg].short_chunk = g_champ.prog_size;
+				if (g_debug)
+				{
+					ft_dprintf(2, "label at %hd | op at %hd\n", label->addr , op->addr);
+					ft_dprintf(2, "writing %s %04x (%hd) at %hd\n\n",
+							   op->labels[arg],
+							   op->info.args.c[arg].short_chunk,
+							   op->info.args.c[arg].short_chunk,
+							   offset);
+				}
 				write_arg(&op->info, arg, offset);
 			}
 			else
@@ -144,12 +151,18 @@ t_st			write_prog(t_lst ops)
 				   CHAMP_MAX_SIZE);
 		return st_error;
 	}
-	dump_file();
-	ft_putendl("");
-	hash_iter(g_labels, label_dump);
+	if (g_debug)
+	{
+		dump_file();
+		ft_putendl("");
+		hash_iter(g_labels, label_dump);
+	}
 	g_champ.prog_size = size;
 	st = st_succ;
 	lst_iter_arg(ops, true, &st, substitute_label);
-	dump_file();
+	if (g_debug)
+		dump_file();
 	return (st);
 }
+
+bool		g_debug = false;

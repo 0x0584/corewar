@@ -43,6 +43,8 @@ t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line);
 t_st			parse_op(t_op *op, const char *buff);
 t_lst			parse_ops(t_lst lines);
 
+extern bool		g_debug;
+
 extern t_hash	g_op_lookup;
 extern t_champ	g_champ;
 extern int		g_header_status;

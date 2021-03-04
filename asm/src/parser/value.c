@@ -58,7 +58,7 @@ static const char		*parse_num(const char *walk)
 
 	ori = walk;
 	sign = false;
-	while (((!sign && (sign = ft_strchr("+-", *walk) != NULL)) || ft_isdigit(*walk))
+	while (*walk && ((!sign && (sign = ft_strchr("+-", *walk) != NULL)) || ft_isdigit(*walk))
 		   && walk - ori < 11 + sign)
 		walk++;
 	return walk;
@@ -84,8 +84,11 @@ static t_st				read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 		ft_dprintf(2, "%{red_fg}warning overflow of arg %hhu in op %s %{reset}\n",
 				   arg, op->info.name);
 	}
-	ft_printf(" >>> (int %d) (short cast %hd) (%hd)\n", n, sh, n);
-	ft_printf(" >>> (int %08x) (short cast %08x) (%08x)\n", n, sh, n);
+	if (g_debug)
+	{
+		ft_printf(" >>> (int %d) (short cast %hd) (%hd)\n", n, sh, n);
+		ft_printf(" >>> (int %08x) (short cast %08x) (%08x)\n", n, sh, n);
+	}
 	op->info.args.v[arg] = n;
 	free(num);
 	return seek_delimiter(arg_line, walk);
