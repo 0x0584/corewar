@@ -45,6 +45,7 @@ t_st			read_file(const int ac, const char *av[])
 	else if ((fd = open(av[1], O_RDONLY)) < 0)
 	{
 		ft_dprintf(2, "cannot open file\n", av[1]);
+		free(outname);
 		return (st_fail);
 	}
 	file = lst_alloc(blob_free);
