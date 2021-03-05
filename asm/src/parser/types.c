@@ -50,18 +50,9 @@ t_st				read_reg(t_op *op, const t_arg arg, const char **arg_line)
 				   arg, op->info.name);
 		return (st_error);
 	}
-	skip_whitespace(arg_line);
-	if (delimiter(**arg_line))
-	{
-		if (**arg_line)
-			*arg_line += 1;
-		op->info.args.v[arg] = reg_num;
-		return (st_succ);
-	}
 	else
 	{
-		ft_dprintf(2, " %{red_fg}argument %hhu of operation `%s` has invalid register access%{reset}\n",
-				   arg, op->info.name);
-		return (st_error);
+		op->info.args.v[arg] = reg_num;
+		return seek_delimiter(arg_line, *arg_line, op->info.nargs == arg + 1);
 	}
 }

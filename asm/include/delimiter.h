@@ -35,7 +35,8 @@ enum	e_op_delimiters
 };
 
 bool			delimiter(char c);
-
 bool			is_comment_char(char c);
+t_st			seek_delimiter(const char **arg_line, const char *walk,
+							   bool last_arg);
 
 #endif

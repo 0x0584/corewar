@@ -27,7 +27,6 @@ static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type)
 t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
 {
 	skip_whitespace(arg_line);
-
 	if (**arg_line == deli_reg)
 	{
 		set_encoding(op, arg, T_REG);

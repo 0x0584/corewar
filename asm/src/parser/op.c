@@ -115,10 +115,8 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 
 	if (!*walk)
 	{
-		if (g_debug)
-			ft_dprintf(2, "%{yellow_fg}end of line%{reset}\n");
-		*op_start = line;
-		return st_fail;
+		ft_dprintf(2, "%{red_fg}invalid label%{reset}\n");
+		return st_error;
 	}
 	else if (*walk != LABEL_CHAR)
 	{

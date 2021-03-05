@@ -38,3 +38,18 @@ t_st			skip_whitespace(const char **ptr)
 		return (st_error);
 	}
 }
+
+t_st				seek_delimiter(const char **arg_line, const char *walk, bool last_arg)
+{
+	skip_whitespace(&walk);
+	if (*walk && (*walk != deli_comma || (*walk == deli_comma && last_arg)))
+	{
+		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
+		return st_error;
+	}
+	else
+	{
+		*arg_line = walk + (*walk == deli_comma);
+		return st_succ;
+	}
+}

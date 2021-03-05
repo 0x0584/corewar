@@ -74,7 +74,7 @@ t_st		match_name(const char *line)
 	{
 		if (g_header_status != 1)
 		{
-			ft_dprintf(2, "name command appeared twice\n");
+			ft_dprintf(2, "%{red_fg}name command appeared twice%{reset}\n");
 			return (st_error);
 		}
 		else
@@ -94,7 +94,7 @@ t_st		match_comment(const char *line)
 	{
 		if (g_header_status != 2)
 		{
-			ft_dprintf(2, "comment command appeared twice\n");
+			ft_dprintf(2, "%{red_fg}comment command appeared twice%{reset}\n");
 			return (st_error);
 		}
 		else

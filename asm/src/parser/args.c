@@ -84,7 +84,7 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 		return (st_succ);
 	else
 	{
-		ft_dprintf(2, " operetaion arguments exceeded : `%s`\n", args_line);
-		return (st_fail);
+		ft_dprintf(2, " %{red_fg}operation arguments exceeded : `%s`%{reset}\n", args_line);
+		return (st_error);
 	}
 }
