@@ -41,7 +41,7 @@ static void				find_op(const char *key, void *blob, void *arg)
 **
 ** \see fetch_op_args()
 */
-t_st					parse_op(t_op *op, const char *line)
+t_st					parse_op(t_op *op, const char *line, t_st label)
 {
 	const char				*walk;
 	t_pair					op_fetcher;
@@ -51,7 +51,7 @@ t_st					parse_op(t_op *op, const char *line)
 	{
 		if (g_debug)
 			ft_dprintf(2, "%{yellow_fg}>> empty line%{reset}\n");
-		return st_fail;
+		return label == st_fail ? st_error :  st_fail ;
 	}
 
 	walk = line;
@@ -108,6 +108,12 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 		ft_dprintf(2, "%{red_fg}empty label is illegal%{reset}\n");
 		return (st_error);
 	}
+	else if (!*line)
+	{
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}empty line%{reset}\n");
+		return (st_fail);
+	}
 
 	walk = line;
 	while (*walk && !(*walk == LABEL_CHAR || delimiter(*walk)))
@@ -127,7 +133,10 @@ static t_st		parse_label(const char *line, const char **op_start, const t_op *op
 	}
 
 	if (valid_label(label = ft_strrdup(line, walk - 1)))
+	{
+		free(label);
 		return st_error;
+	}
 	else if (!hash_add(g_labels, label, op))
 	{
 		ft_dprintf(2, "%{red_fg}duplicated label%{reset}\n");
@@ -150,38 +159,72 @@ void			print_op(void *blob)
 	ft_printf("name: %s\n", op->info.name);
 }
 
+void op_free(void *blob)
+{
+	t_op *op;
+	t_arg arg;
+
+	arg = 0;
+	op = blob;
+	if (!op)
+		return ;
+	while (arg < op->info.nargs)
+	{
+		if (op->labels[arg])
+			free((char *)op->labels[arg]);
+		arg++;
+	}
+	free(op);
+}
+
 t_lst			parse_ops(t_lst lines)
 {
 	t_lst			ops;
 	t_lstnode		walk;
 	t_op			*op;
 	const char		*op_at;
-	t_st			st;
+	t_st			st_op;
+	t_st			st_label;
 
 	if (lst_empty(lines))
 		return NULL;
-	ops = lst_alloc(blob_free);
+	ops = lst_alloc(op_free);
 	walk = lst_front(lines);
 	op = NULL;
 	while (walk)
 	{
+		if (g_debug)
+			ft_dprintf(2, "line: `%s`\n", walk->blob);
 		if (!op)
 			op = ft_calloc(1, sizeof(t_op));
-		if (parse_label(walk->blob, &op_at, op) == st_error
-			|| (st = parse_op(op, op_at)) == st_error)
+		op_at = walk->blob;
+		st_op = st_fail;
+		st_label = st_fail;
+		skip_whitespace(&op_at);
+		if (*op_at)
 		{
-			lst_del(&ops);
-			break;
-		}
-		else if (st == st_succ)
-		{
-			lst_push_back_blob(ops, op, sizeof(t_op), false);
-			op = NULL;
+			if ((st_label = parse_label(op_at, &op_at, op)) == st_error ||
+				(st_op = parse_op(op, op_at, st_label)) == st_error)
+			{
+				lst_del(&ops);
+				op_free(op);
+				break;
+			}
+			else if (st_op == st_succ)
+			{
+				lst_push_back_blob(ops, op, sizeof(t_op), false);
+				op = NULL;
+			}
 		}
 		lst_node_forward(&walk);
 	}
 	if (g_debug)
 		lst_iter(ops, true, print_op);
-	free(op);
+	if (!*op_at && st_op == st_fail)
+	{
+		ft_dprintf(2, "%{red_fg}last label points to nothing%{reset}\n");
+		lst_del(&ops);
+		op_free(op);
+	}
 	return ops;
 }

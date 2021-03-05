@@ -23,14 +23,14 @@ static t_st		match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *l
 	line += len;
 	if (!ft_isspace(*line++))
 	{
-		ft_dprintf(2, "no space after command\n");
+		ft_dprintf(2, "%{red_fg}no space after command%{reset}\n");
 		return (st_error);
 	}
 	while (ft_isspace(*line))
 		line++;
 	if (!*line)
 	{
-		ft_dprintf(2, "end of line before command arg\n");
+		ft_dprintf(2, "%{red_fg}end of line before command arg%{reset}\n");
 		return (st_error);
 	}
 	else if (*line++ == '\"')
@@ -43,12 +43,12 @@ static t_st		match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *l
 		}
 		if (i == length)
 		{
-			ft_dprintf(2, "exceeding the maximum length %d of %s\n", length, cmd);
+			ft_dprintf(2, "%{red_fg}exceeding the maximum length %d of %s%{reset}\n", length, cmd);
 			return (st_error);
 		}
 		else if (!line[i])
 		{
-			ft_dprintf(2, "no delimiter, expecting \"\n");
+			ft_dprintf(2, "%{red_fg}unknown delimiter%{reset}\n");
 			return (st_error);
 		}
 		else
@@ -59,7 +59,7 @@ static t_st		match_cmd(t_u8 *buff, size_t length, const char *cmd, const char *l
 	}
 	else
 	{
-		ft_dprintf(2, "wrong delimiter, expecting \"\n");
+		ft_dprintf(2, "%{red_fg}wrong delimiter%{reset}\n");
 		return (st_error);
 	}
 }

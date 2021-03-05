@@ -66,7 +66,7 @@ static t_st				read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 	sh = n;
 	if (sh != n && op->info.meta.of.short_chunk)
 	{
-		ft_dprintf(2, "%{red_fg}warning overflow of arg %hhu in op %s %{reset}\n",
+		ft_dprintf(2, "%{yellow_fg}warning overflow of arg %hhu in op %s%{reset}\n",
 				   arg, op->info.name);
 	}
 	if (g_debug)

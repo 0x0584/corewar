@@ -49,17 +49,20 @@ t_st			read_file(const int ac, const char *av[])
 	}
 	file = lst_alloc(blob_free);
 	while (gnl(fd, &buff))
+	{
+		st = st_fail;
 		if (!*buff || (st = parse_line(&buff)))
 		{
 			free(buff);
 			if (st == st_error)
 			{
-				lst_clear(file);
+				lst_del(&file);
 				break;
 			}
 		}
 		else
 			lst_push_back_blob(file, buff, sizeof(char *), false);
+	}
 	gnl_clean(fd);
 	st = compile(file, outname);
 	lst_del(&file);

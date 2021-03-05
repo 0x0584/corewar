@@ -54,7 +54,7 @@ static t_st		write_champion(const int fd, const char *outname)
 	}
 	else
 	{
-		ft_dprintf(2, "wrote %s\n", outname);
+		ft_dprintf(2, "%{green_fg}wrote %s%{reset}\n", outname);
 		return st_succ;
 	}
 }
@@ -72,7 +72,7 @@ t_st			compile(t_lst lines, const char *outname)
 		ft_dprintf(2, "cannot open file descriptor for writing %s!\n", outname);
 		return (st_error);
 	}
-	else if ((ops = parse_ops(lines)))
+	else if (!lst_empty(lines) && (ops = parse_ops(lines)))
 	{
 		if ((st = write_prog(ops)) == st_succ)
 			st = write_champion(fd, outname);
@@ -106,10 +106,7 @@ static void		substitute_label(void *blob, void *st)
 		{
 			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
 			{
-				if (label->addr)
-					op->info.args.c[arg].short_chunk =  label->addr - op->addr;
-				else
-				    op->info.args.c[arg].short_chunk = g_champ.prog_size;
+				op->info.args.c[arg].short_chunk = label->addr - op->addr;
 				if (g_debug)
 				{
 					ft_dprintf(2, "label at %hd | op at %hd\n", label->addr , op->addr);

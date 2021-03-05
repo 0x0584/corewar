@@ -16,4 +16,6 @@ jobs:
       with:
         submodules: recursive
     - name: make
-      run: make
+      run: |
+          sudo apt-get install valgrind -y &> /dev/null
+          make test

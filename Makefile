@@ -64,6 +64,7 @@ distcheck:
 	@uname -a
 
 test: all
+	sudo apt-get install valgrind cppcheck -y &> /dev/null
 	@$(MAKE) -C $(ASM_DIR) check
 	@$(MAKE) -C $(VM_DIR) check
 

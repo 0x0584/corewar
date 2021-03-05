@@ -63,6 +63,6 @@ build:
 	@make
 
 check: all
-	@./test.sh
+	@./run.sh
 
 .PHONY: all clean fclean re build
