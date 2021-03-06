@@ -1,0 +1,70 @@
+#+TITLE: Simplified Assembly Language
+#+AUTHOR: Anas Rchid
+
+* TODO check source files [1/2]
+
+- [ ] bee_gees.s :: differ in comment
+- [X] bigzork.s :: correct
+- [ ] fluttershy.s :: differ in encoding byte
+* Abstract
+
+#+BEGIN_QUOTE
+/Assembly is the lowest level when “talking” with a computer―CPU. It consists of single-line operations that interact with the virtual memory by reading from it and writing into it, as well as other operations to create processes. In addition to basic ALU operations./
+
+/The assembler takes a =*.s= file and outputs a =*.cor= file in a particular format (readable by the virtual machine)/
+#+END_QUOTE
+
+* Operations and Instructions
+
+There are 16 different operations and each of which has a unique Operation Code or =op_code=. An instruction is a operation with parameters
+
+** ALU
+
+- =add=        :: /takes three registers/, adds the first two and puts the result into the last one. *sets the carry to 1 if the result was 0*
+- =sub=        ::  /takes three registers/, subtracts the second from the first, and puts the result into the last one. *sets the carry to 1 if the result was 0*
+- =and/or/xor= :: /takes two arguments and a register/, apply bitwise operation to the two arguments and place the result into the last one. *sets the carry to 1 if the result was 0*
+
+** Process Creation
+
+- =fork=  :: /takes a direct argument/, creates a new child process of the callee.
+- =lfork= :: same as =fork=, except it uses absolute memory addressing.
+
+** Memory manipulation
+
+- =ld=   :: /takes address and a register/, loads the value from the address into the register.
+- =st=   :: /takes a register and an address/, sets the value of the register into the address.
+- =ldi=  :: /takes two addresses and a register/, sums them up and then load the value in the result address into the register.
+- =sti=  :: /takes a register and two addresses/, sums them up and set the value of the register into the resulted address.
+- =zjmp= :: /takes a address/ and it jumps to that address. (change *PC*)
+
+* Arguments and Parameter Encoding
+
+- register arguments :: prefixed with /r/, takes =1B= of memory for encoding, it represents =REG_SIZE= storage internal to each process. Thus it is unaffected by changes in the Virtual Memory.
+
+- direct arguments   :: prefixed with /%/, takes either =IND_SIZE= or =DIR_SIZE= chunk depending on the label size. It is passed as a direct numerical value.
+
+- indirect arguments :: passed literally, takes =IND_SIZE= of memory. It represents a reference to the Virtual Machine from which we read/write a =DIR_SIZE= chunk.
+
+This table summarizes the arguments and their encoding.
+
+| argument type | encoding | prefix | read chunk size          | write chunk size    |
+|---------------+----------+--------+--------------------------+---------------------|
+| register      | =0b01=   | /r/    | =REG_SIZE=               | same as read        |
+| direct        | =0b10=   | /%/    | =IND_SIZE= or =DIR_SIZE= | same as read        |
+| indirect      | =0b11=   |        | =IND_SIZE=               | =DIR_SIZE=          |
+
+And since operations takes at most 3 parameters, the /encoding byte/ is always suffixed with =0b00=
+
+* Compilation
+
+** Byte-code
+
+Each operation has the following form, ignoring white spaces, where at most we take =MAX_ARGS_NUMBER= for each operation.
+
+#+BEGIN_QUOTE
+=op arg1 [, arg2 [, arg3]]=
+#+END_QUOTE
+
+The Byte-code corresponding to each instruction have the following schema
+
+** Labels
