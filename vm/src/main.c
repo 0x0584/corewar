@@ -32,6 +32,7 @@ int				main(int argc, char *argv[])
 {
 	int				ret;
 
+	/* g_fd = 1; */
 	if ((g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
 		return (EXIT_FAILURE);
 	else if (parse_arguments(argc, argv))

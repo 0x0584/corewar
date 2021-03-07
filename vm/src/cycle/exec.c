@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "vm.h"
-#include "builtin.h"
+#include "op_callback.h"
 
 static bool			g_jumped = false;
 
@@ -49,6 +49,8 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	else
 	{
 		*(t_st *)arg = st_succ;
+		ft_dprintf(g_fd , proc->op.callback == zjmp ? "P %4d | " : "P %4d | %s",
+				   proc->num, op_disasm(&proc->op.info));
 		if (g_show_logs)
 			ft_dprintf(g_fd, " >>> player %d: `%s` has correct encoding\n", proc->num, proc->op.info.name);
 		proc->op.callback(proc);
@@ -68,8 +70,7 @@ void				vm_exec(void *proc, void *arg)
 	t_u8				offset;
 	t_proc				p;
 	t_pc				old;
-	char				*bytecode;
-	const char			*op_name;
+	const char			*bytecode;
 
 	g_jumped = false;
 	p = proc;
@@ -77,13 +78,11 @@ void				vm_exec(void *proc, void *arg)
 		return ;
 	else if (!g_jumped)
 	{
-		old = p->pc;
-		op_name = p->op.info.name;
 		bytecode = op_bytecode(&p->op.info);
+		old = p->pc;
 		move_pc(proc, offset);
-		ft_dprintf(g_fd ,"P %-4d: ADV %hd (0x%04x ->0x%04x) [%s] |\t%s \n",
-				   p->num, p->pc - old, old, p->pc, op_name, bytecode);
-		free(bytecode);
+		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x) %s",
+				   p->pc - old, old, p->pc, bytecode);
 	}
 	set_nop(proc);
 }

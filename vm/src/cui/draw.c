@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
-#include "color.h"
+#include "draw.h"
 
 /* https://stackoverflow.com/a/13707598 */
 void		handle_winch(int sig) {

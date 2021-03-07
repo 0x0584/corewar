@@ -12,7 +12,7 @@
 
 #include "memory.h"
 #include "process.h"
-#include "builtin.h"
+#include "op_callback.h"
 
 void				vm_read(void *proc, void *arg)
 {
@@ -27,7 +27,7 @@ void				vm_read(void *proc, void *arg)
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
 		ft_dprintf(g_fd ,"P %-4d | %02x is not a valid operation!\n", p->num, g_vm.arena[p->pc]);
-		ft_dprintf(g_fd ,"ADV %hd (0x%04x ->0x%04x)\n", p->pc - old, old, p->pc);
+		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc);
 	}
 	else if (!mem_at(p))
 	{
@@ -37,7 +37,7 @@ void				vm_read(void *proc, void *arg)
 		*(t_st *)arg = st_fail;
 		ft_dprintf(g_fd ,"P %-4d | nop\n", p->num);
 
-		ft_dprintf(g_fd ,"ADV %hd (0x%04x ->0x%04x)\n", p->pc - old, old, p->pc);
+		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc);
 	}
 	else if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{

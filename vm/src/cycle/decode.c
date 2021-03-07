@@ -12,7 +12,7 @@
 
 #include "memory.h"
 #include "process.h"
-#include "builtin.h"
+#include "op_callback.h"
 
 t_st		vm_decode(t_proc p, t_pc *offset)
 {

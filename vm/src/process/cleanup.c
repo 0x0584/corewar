@@ -39,11 +39,10 @@ static void kill_process(void)
 
 static void check_vm(void)
 {
-
 	ft_dprintf(g_fd_check, "Cycle %d: ", g_vm.cycles);
-	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks + 1 == MAX_CHECKS)
+	g_vm.n_checks++;
+	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks == MAX_CHECKS)
 	{
-		g_vm.lives = 0;
 		g_vm.n_checks = 0;
 		g_vm.delta -= CYCLE_DELTA;
 		ft_dprintf(g_fd_check, " new delta %hd\n", g_vm.delta);
@@ -51,10 +50,10 @@ static void check_vm(void)
 	}
 	else
 	{
-		g_vm.n_checks++;
 		ft_dprintf(g_fd_check, " check number: %hhu\n", g_vm.n_checks);
 	}
 	g_vm.current_cycles = 0;
+	g_vm.lives = 0;
 }
 
 void		process_cleanup(void)

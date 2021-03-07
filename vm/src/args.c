@@ -22,8 +22,8 @@ t_st			parse_arguments(int ac, char *av[])
 
 	if (ac == 1)
 		return (false);
-	else
-		parse_flags(ac, av);
+	/* else */
+	/* 	parse_flags(ac, av); */
 
 	i = 1;
 	j = 0;

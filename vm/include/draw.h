@@ -13,9 +13,9 @@
 #ifndef DRAW_H
 # define DRAW_H
 
-# include "vm.h"
-
 # include <ncurses.h>
+
+# include "vm.h"
 
 # define DRAW_BUFF_SIZE									0X0F
 # define DRAW_LINE_SIZE									0x40
@@ -64,6 +64,16 @@ enum				e_colors
 void			draw_loop(void);
 void			draw_memory(void (*vm_callback)(void));
 bool			draw_setup(bool setup);
+
+t_u8			color(t_u16 at);
+t_u8			color_effect(t_u16 at);
+
+void			set_color(t_u8 clr, t_u16 at);
+void			set_color_effect(t_u8 clr, t_u16 at);
+void			resolve_color_effect(t_u16 at);
+
+bool			has_mem_colors(t_u16 at);
+bool			changed_mem_colors(t_u16 at);
 
 extern bool		g_visu;
 extern bool		g_wait_input;

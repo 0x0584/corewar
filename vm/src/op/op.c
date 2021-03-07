@@ -18,14 +18,19 @@ void		live(t_proc proc)
 
 	g_vm.lives++;
 	proc->lives++;
-	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers)
+	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers && id == -proc->reg[1])
 	{
 		g_vm.winner = id;
-		ft_dprintf(g_fd, "process %d said player (%d) is alive\n", proc->pid, id);
+		ft_dprintf(g_fd, "Player %d (%s) is said to be alive\n",
+				   id, g_vm.champs[id - 1].prog_name);
+		if (g_show_logs)
+			ft_dprintf(g_fd, "process %d has said %d to be alive\n", proc->pid, id);
 	}
 	else
 	{
-		ft_dprintf(g_fd, "process %d declared (%d) as alive\n", proc->pid, id);
+		ft_dprintf(g_fd, "Player %d has been declared (%d) as alive\n", proc->pid, id);
+		if (g_show_logs)
+			ft_dprintf(g_fd, "process %d has said %d to be alive\n", proc->pid, id);
 	}
 }
 

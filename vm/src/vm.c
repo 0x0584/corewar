@@ -63,7 +63,7 @@ t_st			vm_loop(void)
     {
 		g_vm.cycles++;
 		g_vm.current_cycles++;
-		ft_dprintf(g_fd, "It is now cycle: %d\n", g_vm.cycles);
+		ft_dprintf(g_fd, "It is now cycle %d\n", g_vm.cycles);
 		/* ft_dprintf(g_fd, "Cycle: %d\n", g_vm.cycles); */
 		/* process_dump(); */
     	lst_iter_arg(g_pool, true, &st, vm_read);

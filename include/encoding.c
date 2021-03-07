@@ -79,5 +79,5 @@ t_u8		uncode(t_arg arg_type)
 	else if (arg_type == T_IND)
 		return (IND_CODE);
 	else
-		return (T_PAD);  
+		return (T_PAD);
 }

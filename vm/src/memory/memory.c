@@ -12,7 +12,7 @@
 
 #include "memory.h"
 #include "process.h"
-#include "color.h"
+#include "draw.h"
 
 void				mem_load(t_u8 player_idx, const t_champ *champ)
 {

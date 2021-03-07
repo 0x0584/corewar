@@ -14,25 +14,19 @@
 # define CHAMP_IMPL_H
 
 # include "champ.h"
-
-# include "const.h"
-
-# include "op_impl.h"
 # include "memory.h"
-
-# include "draw.h"
 
 /**
 ** \brief reads a champ from a file
 **
 ** \param filename the .cor file
-** \param player_num index in `g_vm.arena`
+** \param player_idx index in `g_vm.arena`
 **
 ** \return
 **
 **   - `st_succ` if champ is read
 **   - otherwise `st_error` or`st_fail` are returned
 */
-t_st				champ_read(const char *filename, t_u8 player_num, t_champ *champ);
+t_st				champ_read(const char *filename, t_u8 player_idx, t_champ *champ);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "champ_impl.h"
 
-static t_st			read_champ(const int fd, t_u8 player_num, t_champ *champ)
+static t_st			read_champ(const int fd, t_u8 player_idx, t_champ *champ)
 {
     ssize_t				readsz;
 	t_u32				null;
@@ -39,11 +39,11 @@ static t_st			read_champ(const int fd, t_u8 player_num, t_champ *champ)
 		return st_error;
 	else if ((champ->prog_size = beword(champ->prog_size)) != readsz)
 		return st_fail;
-	mem_load(player_num, champ);
+	mem_load(player_idx, champ);
 	return st_succ;
 }
 
-t_st				champ_read(const char *filename, t_u8 player_num, t_champ *champ)
+t_st				champ_read(const char *filename, t_u8 player_idx, t_champ *champ)
 {
     t_st				st;
     int					fd;
@@ -52,7 +52,7 @@ t_st				champ_read(const char *filename, t_u8 player_num, t_champ *champ)
     if ((fd = open(filename, O_RDONLY)) < 0)
         return (st_error);
     else
-		st = read_champ(fd, player_num, champ);
+		st = read_champ(fd, player_idx, champ);
 	ft_printf("%s %s\n", champ->prog_name, champ->comment);
     close(fd);
     return (st);
