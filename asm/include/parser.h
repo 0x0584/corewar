@@ -24,7 +24,6 @@ t_st			match_comment(const char *line);
 
 t_st			valid_label(const char *label);
 
-t_u8			arg_valid_types(const t_op *op, t_arg arg);
 void			set_op_encoding(t_op *op, t_arg arg, t_u8 type);
 bool			ascii_to_digit(const char **astr, char *reg);
 

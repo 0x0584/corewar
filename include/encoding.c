@@ -58,7 +58,7 @@ t_arg		op_meta_encoding(const t_op_info *info, t_arg which)
  ** \param arg encoding of opeartion
  ** \return t_arg
  */
-t_arg		encoded(t_u8 arg_code)
+t_arg		decode(t_u8 arg_code)
 {
 	if (arg_code == REG_CODE)
 		return (T_REG);
@@ -70,7 +70,7 @@ t_arg		encoded(t_u8 arg_code)
 		return (T_PAD);
 }
 
-t_u8		uncode(t_arg arg_type)
+t_u8		encode(t_arg arg_type)
 {
 	if (arg_type == T_REG)
 		return (REG_CODE);
@@ -79,5 +79,5 @@ t_u8		uncode(t_arg arg_type)
 	else if (arg_type == T_IND)
 		return (IND_CODE);
 	else
-		return (T_PAD);  
+		return (T_PAD);
 }

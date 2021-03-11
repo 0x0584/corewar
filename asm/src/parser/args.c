@@ -13,18 +13,6 @@
 #include "parser.h"
 #include "op_impl.h"
 
-t_u8			arg_valid_types(const t_op *op, t_arg arg)
-{
-	if (arg == 0)
-		return op->info.meta.of.arg1_t;
-	else if (arg == 1)
-		return op->info.meta.of.arg2_t;
-	else if (arg == 2)
-		return op->info.meta.of.arg3_t;
-	else
-		return op->info.meta.of.padding;
-}
-
 void			set_op_encoding(t_op *op, t_arg arg, t_u8 type)
 {
 	if (arg == 0)

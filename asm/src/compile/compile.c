@@ -163,4 +163,4 @@ t_st			write_prog(t_lst ops)
 	return (st);
 }
 
-bool		g_debug = false;
+bool		g_debug = true;
