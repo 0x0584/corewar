@@ -5,7 +5,7 @@ t_u8			arg_offset(const t_op_info *info, t_arg arg)
 {
 	t_arg			type;
 
-	if ((type = encoded(op_encoding(info, arg++))) == T_REG)
+	if ((type = decode(op_encoding(info, arg++))) == T_REG)
 		return 1;
 	else if (type == T_DIR)
 		return info->meta.of.short_chunk ? IND_SIZE : REG_SIZE;
@@ -32,7 +32,7 @@ t_s16			write_arg(const t_op_info *info, const t_arg arg, t_s16 at)
 {
 	t_arg			type;
 
-	if ((type = encoded(op_encoding(info, arg))) == T_REG)
+	if ((type = decode(op_encoding(info, arg))) == T_REG)
 		g_champ.file[at++] = info->args.v[arg];
 	else if (type == T_DIR && !info->meta.of.short_chunk)
 	{
