@@ -59,5 +59,10 @@ void				opt_cleanup(void)
 	lst_del(&g_opts);
 }
 
+void					str_dump(void *blob)
+{
+	ft_putendl(blob);
+}
+
 const t_opt_arg		g_no_arg;
 t_lst				g_opts = NULL;
