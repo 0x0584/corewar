@@ -28,6 +28,62 @@ static void				find_op(const char *key, void *blob, void *arg)
 }
 
 /**
+** \brief parse label if found
+**
+** \param line read from the file
+** \param op_start out reference after reading the label successfully
+** \param op to be bound with the label
+**
+** \return
+**
+**   - `st_error` if label is duplicted or containes illegal characters
+**   - `st_fail` if no label is found or empty label
+**   - `st_succ` otherwise
+*/
+static t_st		parse_label(const char *line, const char **op_start, const t_op *op)
+{
+	const char	*walk;
+	char		*label;
+	t_st		st;
+
+	skip_whitespace(&line);
+	if (*line == LABEL_CHAR)
+	{
+		ft_dprintf(2, "%{red_fg}empty label is illegal%{reset}\n");
+		return (st_error);
+	}
+	else if (!*line)
+	{
+		if (g_debug)
+			ft_dprintf(2, "%{yellow_fg}empty line%{reset}\n");
+		return (st_fail);
+	}
+
+	walk = line;
+	while (*walk && !(*walk == LABEL_CHAR || delimiter(*walk)))
+		walk++;
+
+	if (!*walk)
+		return st_log(st_error, 2, "invalid label syntax");
+	else if (*walk != LABEL_CHAR)
+	{
+		st = !g_debug ? st_fail : st_log(st_fail, 2, "not label");
+		*op_start = line;
+		return st_fail;
+	}
+	else if (valid_label(label = ft_strrdup(line, walk - 1)) ||
+				!hash_add(g_labels, label, op))
+		st = st_log(st_error, 2, "duplicated label %s", label);
+	else
+	{
+		st = st_log(st_succ, 2, "label found %s", label);
+		*op_start = ++walk;
+	}
+	free(label);
+	return (st);
+}
+
+/**
 ** \brief parse operation
 **
 ** \param op operation to parse
@@ -81,75 +137,6 @@ t_st					parse_op(t_op *op, const char *line, t_st label)
 		ft_dprintf(2, "%{red_fg}unknown operation `%s`%{reset}\n", op_str);
 		return (st_error);
 	}
-}
-
-/**
-** \brief parse label if found
-**
-** \param line read from the file
-** \param op_start out reference after reading the label successfully
-** \param op to be bound with the label
-**
-** \return
-**
-**   - `st_error` if label is duplicted or containes illegal characters
-**   - `st_fail` if no label is found or empty label
-**   - `st_succ` otherwise
-*/
-static t_st		parse_label(const char *line, const char **op_start, const t_op *op)
-{
-	const char	*walk;
-	char		*label;
-	t_st		st;
-
-	skip_whitespace(&line);
-	if (*line == LABEL_CHAR)
-	{
-		ft_dprintf(2, "%{red_fg}empty label is illegal%{reset}\n");
-		return (st_error);
-	}
-	else if (!*line)
-	{
-		if (g_debug)
-			ft_dprintf(2, "%{yellow_fg}empty line%{reset}\n");
-		return (st_fail);
-	}
-
-	walk = line;
-	while (*walk && !(*walk == LABEL_CHAR || delimiter(*walk)))
-		walk++;
-
-	if (!*walk)
-	{
-		ft_dprintf(2, "%{red_fg}invalid label%{reset}\n");
-		return st_error;
-	}
-	else if (*walk != LABEL_CHAR)
-	{
-		if (g_debug)
-			ft_dprintf(2, "%{yellow_fg}not label%{reset}\n");
-		*op_start = line;
-		return st_fail;
-	}
-
-	if (valid_label(label = ft_strrdup(line, walk - 1)))
-	{
-		free(label);
-		return st_error;
-	}
-	else if (!hash_add(g_labels, label, op))
-	{
-		ft_dprintf(2, "%{red_fg}duplicated label%{reset}\n");
-		st = st_error;
-	}
-	else
-	{
-		st = st_succ;
-		*op_start = ++walk;
-	}
-
-	free(label);
-	return (st);
 }
 
 void			print_op(void *blob)

@@ -36,7 +36,7 @@ bool			ascii_to_digit(const char **astr, char *reg)
 		return (*reg = c);
 	}
 	else if (c && !(ft_isspace(c) || c == deli_comma || is_comment_char(c)))
-		return (!ft_dprintf(2, " %{red_fg}register is invalide%{reset} \n"));
+		return (!ft_dprintf(2, " %{red_fg}register is invalid%{reset} \n"));
 	else
 		return (true);
 }

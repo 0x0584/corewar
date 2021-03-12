@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type)
+static inline t_op	*set_encoding(t_op *op, t_arg arg, t_u8 type)
 {
 	if (arg == 0)
 		op->info.encoded.args.arg_1 = encode(type);
@@ -22,9 +22,10 @@ static inline void	set_encoding(t_op *op, t_arg arg, t_u8 type)
 		op->info.encoded.args.arg_3 = encode(type);
 	else
 	    op->info.encoded.args.padding = T_PAD;
+	return (op);
 }
 
-static inline t_u8			arg_valid_types(const t_op *op, t_arg arg)
+static inline t_u8	arg_valid_types(const t_op *op, t_arg arg)
 {
 	if (arg == 0)
 		return op->info.meta.of.arg1_t;
@@ -34,6 +35,12 @@ static inline t_u8			arg_valid_types(const t_op *op, t_arg arg)
 		return op->info.meta.of.arg3_t;
 	else
 		return op->info.meta.of.padding;
+}
+
+static inline bool	indirect_arg(const char **arg_line)
+{
+	return (ft_strchr("+-", **arg_line) || ft_isdigit(**arg_line)
+				|| **arg_line == deli_label);
 }
 
 static t_st			parse_arg(t_op *op, const t_arg arg, const char **arg_line)
@@ -48,32 +55,21 @@ static t_st			parse_arg(t_op *op, const t_arg arg, const char **arg_line)
 			return (parse_arg_value(op, arg, arg_line));
 	}
 	else
-	{
-		ft_dprintf(2, " %{red_fg}argument %hhu accept types %04b%{reset}\n", arg, arg_valid_types(op, arg));
-		return (st_error);
-	}
-}
-
-static inline bool	indirect_arg(const char **arg_line)
-{
-	return (ft_strchr("+-", **arg_line) || ft_isdigit(**arg_line)
-				|| **arg_line == deli_label);
+		return st_log(st_error, 2,
+					  " %{red_fg}argument %hhu accept types %04b%{reset}\n",
+					  arg, arg_valid_types(op, arg));
 }
 
 t_st				read_arg(t_op *op, const t_arg arg, const char **arg_line)
 {
 	skip_whitespace(arg_line);
 	if (**arg_line == deli_reg || **arg_line == deli_dir)
-	{
-		*arg_line += 1;
-		set_encoding(op, arg, **arg_line == deli_reg ? T_REG : T_DIR);
-	}
+		return parse_arg(set_encoding(op, arg, *(*arg_line)++ == deli_reg ? T_REG : T_DIR),
+						 arg, arg_line);
 	else if (indirect_arg(arg_line))
-		set_encoding(op, arg, T_IND);
+		return parse_arg(set_encoding(op, arg, T_IND), arg, arg_line);
 	else
-	{
-		ft_dprintf(2, "%{cyan_fg}%s: arg %d: %{red_fg}unknown argument type%{reset}\n", op->info.name, arg);
-		return (st_error);
-	}
-	return (parse_arg(op, arg, arg_line));
+		return st_log(st_error, 2,
+					  "%{cyan_fg}%s: arg %d: %{red_fg}unknown argument type%{reset}\n",
+					  op->info.name, arg);
 }
