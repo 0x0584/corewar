@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 10:51:56 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 18:25:51 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void				vm_read(void *proc, void *arg)
 		old = p->pc;
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"P %4d | %02x is not a valid operation!\n", p->pid, g_vm.arena[p->pc]);
-		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc);
+		/* ft_dprintf(g_fd ,"P %4d | %02x is not a valid operation!\n", p->pid, g_vm.arena[p->pc]); */
+		/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
 	}
 	else if (!mem_at(p))
 	{
@@ -35,8 +35,8 @@ void				vm_read(void *proc, void *arg)
 		old = p->pc;
 		move_pc(p, 1);
 		*(t_st *)arg = st_fail;
-		ft_dprintf(g_fd ,"P %4d | nop\n", p->pid);
-		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc);
+		/* ft_dprintf(g_fd ,"P %4d | nop\n", p->pid); */
+		/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
 	}
 	else if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{

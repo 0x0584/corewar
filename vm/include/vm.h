@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 14:55:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:26:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,5 @@ extern t_vm			g_vm;
 extern int			g_fd;
 
 extern bool			g_show_logs;
-
+extern bool			g_jumped;
 #endif

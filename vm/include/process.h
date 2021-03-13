@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 11:09:46 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:44:30 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ t_pc						move_pc(t_proc p, t_pc offset);
 t_pc						pc_move(t_pc *pc, t_pc offset, bool long_op);
 
 void						process_dump(void);
+
+
+const char					*op_disasm(const t_proc proc);
+const char					*op_bytecode(const t_op_info *info);
 
 /**
 ** \brief the global process id counter

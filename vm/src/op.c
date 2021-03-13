@@ -1,4 +1,4 @@
-#include "op.h"
+#include "process.h"
 
 #define OP_BUFF 128
 
@@ -16,35 +16,45 @@ static int		chunk_disam(const t_op_info *info, t_arg arg, int offset)
 					   info->args.c[arg].chunk);
 }
 
-static int		op_disasm_arg(const t_op_info *info, t_arg arg, int offset)
+static int		reg_disasm(const t_proc p, t_arg arg, int offset)
+{
+	if (op_meta_encoding(&p->op.info, arg) == T_REG)
+		return ft_snprintf(g_op_buff + offset, OP_BUFF - offset, " r%d", p->op.info.args.v[arg]);
+	else
+		return ft_snprintf(g_op_buff + offset, OP_BUFF - offset, " %d", p->reg[p->op.info.args.v[arg]]);
+}
+
+static int		op_disasm_arg(const t_proc p, t_arg arg, int offset)
 {
 	t_arg			type;
 
-	if (info->meta.of.encoded)
+	if (p->op.info.meta.of.encoded)
 	{
-		if ((type = encoded(op_encoding(info, arg))) == T_REG)
-			return ft_snprintf(g_op_buff + offset, OP_BUFF - offset, " r%d",
-							   info->args.v[arg]);
-		else if (type == T_DIR && !info->meta.of.short_chunk)
-			return chunk_disam(info, arg, offset);
+		if ((type = encoded(op_encoding(&p->op.info, arg))) == T_REG)
+			return reg_disasm(p, arg, offset);
+		else if (type == T_DIR && !p->op.info.meta.of.short_chunk)
+			return chunk_disam(&p->op.info, arg, offset);
 		else
-			return short_chunk_disam(info, arg, offset);
+			return short_chunk_disam(&p->op.info, arg, offset);
 	}
-	else if (info->meta.of.short_chunk)
-		return short_chunk_disam(info, arg, offset);
+	else if (p->op.info.meta.of.short_chunk)
+		return short_chunk_disam(&p->op.info, arg, offset);
 	else
-		return chunk_disam(info, arg, offset);
+		return chunk_disam(&p->op.info, arg, offset);
 }
 
-const char		*op_disasm(const t_op_info *info)
+const char		*op_disasm(const t_proc p)
 {
 	int				off;
 	t_arg			arg;
 
-	off = ft_snprintf(g_op_buff, OP_BUFF, "%s", info->name);
+	off = ft_snprintf(g_op_buff, OP_BUFF, "%s", p->op.info.name);
 	arg = 0;
-	while (arg < info->nargs)
-		off += op_disasm_arg(info, arg++, off);
+	while (arg < p->op.info.nargs)
+		off += op_disasm_arg(p, arg++, off);
+	if (p->op.info.code == op_fork || p->op.info.code == op_lfork)
+		off += ft_snprintf(g_op_buff + off, OP_BUFF - off, " (%d)",
+						   shift_pc(p, p->op.info.args.c[0].short_chunk));
 	ft_snprintf(g_op_buff + off, OP_BUFF - off, "\n");
 	return g_op_buff;
 }

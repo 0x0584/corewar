@@ -7,9 +7,9 @@ const t_op_info g_ops[op_count] = {
 
 	[op_add]    = {op_add,   "add",   .meta.of = {T_REG,                 T_REG,                  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
 	[op_sub]    = {op_sub,   "sub",   .meta.of = {T_REG,                 T_REG,                  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
-	[op_and]    = {op_and,   "and",   .meta.of = {T_REG,                 T_REG,                  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
-	[op_or]     = {op_or,    "or",    .meta.of = {T_REG,                 T_REG,                  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
-	[op_xor]    = {op_xor,   "xor",   .meta.of = {T_REG,                 T_REG,                  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
+	[op_and]    = {op_and,   "and",   .meta.of = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND,  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
+	[op_or]     = {op_or,    "or",    .meta.of = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND,  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
+	[op_xor]    = {op_xor,   "xor",   .meta.of = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND,  T_REG,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 3},
 
 	[op_ld]     = {op_ld,    "ld",    .meta.of = {T_DIR | T_IND,         T_REG,                  T_PAD,           !LONG_OP,  ENC, !SHORT,  CARRY, T_PAD}, 2},
 	[op_st]     = {op_st,    "st",    .meta.of = {T_REG,                 T_IND | T_REG,          T_PAD,           !LONG_OP,  ENC, !SHORT, !CARRY, T_PAD}, 2},

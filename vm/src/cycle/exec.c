@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 10:51:41 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:34:02 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "op_callback.h"
 
-static bool			g_jumped = false;
+ bool			g_jumped = false;
 
 static t_st			verify_proc(t_proc p, void *arg)
 {
@@ -52,14 +52,14 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	{
 		*(t_st *)arg = st_succ;
 		ft_dprintf(g_fd , proc->op.callback == zjmp ? "P %4d | " : "P %4d | %s",
-				   proc->pid, op_disasm(&proc->op.info));
+				   proc->pid, op_disasm(proc));
 		if (g_show_logs)
 			ft_dprintf(g_fd, " >>> player %d: `%s` has correct encoding\n",
 					   proc->num, proc->op.info.name);
 		proc->op.callback(proc);
 		if (proc->op.callback == zjmp)
 		{
-			g_jumped = true;
+			/* g_jumped = true; */
 			if (g_show_logs)
 				ft_dprintf(g_fd, " >>> player %d g_jumped to address: %0#4x\n", proc->num, proc->pc);
 		}
@@ -77,15 +77,17 @@ void				vm_exec(void *proc, void *arg)
 
 	g_jumped = false;
 	p = proc;
+	old = p->pc;
 	if (!(offset = vm_decode_exec(proc, arg)))
 		return ;
 	else if (!g_jumped)
 	{
 		bytecode = op_bytecode(&p->op.info);
-		old = p->pc;
 		move_pc(proc, offset);
-		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x) %s",
-				   p->pc - old, old, p->pc, bytecode);
+		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x) %s", p->pc - old, old, p->pc, bytecode);
 	}
+	/* else */
+	/* 	ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x) %s\n", p->pc - old, old, p->pc, bytecode); */
+
 	set_nop(proc);
 }

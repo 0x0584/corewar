@@ -41,9 +41,9 @@ void		zjmp(t_proc proc)
 
 	addr = arg_value(proc, 0, false);
 	ft_dprintf(g_fd, "zjmp %hd ", addr);
-	if (proc->carry)
+	if ((g_jumped = proc->carry))
 		proc->pc = shift_pc(proc, addr);
-	ft_putendl_fd(proc->carry ? "OK" : "FAIL", g_fd);
+	ft_putendl_fd(proc->carry ? "OK" : "FAILED", g_fd);
 }
 
 void		aff(t_proc proc)

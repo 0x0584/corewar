@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:12:50 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/20 18:06:57 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:34:07 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,12 +245,6 @@ typedef struct				s_op_info
 	*/
 	const char			*doc;
 }							t_op_info;
-
-/**
-** \return allocated byte code string
-*/
-const char					*op_disasm(const t_op_info *info);
-const char					*op_bytecode(const t_op_info *info);
 
 t_arg						op_encoding(const t_op_info *info, t_arg which);
 t_arg						op_meta_encoding(const t_op_info *info, t_arg which);
