@@ -23,12 +23,13 @@ void		live(t_proc proc)
 		g_vm.winner = id;
 		ft_dprintf(g_fd, "Player %d (%s) is said to be alive\n",
 				   id, g_vm.champs[id - 1].prog_name);
+		proc->last_live = g_vm.cycles;
 		if (g_show_logs)
 			ft_dprintf(g_fd, "process %d has said %d to be alive\n", proc->pid, id);
 	}
 	else
 	{
-		ft_dprintf(g_fd, "Player %d has been declared (%d) as alive\n", proc->pid, id);
+		/* ft_dprintf(g_fd, "Player %d has been declared (%d) as alive\n", proc->pid, id); */
 		if (g_show_logs)
 			ft_dprintf(g_fd, "process %d has said %d to be alive\n", proc->pid, id);
 	}

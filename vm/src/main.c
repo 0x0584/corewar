@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:01:05 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/16 18:30:39 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:15:02 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ static int		print_usage(void)
 static void		declare_winner(void)
 {
 	if (g_vm.winner)
+	{
+		ft_dprintf(g_fd, "Contestant %hhu, \"%s\", has won !\n",
+				   g_vm.winner, g_vm.champs[g_vm.winner - 1].prog_name);
 		ft_printf("Winner is %{red_fg}%s%{reset}!\n",
 				  g_vm.champs[g_vm.winner - 1].prog_name);
+	}
 	else
 		ft_putendl("No Winner!!");
 }

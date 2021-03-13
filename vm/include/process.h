@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:18:08 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 16:49:43 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:09:46 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ struct						s_process
 	** \brief operation of the current process
 	*/
 	t_op			op;
+
+	t_s32			last_live;
 };
 
 /**

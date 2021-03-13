@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 17:41:19 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 10:51:41 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static t_st			verify_proc(t_proc p, void *arg)
 	{
 		*(t_st *)arg = st_succ;
 		if (g_show_logs)
-			ft_dprintf(g_fd, " >>> player %d: `%s` operation has more %d cycles to wait\n", p->num, p->op.info.name, -p->op.cycles);
+			ft_dprintf(g_fd, " >>> player %d: `%s` operation has more %d cycles to wait\n",
+					   p->num, p->op.info.name, -p->op.cycles);
 		return (st_fail);
 	}
 }
@@ -42,7 +43,8 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	{
 		*(t_st *)arg = st_fail;
 		if (g_show_logs)
-			ft_dprintf(g_fd, " >>> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n", proc->num, proc->op.info.name);
+			ft_dprintf(g_fd, " >>> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n",
+					   proc->num, proc->op.info.name);
 		move_pc(proc, op_arg_offset);
 		return (0);
 	}
@@ -50,9 +52,10 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	{
 		*(t_st *)arg = st_succ;
 		ft_dprintf(g_fd , proc->op.callback == zjmp ? "P %4d | " : "P %4d | %s",
-				   proc->num, op_disasm(&proc->op.info));
+				   proc->pid, op_disasm(&proc->op.info));
 		if (g_show_logs)
-			ft_dprintf(g_fd, " >>> player %d: `%s` has correct encoding\n", proc->num, proc->op.info.name);
+			ft_dprintf(g_fd, " >>> player %d: `%s` has correct encoding\n",
+					   proc->num, proc->op.info.name);
 		proc->op.callback(proc);
 		if (proc->op.callback == zjmp)
 		{

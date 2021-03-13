@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 16:37:36 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 11:29:25 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:15:45 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ t_st			parse_arguments(int ac, char *av[])
 	while (j--)
 		if (champ_read(files[j], j, g_vm.champs + j))
 			return (false);
+	ft_dprintf(g_fd, "Introducing contestants...\n");
 	j = 0;
 	while (j < g_vm.nplayers)
 	{
-		ft_printf("* Player %d, weighting %hu, \"%s\" (\"%s\")\n",
+		ft_dprintf(g_fd, "* Player %d, weighing %hu bytes, \"%s\" (\"%s\") !\n",
 				  j + 1, g_vm.champs[j].prog_size,
 				  g_vm.champs[j].prog_name,
 				  g_vm.champs[j].comment);

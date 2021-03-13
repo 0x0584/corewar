@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:28:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 11:23:03 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 10:35:32 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_st				champ_read(const char *filename, t_u8 player_idx, t_champ *champ)
         return (st_error);
     else
 		st = read_champ(fd, player_idx, champ);
-	ft_printf("%s %s\n", champ->prog_name, champ->comment);
     close(fd);
     return (st);
 }

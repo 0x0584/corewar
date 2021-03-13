@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 18:25:17 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/26 12:43:46 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:16:40 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ static void kill_process(void)
 		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
 		{
 			ft_dprintf(g_fd_check, "killed %d %s\n", p->pid, p->op.info.name);
+			ft_dprintf(g_fd, "Process %d hasn't lived for %d cycles (CTD %hd)\n",
+					   p->pid, g_vm.cycles - p->last_live, g_vm.delta);
+
 			lst_remove_next(g_pool, walk);
 		}
 		else
