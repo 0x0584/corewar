@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/14 12:15:59 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 17:24:41 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void				vm_read(void *proc, void *arg)
 	t_pc	old;
 
 	p = proc;
-	if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
+	if (g_vm.cycles >= 21217 && g_vm.cycles <= 21248 && p->pid == 4)
 	{
 		ft_printf(" >> pc: %d value %d\n", p->pc, g_vm.arena[p->pc]);
 		ft_printf(" >> cycle: %d waiting: %d %s", g_vm.cycles, p->op.cycles, op_disasm(p));
@@ -63,13 +63,22 @@ void				vm_read(void *proc, void *arg)
 			if (g_show_logs)
 				ft_dprintf(g_fd, " >>> player %d: `%s` operation, scheduled after %d cycles\n",
 						   p->num, p->op.info.name, -p->op.cycles);
+			if (g_vm.cycles >= 21200 && g_vm.cycles <= 21250 && p->pid == 4)
+			{
+				ft_printf("%{red_fg}cycle: %d ENTER%{reset}: %s\n", g_vm.cycles, op_disasm(proc));
+			}
 		}
 	}
-	if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
+	if (g_vm.cycles >= 21200 && g_vm.cycles <= 21300 && p->pid == 4)
 	{
-		ft_printf("cycle: %d waiting: %d %s\n", g_vm.cycles, p->op.cycles, op_disasm(p));
-	}
+		ft_printf("%{green_fg}cycle: %d waiting: %d %s%{reset}\n", g_vm.cycles, p->op.cycles, op_disasm(p));
 
+		if (g_vm.cycles == 21218)
+		{
+			print_arena();
+			/* exit(0); */
+		}
+	}
 }
 
 /**
@@ -183,6 +192,7 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 	{
 		if (g_show_logs)
 			ft_dprintf(g_fd ," >>> %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(&p->op.info, arg));
+		ft_printf(" %d FAILED!!!!\n", g_vm.cycles);
 		return (st_fail);
 	}
 }

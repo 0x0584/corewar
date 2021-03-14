@@ -7,9 +7,9 @@ for f in ../build/origin/*.cor
 do
 	echo $f;
 #	valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all \
-	./corewar $f && cp vm.log $f.A.out  #&&\
-	#./vm.exe $f > $f.B.out &&\
-	#wdiff $f.A.out $f.out | colordiff;
+	./corewar $f  #&&\
+	../.extra/corewar -v 31 $f > out &&\
+	wdiff vm.log out #| colordiff;
 	echo "======================================================="
 	echo
 done

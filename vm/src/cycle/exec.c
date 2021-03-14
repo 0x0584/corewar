@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 17:34:02 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 17:37:49 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static t_st			verify_proc(t_proc p, void *arg)
 static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 {
 	t_pc				op_arg_offset;
+	t_pc				old;
+	const char			*bytecode;
 
+	op_arg_offset = 0;
 	if (verify_proc(proc, arg))
 		return (0);
 	else if (vm_decode(proc, &op_arg_offset))
@@ -45,7 +48,21 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 		if (g_show_logs)
 			ft_dprintf(g_fd, " >>> player %d: %{red_fg}skip `%s` incorrect encoding!%{reset}\n",
 					   proc->num, proc->op.info.name);
-		move_pc(proc, op_arg_offset);
+		old = proc->pc;
+		bytecode = op_bytecode(&proc->op.info);
+		if (g_vm.cycles >= 21200 && g_vm.cycles <= 21300 && proc->pid == 4)
+			ft_dprintf(2, " 1 -- debug -- cycle:%d, pc:%d value: %d, offset:%d\n",
+					   g_vm.cycles, proc->pc, g_vm.arena[proc->pc], op_arg_offset);
+		//move_pc(proc, op_arg_offset);
+		proc->pc = (proc->pc + op_arg_offset + MEM_SIZE) % MEM_SIZE;
+		if (g_vm.cycles >= 21200 && g_vm.cycles <= 21300 && proc->pid == 4)
+			ft_dprintf(2, " 2 -- debug -- cycle:%d, pc:%d value: %d, offset:%d\n",
+					   g_vm.cycles, proc->pc, g_vm.arena[proc->pc], op_arg_offset);
+		ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x) ", proc->pc - old, old, proc->pc);
+		while (old < proc->pc)
+			ft_dprintf(g_fd, "%02x ", g_vm.arena[old++]);
+		ft_putchar_fd('\n', g_fd);
+		set_nop(proc);
 		return (0);
 	}
 	else
