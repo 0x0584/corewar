@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:06:58 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/25 14:46:20 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 11:16:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_st			vm_loop(void)
 		/* process_dump(); */
     	lst_iter_arg(g_pool, true, &st, vm_read);
     	lst_iter_arg(g_pool, true, &st, vm_exec);
-		if (g_vm.current_cycles == g_vm.delta || g_vm.delta < 0)
+		if (g_vm.current_cycles == g_vm.delta)
 		{
 			/* ft_dprintf(g_fd, " >>>>>>>>>>>>>>>>>>>> "); */
 			/* process_dump(); */
@@ -105,7 +105,7 @@ void			print_arena(void)
 }
 
 int				g_fd;
-t_vm			g_vm = {.delta = CYCLE_TO_DIE, .lives = 0};
+t_vm			g_vm = {.delta = CYCLE_TO_DIE, .or_delta = CYCLE_TO_DIE};
 
 bool			g_visu = false;
 bool			g_show_logs = false;

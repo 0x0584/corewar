@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 17:26:19 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 11:18:41 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct			s_vm
 	** \brief how many lives have been executed since last delta
 	*/
 	t_u16			lives;
+
+	t_s16	        or_delta;
 
     /**
     ** \brief id of last player that reported alive

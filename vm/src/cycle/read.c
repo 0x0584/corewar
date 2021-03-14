@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 18:25:51 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:15:59 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,56 @@ void				vm_read(void *proc, void *arg)
 	t_pc	old;
 
 	p = proc;
-	if (mem_at(p) >= op_count)
+	if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
 	{
-		set_nop(p);
-		old = p->pc;
-		move_pc(p, 1);
-		*(t_st *)arg = st_fail;
-		/* ft_dprintf(g_fd ,"P %4d | %02x is not a valid operation!\n", p->pid, g_vm.arena[p->pc]); */
-		/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
+		ft_printf(" >> pc: %d value %d\n", p->pc, g_vm.arena[p->pc]);
+		ft_printf(" >> cycle: %d waiting: %d %s", g_vm.cycles, p->op.cycles, op_disasm(p));
 	}
-	else if (!mem_at(p))
+
+	if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{
-		set_nop(p);
-		old = p->pc;
-		move_pc(p, 1);
-		*(t_st *)arg = st_fail;
-		/* ft_dprintf(g_fd ,"P %4d | nop\n", p->pid); */
-		/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
+		if (g_vm.arena[p->pc] >= op_count)
+		{
+			if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
+			{
+				ft_printf(" 1 >>>>>>>>>>> ");
+			}
+
+			set_nop(p);
+			old = p->pc;
+			move_pc(p, 1);
+			*(t_st *)arg = st_fail;
+			/* ft_dprintf(g_fd ,"P %4d | %02x is not a valid operation!\n", p->pid, g_vm.arena[p->pc]); */
+			/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
+		}
+		else if (!g_vm.arena[p->pc])
+		{
+			if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
+			{
+				ft_printf(" 2 >>>>>>>>>>> ");
+			}
+			set_nop(p);
+			old = p->pc;
+			move_pc(p, 1);
+			*(t_st *)arg = st_fail;
+			/* ft_dprintf(g_fd ,"P %4d | nop\n", p->pid); */
+			/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
+		}
+		else
+		{
+			ft_memcpy(&p->op, &g_op[mem_at(p)], sizeof(t_op));
+			p->op.cycles *= -1;
+			*(t_st *)arg = st_succ;
+			if (g_show_logs)
+				ft_dprintf(g_fd, " >>> player %d: `%s` operation, scheduled after %d cycles\n",
+						   p->num, p->op.info.name, -p->op.cycles);
+		}
 	}
-	else if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
+	if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
 	{
-		ft_memcpy(&p->op, &g_op[mem_at(p)], sizeof(t_op));
-		p->op.cycles *= -1;
-		*(t_st *)arg = st_succ;
-		if (g_show_logs)
-			ft_dprintf(g_fd, " >>> player %d: `%s` operation, scheduled after %d cycles\n", p->num, p->op.info.name, -p->op.cycles);
+		ft_printf("cycle: %d waiting: %d %s\n", g_vm.cycles, p->op.cycles, op_disasm(p));
 	}
+
 }
 
 /**

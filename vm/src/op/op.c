@@ -18,7 +18,7 @@ void		live(t_proc proc)
 
 	g_vm.lives++;
 	proc->lives++;
-	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers && id == -proc->reg[1])
+	if ((id = -arg_value(proc, 0, false)) && id <= g_vm.nplayers /* && id == -proc->reg[1] */)
 	{
 		g_vm.winner = id;
 		ft_dprintf(g_fd, "Player %d (%s) is said to be alive\n",

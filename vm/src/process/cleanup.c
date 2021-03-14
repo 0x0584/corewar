@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 18:25:17 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 11:16:40 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/14 11:21:07 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void kill_process(void)
 	while (walk->next != g_pool->tail)
 	{
 		p = walk->next->blob;
-		if (g_vm.delta < 0 || (!p->lives && p->op.callback))
+		/* if (g_vm.delta < 0 || (!p->lives && p->op.callback)) */
+		if (g_vm.cycles - p->last_live >= g_vm.delta)
 		{
 			ft_dprintf(g_fd_check, "killed %d %s\n", p->pid, p->op.info.name);
 			ft_dprintf(g_fd, "Process %d hasn't lived for %d cycles (CTD %hd)\n",
-					   p->pid, g_vm.cycles - p->last_live, g_vm.delta);
-
+					   p->pid, g_vm.cycles - p->last_live, g_vm.or_delta);
 			lst_remove_next(g_pool, walk);
 		}
 		else
@@ -48,8 +48,11 @@ static void check_vm(void)
 	{
 		g_vm.n_checks = 0;
 		g_vm.delta -= CYCLE_DELTA;
-		ft_dprintf(g_fd_check, " new delta %hd\n", g_vm.delta);
-		ft_dprintf(g_fd, "Cycle to die is now %d\n", g_vm.delta);
+		g_vm.or_delta = g_vm.delta;
+		if (g_vm.delta <= 0)
+			g_vm.delta = 1;
+		ft_dprintf(g_fd_check, " new delta %hd\n", g_vm.or_delta);
+		ft_dprintf(g_fd, "Cycle to die is now %d\n", g_vm.or_delta);
 	}
 	else
 	{
