@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:41:34 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 18:34:31 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 22:31:38 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void				mem_load(t_u8 player_idx, const t_champ *champ)
 	t_u16				j;
 	t_proc				proc;
 
+	if (g_vm.winner == 0)
+		g_vm.winner = player_idx + 1;
 	j = 0;
 	i = (MEM_SIZE / count_players()) * player_idx;
 	proc = new_process(player_idx + 1, i);

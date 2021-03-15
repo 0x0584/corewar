@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:05:14 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 18:55:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 22:44:23 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_u8			vm_decode_exec(t_proc proc, t_st *arg)
 	else
 	{
 		*(t_st *)arg = st_succ;
-		if (g_verbose & show_ops)
+		if (g_verbose & show_ops && proc->op.info.code != op_aff)
 			ft_dprintf(g_fd,
 					proc->op.callback == zjmp ? "P %4d | " : "P %4d | %s",
 					proc->pid, op_disasm(proc));

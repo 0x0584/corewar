@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 09:10:57 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 09:15:38 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 22:59:43 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,12 @@ const char	*op_disasm(const t_proc p)
 	arg = 0;
 	while (arg < p->op.info.nargs)
 		off += op_disasm_arg(p, arg++, off);
-	if (p->op.info.code == op_fork || p->op.info.code == op_lfork)
-		off += ft_snprintf(g_op_buff + off, OP_BUFF - off, " (%d)",
-							shift_pc(p, p->op.info.args.c[0].short_chunk));
+	if (p->op.info.code == op_fork)
+		off += ft_snprintf(g_op_buff + off, OP_BUFF - off, " (%hd)",
+						p->op.info.args.c[0].short_chunk % IDX_MOD + p->pc);
+	else if (p->op.info.code == op_lfork)
+		off += ft_snprintf(g_op_buff + off, OP_BUFF - off, " (%hd)",
+						p->op.info.args.c[0].short_chunk + p->pc);
 	ft_snprintf(g_op_buff + off, OP_BUFF - off, "\n");
 	return (g_op_buff);
 }
