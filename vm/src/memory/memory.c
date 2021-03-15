@@ -32,7 +32,7 @@ void				mem_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
 	bool				read_reg_size;
 
-	if (encoded(op_encoding(&p->op.info, arg)) == T_REG)
+	if (decode(op_encoding(&p->op.info, arg)) == T_REG)
 	{
 		p->op.info.args.v[arg] = at_mem(shift_pc(p, *offset));
 		*offset += 1;
@@ -40,9 +40,9 @@ void				mem_chunk(t_proc p, t_arg arg, t_pc *offset)
 	else
 	{
 		read_reg_size = !p->op.info.meta.of.short_chunk &&
-							(encoded(op_encoding(&p->op.info, arg)) == T_DIR);
+							(decode(op_encoding(&p->op.info, arg)) == T_DIR);
 		mem_read_chunk(p, &p->op.info.args.c[arg], read_reg_size, *offset);
-		if (encoded(op_encoding(&p->op.info, arg)) == T_IND)
+		if (decode(op_encoding(&p->op.info, arg)) == T_IND)
 			*offset += IND_SIZE;
 		else
 			*offset += read_reg_size ? DIR_SIZE : IND_SIZE;

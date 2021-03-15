@@ -18,7 +18,7 @@ CC			           = gcc
 LD			           = ld
 
 ifeq ($(DEBUG), 1)
-	CFLAGS = -g # -Og
+	CFLAGS = -g -Og
 else
 	CFLAGS = -O3 -Werror
 endif

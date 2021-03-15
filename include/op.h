@@ -248,8 +248,8 @@ typedef struct				s_op_info
 
 t_arg						op_encoding(const t_op_info *info, t_arg which);
 t_arg						op_meta_encoding(const t_op_info *info, t_arg which);
-t_arg						encoded(t_u8 arg_code);
-t_u8						uncode(t_arg arg_type);
+t_arg						decode(t_u8 arg_code);
+t_u8						encode(t_arg arg_type);
 
 /**
 ** \brief operation interact with the VM's memory address range `arena`

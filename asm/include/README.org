@@ -1,0 +1,15 @@
+* Abstract
+
+#+BEGIN_QUOTE
+/The compilation involves just basic parsing of an assembly file, translating each operation into a corresponding Byte Code/
+#+END_QUOTE
+
+* Operation Implementation --- =op_impl.h=
+
+* Parser --- =parser.h=
+
+** Reader --- =reader.h=
+
+** Delimited --- =delimiter.h=
+
+** Arguments --- =args.h=

@@ -17,7 +17,7 @@ void		st(t_proc proc)
 {
 	union u_chunk	chnk;
 
-	if (encoded(op_encoding(&proc->op.info, 1)) == T_REG)
+	if (decode(op_encoding(&proc->op.info, 1)) == T_REG)
 		proc->reg[proc->op.info.args.v[1]] = proc->reg[proc->op.info.args.v[0]];
 	else
 	{

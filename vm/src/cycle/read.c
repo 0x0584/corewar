@@ -38,7 +38,7 @@ void					vm_read(void *proc, void *arg)
 
 static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 {
-	if (encoded(op_encoding(&p->op.info, arg)) != T_REG)
+	if (decode(op_encoding(&p->op.info, arg)) != T_REG)
 		return (st_fail);
 	if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
 	{
@@ -51,8 +51,8 @@ static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 
 t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
-	if (encoded(op_encoding(&p->op.info, arg)) == T_DIR
-			|| encoded(op_encoding(&p->op.info, arg)) == T_IND)
+	if (decode(op_encoding(&p->op.info, arg)) == T_DIR
+			|| decode(op_encoding(&p->op.info, arg)) == T_IND)
 	{
 		mem_chunk(p, arg, offset);
 		return (st_succ);
@@ -67,7 +67,7 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 
 	if (arg >= p->op.info.nargs)
 		return (st_fail);
-	if (op_meta_encoding(&p->op.info, arg) & encoded(op_encoding(&p->op.info,
+	if (op_meta_encoding(&p->op.info, arg) & decode(op_encoding(&p->op.info,
 																	arg)))
 	{
 		if ((st = handle_reg(p, arg, offset)))
@@ -85,7 +85,7 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 	t_st					st;
 
 	arg = 0;
-	while (encoded(op_encoding(&p->op.info, arg)) != T_PAD)
+	while (decode(op_encoding(&p->op.info, arg)) != T_PAD)
 	{
 		if ((st = handle_arg(p, arg, offset)))
 			return (st);

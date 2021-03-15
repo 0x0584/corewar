@@ -44,7 +44,7 @@ static int	op_disasm_arg(const t_proc p, t_arg arg, int offset)
 
 	if (p->op.info.meta.of.encoded)
 	{
-		if ((type = encoded(op_encoding(&p->op.info, arg))) == T_REG)
+		if ((type = decode(op_encoding(&p->op.info, arg))) == T_REG)
 			return (reg_disasm(p, arg, offset));
 		else if (type == T_DIR && !p->op.info.meta.of.short_chunk)
 			return (chunk_disam(&p->op.info, arg, offset));
@@ -96,7 +96,7 @@ static int	op_bytecode_arg(const t_op_info *info, t_arg arg, int offset)
 
 	if (info->meta.of.encoded)
 	{
-		if ((type = encoded(op_encoding(info, arg))) == T_REG)
+		if ((type = decode(op_encoding(info, arg))) == T_REG)
 			return (ft_snprintf(g_op_buff + offset, OP_BUFF - offset, " %02x",
 								info->args.v[arg]));
 		else if (type == T_DIR && !info->meta.of.short_chunk)

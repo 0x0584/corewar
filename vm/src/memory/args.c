@@ -17,7 +17,7 @@ t_dir		arg_value(t_proc proc, t_arg arg, bool deref)
 {
 	t_arg type;
 
-	if ((type = encoded(op_encoding(&proc->op.info, arg))) == T_IND && deref)
+	if ((type = decode(op_encoding(&proc->op.info, arg))) == T_IND && deref)
 	{
 		mem_read_chunk(proc, &proc->op.info.args.c[arg], true,
 							proc->op.info.args.c[arg].short_chunk);
