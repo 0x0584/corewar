@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:27:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/26 10:09:13 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 12:03:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void			set_op_encoding(t_op *op, t_arg arg, t_u8 type)
 		op->info.encoded.args.arg_3 = type;
 	else
 		assert(arg < MAX_ARGS_NUMBER);
-
 }
 
 bool			ascii_to_digit(const char **astr, char *reg)
@@ -43,13 +42,11 @@ bool			ascii_to_digit(const char **astr, char *reg)
 
 static t_st		fetch_arg(t_op *op, t_arg arg, const char **arg_line)
 {
-	if (g_debug)
-		ft_dprintf(2, " reading argument %hhu of operation %s at `%s`\n",
-				   arg, op->info.name, *arg_line);
 	if (!arg_line || !*arg_line || !**arg_line)
 	{
-		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset} \n");
-		return st_error;
+		ft_dprintf(2, " %{red_fg}end of line while "
+		"expecting argument%{reset} \n");
+		return (st_error);
 	}
 	else
 		return (read_arg(op, arg, arg_line));
@@ -72,7 +69,8 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 		return (st_succ);
 	else
 	{
-		ft_dprintf(2, " %{red_fg}operation arguments exceeded : `%s`%{reset}\n", args_line);
+		ft_dprintf(2, " %{red_fg}operation arguments exceeded : `%s`%{reset}\n",
+					args_line);
 		return (st_error);
 	}
 }

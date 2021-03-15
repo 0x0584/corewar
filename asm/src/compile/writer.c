@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   writer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/15 11:52:52 by archid-           #+#    #+#             */
+/*   Updated: 2021/03/15 11:53:26 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "op_impl.h"
 
@@ -6,12 +18,11 @@ t_u8			arg_offset(const t_op_info *info, t_arg arg)
 	t_arg			type;
 
 	if ((type = decode(op_encoding(info, arg++))) == T_REG)
-		return 1;
+		return (1);
 	else if (type == T_DIR)
-		return info->meta.of.short_chunk ? IND_SIZE : REG_SIZE;
+		return (info->meta.of.short_chunk ? IND_SIZE : REG_SIZE);
 	else
-		return IND_SIZE;
-
+		return (IND_SIZE);
 }
 
 static t_u8		op_memory_footprint(const t_op *op)
@@ -63,7 +74,8 @@ void			write_op(void *blob, void *size)
 	t_op			*op;
 	t_s16			at;
 
-	if (!(op = blob) || (at = *(t_s16 *)size) < 0)
+	if (!(op = blob) ||
+			(at = *(t_s16 *)size) < 0)
 		return ;
 	else if ((at + op_memory_footprint(op)) < CHAMP_MAX_SIZE)
 	{
