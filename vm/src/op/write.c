@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:50:37 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 10:11:30 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:47:50 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void		sti(t_proc proc)
 	offset = lval + rval;
 	chnk.chunk = proc->reg[proc->op.info.args.v[0]];
 	mem_write_chunk(proc, &chnk, offset);
-	ft_dprintf(g_fd, "%8s -> store to %hd + %hd = %hd (with pc and mod %hd)\n",
+	if (g_verbose & show_ops)
+		ft_dprintf(g_fd,
+					"%8s -> store to %hd + %hd = %hd (with pc and mod %hd)\n",
 					"|", lval, rval, offset, shift_pc(proc, offset));
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:01:05 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 09:33:37 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:51:04 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void		declare_winner(void)
 	{
 		ft_dprintf(g_fd, "Contestant %hhu, \"%s\", has won !\n",
 					g_vm.winner, g_vm.champs[g_vm.winner - 1].prog_name);
-		ft_printf("Winner is %{red_fg}%s%{reset}!\n",
-					g_vm.champs[g_vm.winner - 1].prog_name);
 	}
 	else
 		ft_putendl("No Winner!!");
@@ -35,9 +33,8 @@ int				main(int argc, char *argv[])
 {
 	int				ret;
 
-	if ((g_fd = open("vm.log", O_RDWR | O_CREAT | O_TRUNC, 0777)) < 0)
-		return (EXIT_FAILURE);
-	else if (parse_arguments(argc, argv))
+	g_fd = 1;
+	if (parse_arguments(argc, argv))
 	{
 		vm_loop();
 		declare_winner();
@@ -48,6 +45,5 @@ int				main(int argc, char *argv[])
 		print_usage();
 		ret = EXIT_FAILURE;
 	}
-	close(g_fd);
 	return (ret);
 }
