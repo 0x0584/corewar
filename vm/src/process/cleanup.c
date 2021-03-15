@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 18:25:17 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/14 11:21:07 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 08:44:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int			g_fd_check;
 
-static void kill_process(void)
+static void		kill_process(void)
 {
 	t_lstnode	walk;
 	t_proc		p;
@@ -24,12 +24,12 @@ static void kill_process(void)
 	while (walk->next != g_pool->tail)
 	{
 		p = walk->next->blob;
-		/* if (g_vm.delta < 0 || (!p->lives && p->op.callback)) */
 		if (g_vm.cycles - p->last_live >= g_vm.delta)
 		{
 			ft_dprintf(g_fd_check, "killed %d %s\n", p->pid, p->op.info.name);
-			ft_dprintf(g_fd, "Process %d hasn't lived for %d cycles (CTD %hd)\n",
-					   p->pid, g_vm.cycles - p->last_live, g_vm.or_delta);
+			ft_dprintf(g_fd,
+						"Process %d hasn't lived for %d cycles (CTD %hd)\n",
+						p->pid, g_vm.cycles - p->last_live, g_vm.or_delta);
 			lst_remove_next(g_pool, walk);
 		}
 		else
@@ -40,7 +40,7 @@ static void kill_process(void)
 	}
 }
 
-static void check_vm(void)
+static void		check_vm(void)
 {
 	ft_dprintf(g_fd_check, "Cycle %d: ", g_vm.cycles);
 	g_vm.n_checks++;
@@ -62,7 +62,7 @@ static void check_vm(void)
 	g_vm.lives = 0;
 }
 
-void		process_cleanup(void)
+void			process_cleanup(void)
 {
 	kill_process();
 	check_vm();

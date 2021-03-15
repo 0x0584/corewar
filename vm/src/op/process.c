@@ -6,26 +6,24 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:41:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/14 11:11:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 08:33:09 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op_callback.h"
 
-void    fork_(t_proc proc)
+void		fork_(t_proc proc)
 {
 	t_proc	foo;
 
-	foo = new_process(proc->num, shift_pc(proc, proc->op.info.args.c[0].short_chunk));
+	foo = new_process(proc->num,
+						shift_pc(proc, proc->op.info.args.c[0].short_chunk));
 	ft_memcpy(foo->reg, proc->reg, sizeof(t_reg) * (REG_NUMBER + 1));
 	foo->carry = proc->carry;
 	foo->last_live = proc->last_live;
-	/* g_vm.lives++; */
-	/* foo->lives = proc->lives; */
 }
 
-void    lfork(t_proc proc)
+void		lfork(t_proc proc)
 {
-	// cleanup only if exectude on op
 	fork_(proc);
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/14 17:24:41 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 09:47:53 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,120 +14,41 @@
 #include "process.h"
 #include "op_callback.h"
 
-void				vm_read(void *proc, void *arg)
+void					vm_read(void *proc, void *arg)
 {
 	t_proc	p;
-	t_pc	old;
 
 	p = proc;
-	if (g_vm.cycles >= 21217 && g_vm.cycles <= 21248 && p->pid == 4)
-	{
-		ft_printf(" >> pc: %d value %d\n", p->pc, g_vm.arena[p->pc]);
-		ft_printf(" >> cycle: %d waiting: %d %s", g_vm.cycles, p->op.cycles, op_disasm(p));
-	}
-
 	if (!p->op.callback || p->op.callback == nop || p->op.cycles > 0)
 	{
-		if (g_vm.arena[p->pc] >= op_count)
+		if (!g_vm.arena[p->pc] || g_vm.arena[p->pc] >= op_count)
 		{
-			if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
-			{
-				ft_printf(" 1 >>>>>>>>>>> ");
-			}
-
 			set_nop(p);
-			old = p->pc;
 			move_pc(p, 1);
 			*(t_st *)arg = st_fail;
-			/* ft_dprintf(g_fd ,"P %4d | %02x is not a valid operation!\n", p->pid, g_vm.arena[p->pc]); */
-			/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
-		}
-		else if (!g_vm.arena[p->pc])
-		{
-			if (g_vm.cycles <= 21167 && g_vm.cycles >= 21148 && p->pid == 4)
-			{
-				ft_printf(" 2 >>>>>>>>>>> ");
-			}
-			set_nop(p);
-			old = p->pc;
-			move_pc(p, 1);
-			*(t_st *)arg = st_fail;
-			/* ft_dprintf(g_fd ,"P %4d | nop\n", p->pid); */
-			/* ft_dprintf(g_fd ,"ADV %hd (0x%04x -> 0x%04x)\n", p->pc - old, old, p->pc); */
 		}
 		else
 		{
 			ft_memcpy(&p->op, &g_op[mem_at(p)], sizeof(t_op));
 			p->op.cycles *= -1;
 			*(t_st *)arg = st_succ;
-			if (g_show_logs)
-				ft_dprintf(g_fd, " >>> player %d: `%s` operation, scheduled after %d cycles\n",
-						   p->num, p->op.info.name, -p->op.cycles);
-			if (g_vm.cycles >= 21200 && g_vm.cycles <= 21250 && p->pid == 4)
-			{
-				ft_printf("%{red_fg}cycle: %d ENTER%{reset}: %s\n", g_vm.cycles, op_disasm(proc));
-			}
-		}
-	}
-	if (g_vm.cycles >= 21200 && g_vm.cycles <= 21300 && p->pid == 4)
-	{
-		ft_printf("%{green_fg}cycle: %d waiting: %d %s%{reset}\n", g_vm.cycles, p->op.cycles, op_disasm(p));
-
-		if (g_vm.cycles == 21218)
-		{
-			print_arena();
-			/* exit(0); */
 		}
 	}
 }
 
-/**
- ** \brief a register which has an argument of 1 Byte.
- **
- **	  - registers are defined inside a process with `REG_NUMBER` available
- **	  - call mem_chunk() reading REG_SIZE from which the *PC* is pointing
- **
- ** \param p process holding an operation on which we would like to match `arg`
- ** \param arg index of arg to of ht operation
- **
- ** \see op.h
- ** \see op_impl.h
- ** \see process.h
- **
- ** \return
- **
- **	  - `st_succ` if the arg referes to a register
- **	  - `st_fail` if the argument is not a register
- **	  - `st_error` if the argument is indeed a register, but not a *valid* one
- */
 static inline t_st		handle_reg(t_proc p, t_arg arg, t_pc *offset)
 {
-	if (encoded(op_encoding(&p->op.info, arg)) == T_REG)
-		if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
-		{
-			mem_chunk(p, arg, offset);
-			return (st_succ);
-		}
-		else
-		{
-			if (g_show_logs)
-				ft_dprintf(g_fd ," >>> %{red_fg}invalid register (%08b) access%{reset}\n", mem_deref(p, *offset));
-			return (st_error);
-		}
-	else
+	if (encoded(op_encoding(&p->op.info, arg)) != T_REG)
 		return (st_fail);
+	if (1 <= mem_deref(p, *offset) && mem_deref(p, *offset) <= REG_NUMBER)
+	{
+		mem_chunk(p, arg, offset);
+		return (st_succ);
+	}
+	else
+		return (st_error);
 }
 
-/**
-** \brief indepandant from the type `T_IND` or `T_DIR`. mem_chunk() reads either a chunk
-** or a short_chunk depending on the opeartion. also, mem_chunk() shall either
-** read a chunk directly, or via a reference to the arena (memory)
-**
-** \see handle_reg()
-** \see vm.h
-** \see op.h
-** \see op_impl.h
-*/
 t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 {
 	if (encoded(op_encoding(&p->op.info, arg)) == T_DIR
@@ -137,40 +58,24 @@ t_st					handle_chunk(t_proc p, t_arg arg, t_pc *offset)
 		return (st_succ);
 	}
 	else
-	{
-		if (g_show_logs)
-			ft_dprintf(g_fd ," >>> %{red_fg}unknown encoding of arg %d%{reset}", arg);
 		return (st_fail);
-	}
 }
 
 static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 {
 	t_st					st;
 
-	if (arg < p->op.info.nargs)
-	{
-		if (g_show_logs)
-			ft_dprintf(g_fd ," >>> encoding of %d (%02b)\n", arg, op_encoding(&p->op.info, arg));
-	}
-	else
-	{
-		if (g_show_logs)
-			ft_dprintf(g_fd ," >>> %{red_fg}encoding is not padded (%02b)%{reset}\n", op_encoding(&p->op.info, arg));
-		return st_fail;
-	}
-	if (op_meta_encoding(&p->op.info, arg) & encoded(op_encoding(&p->op.info, arg)))
+	if (arg >= p->op.info.nargs)
+		return (st_fail);
+	if (op_meta_encoding(&p->op.info, arg) & encoded(op_encoding(&p->op.info,
+																	arg)))
 	{
 		if ((st = handle_reg(p, arg, offset)))
 			if ((st = handle_chunk(p, arg, offset)))
 				return (st);
 	}
 	else
-	{
-		if (g_show_logs)
-			ft_dprintf(g_fd ," >>> %{red_fg}unexpected argument encoding %2b vs %8b%{reset}\n", op_encoding(&p->op.info, arg), op_meta_encoding(&p->op.info, arg));
-		return st_fail;
-	}
+		return (st_fail);
 	return (st);
 }
 
@@ -189,10 +94,5 @@ t_st					read_arg_chunk(t_proc p, t_pc *offset)
 	if (arg == p->op.info.nargs)
 		return (st_succ);
 	else
-	{
-		if (g_show_logs)
-			ft_dprintf(g_fd ," >>> %{red_fg}arguments are not padded (%08b)%{reset}\n", op_encoding(&p->op.info, arg));
-		ft_printf(" %d FAILED!!!!\n", g_vm.cycles);
 		return (st_fail);
-	}
 }

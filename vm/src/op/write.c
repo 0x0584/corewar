@@ -6,20 +6,17 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:50:37 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/13 18:22:46 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 10:11:30 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 #include "op_callback.h"
 
-#include "draw.h"
-
-void    st(t_proc proc)
+void		st(t_proc proc)
 {
 	union u_chunk	chnk;
 
-	/* print_arena(); */
 	if (encoded(op_encoding(&proc->op.info, 1)) == T_REG)
 		proc->reg[proc->op.info.args.v[1]] = proc->reg[proc->op.info.args.v[0]];
 	else
@@ -27,10 +24,9 @@ void    st(t_proc proc)
 		chnk.chunk = proc->reg[proc->op.info.args.v[0]];
 		mem_write_chunk(proc, &chnk, arg_value(proc, 1, false));
 	}
-	/* print_arena(); */
 }
 
-void    sti(t_proc proc)
+void		sti(t_proc proc)
 {
 	union u_chunk	chnk;
 	t_u32			offset;
@@ -39,16 +35,9 @@ void    sti(t_proc proc)
 
 	lval = arg_value(proc, 1, false);
 	rval = arg_value(proc, 2, false);
-	/* print_arena(); */
 	offset = lval + rval;
 	chnk.chunk = proc->reg[proc->op.info.args.v[0]];
 	mem_write_chunk(proc, &chnk, offset);
-	// ft_dprintf(g_fd, "%8s -> store to %hd + %hd = %hd (with pc and mod %hd)\n", "|",
-	// 		   lval, rval, offset, shift_pc(proc, offset));
-	if (g_vm.cycles == 3365)
-		ft_printf("-- debug: lvalue: %d, rvalue: %d, offset: %d, pc: %d , result: %d--- \n", 
-				lval, rval, offset, proc->pc, offset + proc->pc);
-	ft_dprintf(g_fd, "%8s -> store to %hd + %hd = %hd (with pc and mod %d)\n", "|",
-			   lval, rval, offset, offset + proc->pc);
-	/* print_arena(); */
+	ft_dprintf(g_fd, "%8s -> store to %hd + %hd = %hd (with pc and mod %hd)\n",
+					"|", lval, rval, offset, shift_pc(proc, offset));
 }

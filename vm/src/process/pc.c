@@ -6,14 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 17:27:19 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/18 18:01:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 08:50:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "process.h"
 
-
-t_pc	pc_shift(t_pc pc, t_pc offset, bool long_op)
+t_pc		pc_shift(t_pc pc, t_pc offset, bool long_op)
 {
 	t_pc	new_offset;
 	t_pc	new_pc;
@@ -28,12 +27,12 @@ t_pc	pc_shift(t_pc pc, t_pc offset, bool long_op)
 		return (new_pc % MEM_SIZE);
 }
 
-t_pc	shift_pc(t_proc p, t_pc offset)
+t_pc		shift_pc(t_proc p, t_pc offset)
 {
-	return pc_shift(p->pc, offset, p->op.info.meta.of.long_op);
+	return (pc_shift(p->pc, offset, p->op.info.meta.of.long_op));
 }
 
-t_pc	move_pc(t_proc p, t_pc offset)
+t_pc		move_pc(t_proc p, t_pc offset)
 {
 	if (!p)
 		return (0);
@@ -41,7 +40,7 @@ t_pc	move_pc(t_proc p, t_pc offset)
 		return (p->pc = shift_pc(p, offset));
 }
 
-t_pc	pc_move(t_pc *pc, t_pc offset, bool long_op)
+t_pc		pc_move(t_pc *pc, t_pc offset, bool long_op)
 {
 	if (!pc)
 		return (0);

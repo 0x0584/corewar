@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 08:12:10 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/16 18:28:34 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 08:45:39 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_proc		new_process(t_u8 player_num, t_pc at)
 	foo->num = player_num;
 	foo->pc = at;
 	foo->reg[1] = -(int)(player_num);
- 	g_pool = lst_push_front_blob(g_pool ? g_pool : lst_alloc(blob_free),
-								 foo, sizeof foo, false);
+	g_pool = lst_push_front_blob(g_pool ? g_pool : lst_alloc(blob_free),
+									foo, sizeof(foo), false);
 	return (foo);
 }
