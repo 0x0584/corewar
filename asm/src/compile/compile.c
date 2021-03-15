@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 14:41:14 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 16:34:01 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,27 @@ t_st			compile(t_lst lines, const char *outname)
 	return (st);
 }
 
+static t_st		do_substitute_label(t_op *op, t_arg arg, t_s16 offset)
+{
+	t_op			*label;
+
+	if ((label = hash_get(g_labels, op->labels[arg], NULL)))
+	{
+		op->info.args.c[arg].short_chunk = label->addr - op->addr;
+		write_arg(&op->info, arg, offset);
+		return (st_succ);
+	}
+	else
+	{
+		ft_dprintf(2, "referencing unknown label %s\n",
+					op->labels[arg]);
+		return (st_fail);
+	}
+}
+
 static void		substitute_label(void *blob, void *st)
 {
 	t_op			*op;
-	t_op			*label;
 	t_arg			arg;
 	t_s16			offset;
 
@@ -72,20 +89,8 @@ static void		substitute_label(void *blob, void *st)
 	while (arg < op->info.nargs)
 	{
 		if (op->labels[arg])
-		{
-			if ((label = hash_get(g_labels, op->labels[arg], NULL)))
-			{
-				op->info.args.c[arg].short_chunk = label->addr - op->addr;
-				write_arg(&op->info, arg, offset);
-			}
-			else
-			{
-				ft_dprintf(2, "referencing unknown label %s\n",
-							op->labels[arg]);
-				*(t_st *)st = st_error;
+			if ((*(t_st *)st = do_substitute_label(op, arg, offset)))
 				break ;
-			}
-		}
 		offset += arg_offset(&op->info, arg++);
 	}
 }
