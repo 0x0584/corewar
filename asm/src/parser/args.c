@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:27:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 12:03:58 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 14:41:30 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_st			fetch_op_args(t_op *op, const char *args_line)
 
 	skip_whitespace(&args_line);
 	arg = 0;
-	if (g_debug)
-		ft_dprintf(2, " fetching args for `%s`\n", args_line);
 	while (arg < op->info.nargs)
 		if ((st = fetch_arg(op, arg++, &args_line)))
 			return (st);

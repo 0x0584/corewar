@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:25:02 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 12:02:44 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 14:41:14 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,29 @@ static t_st		write_champion(const int fd, const char *outname)
 	write(fd, g_champ.file, g_champ.prog_size);
 	ft_dprintf(2, "%{green_fg}wrote %s%{reset}\n", outname);
 	return (st_succ);
+}
+
+t_st			compile(t_lst lines, const char *outname)
+{
+	t_lst			ops;
+	t_st			st;
+	int				fd;
+
+	if ((fd = open(outname, O_CREAT | O_TRUNC | O_WRONLY, 0777)) < 0)
+	{
+		ft_dprintf(2, "cannot open file descriptor for writing %s!\n", outname);
+		return (st_error);
+	}
+	else if (!lst_empty(lines) && (ops = parse_ops(lines)))
+	{
+		if ((st = write_prog(ops)) == st_succ)
+			st = write_champion(fd, outname);
+		lst_del(&ops);
+	}
+	else
+		st = st_error;
+	close(fd);
+	return (st);
 }
 
 static void		substitute_label(void *blob, void *st)

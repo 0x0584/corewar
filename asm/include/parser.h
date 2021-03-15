@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 10:58:40 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 11:47:52 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 14:40:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ t_st			parse_line(char **line);
 t_st			parse_arg_value(t_op *op, t_arg arg, const char **arg_line);
 t_st			parse_op(t_op *op, const char *line, t_st label);
 t_lst			parse_ops(t_lst lines);
-
-extern bool		g_debug;
 
 extern t_hash	g_op_lookup;
 extern t_champ	g_champ;
