@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:30:44 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/26 10:07:35 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 11:51:00 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char		*filename(const char *in)
 {
 	char			*out;
 	char			*ext;
+
 	if (!(ext = ft_strrchr(in, '.')))
 		return (NULL);
 	else
@@ -27,7 +28,7 @@ static char		*filename(const char *in)
 	}
 }
 
-static char *		read_prepare(const int ac, const char *av[])
+static char		*read_prepare(const int ac, const char *av[])
 {
 	char				*outname;
 
@@ -45,7 +46,7 @@ static char *		read_prepare(const int ac, const char *av[])
 		return (outname);
 }
 
-static t_lst		read_lines(const int fd)
+static t_lst	read_lines(const int fd)
 {
 	t_lst			file;
 	char			*buff;
@@ -59,7 +60,7 @@ static t_lst		read_lines(const int fd)
 		{
 			free(buff);
 			if (st == st_error)
-				break;
+				break ;
 		}
 		else
 		{
@@ -96,5 +97,5 @@ t_st			read_file(const int ac, const char *av[])
 	}
 	free(outname);
 	close(fd);
-	return st;
+	return (st);
 }

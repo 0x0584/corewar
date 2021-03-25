@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 08:33:56 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/20 18:05:27 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 10:44:47 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 # define MAX_ARGS_NUMBER		4
 # define MAX_PLAYERS			4
-# define MEM_SIZE				(4 * 1024)
-# define IDX_MOD				(MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
+# define MEM_SIZE				4096
+# define IDX_MOD				512
+# define CHAMP_MAX_SIZE			682
 
 # define COMMENT_CHAR			'#'
 # define LABEL_CHAR				':'

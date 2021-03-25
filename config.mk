@@ -25,3 +25,7 @@ CFLAGS		          += -Wall -Wextra -Wpedantic
 CFLAGS		          += -I$(DEPS_DIR) -I$(FT_DIR)
 
 LDFLAGS				   = -lft -L$(FT_DIR)
+
+define relative_to
+	$(shell realpath --relative-to $2 $1)
+endef

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:06:01 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/19 15:57:08 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 16:47:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct	s_operation
 	t_u16				addr;
 	const char			*labels[MAX_ARGS_NUMBER];
 }				t_op;
+
+void			op_free(void *blob);
 
 extern t_hash	g_labels;
 extern t_u16	g_max_op_length;

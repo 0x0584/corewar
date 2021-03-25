@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:33:44 by archid-           #+#    #+#             */
-/*   Updated: 2021/02/23 11:44:21 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 14:16:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool		delimiter(char c)
 {
-	return !c || ft_isspace(c) || is_comment_char(c) || c == deli_comma;
+	return (!c || ft_isspace(c) || is_comment_char(c) || c == deli_comma);
 }
 
 bool		is_comment_char(char d)
@@ -22,7 +22,7 @@ bool		is_comment_char(char d)
 	return (d == deli_eol || d == deli_comment || d == deli_asm_comment);
 }
 
-t_st			skip_whitespace(const char **ptr)
+t_st		skip_whitespace(const char **ptr)
 {
 	if (ptr && *ptr)
 	{
@@ -33,23 +33,18 @@ t_st			skip_whitespace(const char **ptr)
 		return (st_succ);
 	}
 	else
-	{
-		ft_dprintf(2, " %{red_fg}end of line while expecting argument%{reset}\n");
-		return (st_error);
-	}
+		return (st_log(st_error, 2, "end of line while expecting argument"));
 }
 
-t_st				seek_delimiter(const char **arg_line, const char *walk, bool last_arg)
+t_st		seek_delimiter(const char **arg_line,
+							const char *walk, bool last_arg)
 {
 	skip_whitespace(&walk);
 	if (*walk && (*walk != deli_comma || (*walk == deli_comma && last_arg)))
-	{
-		ft_dprintf(2, "%{red_fg}unexpected delimiter%{reset}\n");
-		return st_error;
-	}
+		return (st_log(st_error, 2, "unexpected delimiter"));
 	else
 	{
 		*arg_line = walk + (*walk == deli_comma);
-		return st_succ;
+		return (st_succ);
 	}
 }

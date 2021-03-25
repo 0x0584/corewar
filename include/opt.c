@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   opt.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/15 11:42:00 by archid-           #+#    #+#             */
+/*   Updated: 2021/03/15 11:44:38 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "const.h"
 #include "opt.h"
 
@@ -25,15 +37,15 @@ static bool			duplicate_opt(const char *long_opt, char short_opt)
 	return (!pair.first || !pair.second);
 }
 
-bool					opt_str_init(const char *long_opt, char short_opt,
-									 opt_arg_callback parse)
+bool				opt_str_init(const char *long_opt, char short_opt,
+										t_opt_arg_callback parse)
 {
-	return opt_init(long_opt, short_opt, true,
-					(t_opt_arg){parse, free, str_dump, NULL});
+	return (opt_init(long_opt, short_opt, true,
+					(t_opt_arg){parse, free, str_dump, NULL}));
 }
 
 bool				opt_init(const char *long_opt, char short_opt,
-							 bool has_arg, const t_opt_arg arg)
+								bool has_arg, const t_opt_arg arg)
 {
 	t_opt				opt;
 
@@ -45,13 +57,13 @@ bool				opt_init(const char *long_opt, char short_opt,
 	opt.short_opt = short_opt;
 	opt.has_arg = has_arg;
 	ft_memcpy(&opt.arg, &arg, sizeof(t_opt_arg));
-	return true;
+	return (true);
 }
 
-bool					opt_match(const char *args[], int at, t_opt *opt)
+bool				opt_match(const char *args[], int at, t_opt *opt)
 {
 	if (*args[0] != '-')
-		return false;
+		return (false);
 }
 
 void				opt_cleanup(void)
@@ -59,7 +71,7 @@ void				opt_cleanup(void)
 	lst_del(&g_opts);
 }
 
-void					str_dump(void *blob)
+void				str_dump(void *blob)
 {
 	ft_putendl(blob);
 }
