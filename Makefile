@@ -10,12 +10,15 @@
 #                                                                              #
 #******************************************************************************#
 
+FT_DIR		?= libft
+DEPS_DIR	?= include
+
 include config.mk
 
 all: $(LIBFT) deps asm vm
 
 deps: setup $(DEPS)
-	@echo "compiled dependencies"
+	@echo
 
 setup:
 	@echo
@@ -33,11 +36,11 @@ $(LIBFT): $(FT_HEADERS)
 
 vm: $(DEPS)
 #	@echo building $(VM_DIR)
-	@$(MAKE) -C $(VM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@$(MAKE) -C $(VM_DIR) FT_DIR=$(shell realpath --relative-to $(VM_DIR) $(FT_DIR)) DEPS_DIR=$(shell realpath --relative-to $(VM_DIR) $(DEPS_DIR))
 
 asm: $(DEPS)
 #	@echo building $(ASM_DIR)
-	@$(MAKE) -C $(ASM_DIR) FT_DIR=$(FT_DIR) DEPS_DIR=$(DEPS_DIR)
+	@$(MAKE) -C $(ASM_DIR) FT_DIR=$(shell realpath --relative-to $(ASM_DIR) $(FT_DIR)) DEPS_DIR=$(shell realpath --relative-to $(ASM_DIR) $(DEPS_DIR))
 
 clean:
 	@$(MAKE) clean -C $(FT_DIR)  > /dev/null

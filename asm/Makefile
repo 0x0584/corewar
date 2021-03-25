@@ -10,11 +10,14 @@
 #                                                                              #
 #******************************************************************************#
 
+FT_DIR		?= ../libft
+DEPS_DIR	?= ../include
+
 include config.mk
 
 NAME		 = asm
 
-INC_DIR		?= $(realpath include)
+INC_DIR		?= include
 SRC_DIR		?= src
 OBJ_DIR		?= .obj
 
