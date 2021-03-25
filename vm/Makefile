@@ -43,13 +43,13 @@ setup:
 	@echo
 
 $(NAME): $(DEPS) $(OBJS)
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	@printf "\n$(GRN) built $(NAME).\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(LIBFT)
 	@mkdir -p $(@D)
-	@printf " compiling $<..\n"
-	@$(CC) $(CFLAGS) -c $< -o $@
+#	@printf " compiling $<..\n"
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJS)
