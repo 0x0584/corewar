@@ -20,10 +20,8 @@ void				mem_load(t_u8 player_idx, const t_champ *champ)
 	t_u16				j;
 	t_proc				proc;
 
-	if (g_vm.winner == 0)
-		g_vm.winner = player_idx + 1;
 	j = 0;
-	i = (MEM_SIZE / count_players()) * player_idx;
+	i = (MEM_SIZE / g_n_players) * player_idx;
 	proc = new_process(player_idx + 1, i);
 	proc->reg[1] = -(int)(player_idx + 1);
 	while (j < champ->prog_size)

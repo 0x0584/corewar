@@ -20,11 +20,14 @@ static int		print_usage(void)
 
 static void		declare_winner(void)
 {
-	ft_dprintf(g_fd, "Contestant %hhu, \"%s\", has won !\n",
-					g_vm.winner, g_vm.champs[g_vm.winner - 1].prog_name);
+	if (g_vm.winner == 0)
+		st_log(st_fail, 2, "No winner");
+	else
+		ft_dprintf(g_fd, "Contestant %hhu, \"%s\", has won after %d cycles !\n",
+					g_vm.winner, g_vm.champs[g_vm.winner - 1].prog_name, g_vm.cycles);
 }
 
-int				main(int argc, char *argv[])
+int				main(int argc, const char *argv[])
 {
 	int				ret;
 

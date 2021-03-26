@@ -15,7 +15,6 @@
 
 # include "vm.h"
 
-int			count_players(void);
 void		mem_load(t_u8 player_idx, const t_champ *champ);
 t_st		handle_chunk(t_proc p, t_arg arg, t_pc *offset);
 void		mem_write_chunk(const t_proc p, const union u_chunk *chnk,

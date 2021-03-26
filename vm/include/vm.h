@@ -41,7 +41,7 @@ typedef struct		s_vm
 	t_u8			winner;
 }					t_vm;
 
-bool				parse_arguments(int ac, char *av[]);
+bool				parse_arguments(int ac, const char *av[]);
 t_st				vm_loop(void);
 t_st				vm_decode(t_proc p, t_pc *offset);
 void				vm_read(void *proc, void *arg);
@@ -57,5 +57,6 @@ extern bool			g_jumped;
 extern int			g_dump;
 extern int			g_aff;
 extern int			g_verbose;
+extern int			g_n_players;
 
 #endif

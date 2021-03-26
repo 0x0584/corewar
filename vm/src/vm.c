@@ -37,8 +37,6 @@ t_st			vm_loop(void)
 	while (!lst_empty(g_pool))
 	{
 		g_vm.cycles++;
-		if (g_vm.cycles == 21215)
-			print_arena();
 		g_vm.current_cycles++;
 		if (g_verbose & show_cycles)
 			ft_dprintf(g_fd, "It is now cycle %d\n", g_vm.cycles);

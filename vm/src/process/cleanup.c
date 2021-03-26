@@ -15,7 +15,7 @@
 
 int			g_fd_check;
 
-static void		kill_process(void)
+static void		kill_processes(void)
 {
 	t_lstnode	walk;
 	t_proc		p;
@@ -40,9 +40,10 @@ static void		kill_process(void)
 	}
 }
 
-static void		check_vm(void)
+void			process_cleanup(void)
 {
 	g_vm.n_checks++;
+	kill_processes();
 	if (g_vm.lives >= NBR_LIVE || g_vm.n_checks == MAX_CHECKS)
 	{
 		g_vm.n_checks = 0;
@@ -51,14 +52,9 @@ static void		check_vm(void)
 		if (g_vm.delta <= 0)
 			g_vm.delta = 1;
 		if (g_verbose & show_deaths)
-			ft_dprintf(g_fd, "Cycle to die is now %d\n", g_vm.or_delta);
+			ft_dprintf(g_fd, "Cycle to die is now %d with (%zu Processe(s))\n",
+					   g_vm.or_delta, lst_size(g_pool));
 	}
 	g_vm.current_cycles = 0;
 	g_vm.lives = 0;
-}
-
-void			process_cleanup(void)
-{
-	kill_process();
-	check_vm();
 }

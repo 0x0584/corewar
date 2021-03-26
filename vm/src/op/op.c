@@ -30,11 +30,11 @@ void		live(t_proc proc)
 
 	g_vm.lives++;
 	proc->lives++;
+	proc->last_live = g_vm.cycles;
 	if ((id = -arg_value(proc, 0, false)) > 0 && id <= MAX_PLAYERS
 			&& g_vm.champs[id - 1].prog_name)
 	{
 		g_vm.winner = id;
-		proc->last_live = g_vm.cycles;
 		if (g_verbose & show_lives)
 			ft_dprintf(g_fd, "Player %d (%s) is said to be alive\n",
 						id, g_vm.champs[id - 1].prog_name);
