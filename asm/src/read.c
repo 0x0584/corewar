@@ -53,6 +53,7 @@ static t_lst	read_lines(const int fd)
 	t_st			st;
 
 	file = lst_alloc(blob_free);
+	st = st_error;
 	while (gnl(fd, &buff))
 	{
 		st = st_fail;

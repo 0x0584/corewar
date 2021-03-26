@@ -36,6 +36,5 @@ t_lst			parse_ops(t_lst lines);
 extern t_hash	g_op_lookup;
 extern t_champ	g_champ;
 extern int		g_header_status;
-extern t_u8		g_name[PROG_NAME_LENGTH + 1];
 
 #endif

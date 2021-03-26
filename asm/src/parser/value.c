@@ -36,16 +36,21 @@ static t_st			read_arg_label(t_op *op, t_arg arg, const char **arg_line)
 	}
 }
 
-static const char	*parse_num(const char *walk)
+static const char	*parse_num(const char *walk, bool *overflow)
 {
 	const char				*ori;
 	bool					sign;
 
 	ori = walk;
 	sign = false;
+	*overflow = false;
 	while (*walk && ((!sign && (sign = ft_strchr("+-", *walk) != NULL)) ||
-			ft_isdigit(*walk)) && walk - ori < 11 + sign)
+						ft_isdigit(*walk)) && walk - ori < 25)
+	{
+		if (walk - ori >= 11 + sign)
+			*overflow = true;
 		walk++;
+	}
 	return (walk == ori ? NULL : walk);
 }
 
@@ -55,16 +60,17 @@ static t_st			read_arg_value(t_op *op, t_arg arg, const char **arg_line)
 	short				sh;
 	int					n;
 	const char			*walk;
+	bool				overflow;
 
-	if (!(walk = parse_num(*arg_line)) || (*walk && !delimiter(*walk)))
-		return (st_log(st_error, 2, "unexpected delimiter"));
+	if (!(walk = parse_num(*arg_line, &overflow)) || (*walk && !delimiter(*walk)))
+		return (st_log(st_error, 2, "op:%s arg:%hhu unexpected delimiter `%c'",
+						op->info.name, arg, walk ? *walk : '\0'));
 	num = ft_strrdup(*arg_line, walk - 1);
 	n = ft_atoi(num);
 	sh = n;
-	if (sh != n && op->info.meta.of.short_chunk)
-		st_log(st_fail, 2,
-				"warning overflow of arg %hhu in op %s",
-				arg, op->info.name);
+	if (overflow || (sh != n && op->info.meta.of.short_chunk))
+		st_log(st_fail, 2, "op:%s arg:%hhu warning overflow",
+			   op->info.name, arg);
 	op->info.args.v[arg] = n;
 	free(num);
 	return (seek_delimiter(arg_line, walk, op->info.nargs == arg + 1));

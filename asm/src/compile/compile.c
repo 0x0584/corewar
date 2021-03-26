@@ -14,6 +14,11 @@
 #include "compile.h"
 #include "op_impl.h"
 
+static bool		wrote(const int fd, void *buff, ssize_t size)
+{
+	return (write(fd, buff, size) == size);
+}
+
 static t_st		write_champion(const int fd, const char *outname)
 {
 	int		magic;
@@ -23,15 +28,17 @@ static t_st		write_champion(const int fd, const char *outname)
 	magic = beword(COREWAR_EXEC_MAGIC);
 	prog_size = beword(g_champ.prog_size);
 	null = 0;
-	write(fd, &magic, sizeof(int));
-	write(fd, g_name, PROG_NAME_LENGTH);
-	write(fd, &null, sizeof(int));
-	write(fd, &prog_size, sizeof(int));
-	write(fd, g_champ.comment, COMMENT_LENGTH);
-	write(fd, &null, sizeof(int));
-	write(fd, g_champ.file, g_champ.prog_size);
-	ft_dprintf(2, "%{green_fg}wrote %s%{reset}\n", outname);
-	return (st_succ);
+	if (wrote(fd, &magic, sizeof(int)) &&
+		wrote(fd, g_champ.prog_name, PROG_NAME_LENGTH) &&
+		wrote(fd, &null, sizeof(int)) &&
+		wrote(fd, &prog_size, sizeof(int)) &&
+		wrote(fd, g_champ.comment, COMMENT_LENGTH) &&
+		wrote(fd, &null, sizeof(int)) &&
+		wrote(fd, g_champ.file, g_champ.prog_size))
+		return st_log(st_succ, 2, "Wrote %u Byte(s) into %s",
+					  g_champ.prog_size, outname);
+	else
+		return st_log(st_error, 2, "Couldn't write %s", outname);
 }
 
 t_st			compile(t_lst lines, const char *outname)

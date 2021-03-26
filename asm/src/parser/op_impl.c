@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op.c                                               :+:      :+:    :+:   */
+/*   op_impl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -77,13 +77,18 @@ static bool		do_parse_ops(t_lstnode walk, t_lst ops)
 		st_op = st_fail;
 		skip_whitespace(&op_at);
 		if (*op_at)
+		{
 			if (!parse_asm(&op, &op_at, &st_op, ops))
 				return (false);
+		}
+		else
+			st_op = st_error;
 		lst_node_forward(&walk);
 	}
-	if (!*op_at && st_op == st_fail)
+	if (!*op_at && st_op)
 	{
-		st_log(st_error, 2, "last label points to nothing");
+		if (st_op == st_fail)
+			st_log(st_error, 2, "last label points to nothing");
 		op_free(op);
 		return (false);
 	}

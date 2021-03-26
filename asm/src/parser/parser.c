@@ -39,6 +39,7 @@ t_st			parse_line(char **line)
 {
 	t_st			st;
 
+	/* st_log(st_fail, 2, "line: `%s'", *line); */
 	if (!line || !*line)
 		return (st_error);
 	else if ((st = parse_header(*line)) == st_error)
@@ -54,4 +55,3 @@ t_st			parse_line(char **line)
 t_hash			g_labels = NULL;
 t_champ			g_champ;
 int				g_header_status = 0;
-t_u8			g_name[PROG_NAME_LENGTH + 1];

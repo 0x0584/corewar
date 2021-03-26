@@ -23,16 +23,16 @@ static t_st		handle_cmd(t_u8 *buff, size_t length,
 		buff[i] = line[i];
 		i++;
 	}
-	if (i == length)
-		return (st_log(st_error, 2, "exceeding the maximum length %d of %s",
-					length, cmd));
-	else if (!line[i])
-		return (st_log(st_error, 2, "unknown delimiter"));
-	else
+	if (line[i] == '\"')
 	{
 		g_header_status++;
 		return (st_succ);
 	}
+	else if (i >= length)
+		return (st_log(st_error, 2, "exceeding the maximum length %d of %s",
+					length, cmd));
+	else
+		return (st_log(st_error, 2, "unknown delimiter `%c'", line[i]));
 }
 
 static t_st		match_cmd(t_u8 *buff, size_t length,
@@ -51,29 +51,23 @@ static t_st		match_cmd(t_u8 *buff, size_t length,
 	if (!*line)
 		return (st_log(st_error, 2, "end of line before command arg"));
 	else if (*line++ == '\"')
-	{
 		return (handle_cmd(buff, length, cmd, line));
-	}
 	else
-	{
-		ft_dprintf(2, "%{red_fg}wrong delimiter%{reset}\n");
-		return (st_error);
-	}
+	    return st_log(st_error, 2, "wrong delimiter, expecting \"");
 }
 
 t_st			match_name(const char *line)
 {
 	t_st			st;
 
-	if ((st = match_cmd(g_name, PROG_NAME_LENGTH, NAME_CMD_STRING, line)))
+	if ((st = match_cmd(g_champ.prog_name, PROG_NAME_LENGTH, NAME_CMD_STRING, line)))
 		return (st);
 	else if (st == st_succ)
 	{
 		if (g_header_status != 1)
-		{
-			ft_dprintf(2, "%{red_fg}name command appeared twice%{reset}\n");
-			return (st_error);
-		}
+			return (st_log(st_error, 2, "name command appeared twice"));
+		else if (!*g_champ.prog_name)
+			return (st_log(st_error, 2, "empty name is not allowed"));
 		else
 			return (st_succ);
 	}
@@ -92,6 +86,8 @@ t_st			match_comment(const char *line)
 	{
 		if (g_header_status != 2)
 			return (st_log(st_error, 2, "comment command appeared twice"));
+		else if (!*g_champ.comment)
+			return (st_log(st_error, 2, "comment name is not allowed"));
 		else
 			return (st_succ);
 	}
