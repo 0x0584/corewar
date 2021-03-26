@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 14:52:32 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 09:35:02 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:32:15 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "vm.h"
 
+int			count_players(void);
 void		mem_load(t_u8 player_idx, const t_champ *champ);
 t_st		handle_chunk(t_proc p, t_arg arg, t_pc *offset);
 void		mem_write_chunk(const t_proc p, const union u_chunk *chnk,

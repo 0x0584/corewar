@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:04:52 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 09:47:53 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 22:23:49 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,38 @@ static t_st				handle_arg(t_proc p, t_arg arg, t_pc *offset)
 t_st					read_arg_chunk(t_proc p, t_pc *offset)
 {
 	t_arg					arg;
+	t_arg					type;
 	t_st					st;
+	t_pc					off;
 
 	arg = 0;
-	while (decode(op_encoding(&p->op.info, arg)) != T_PAD)
+	off = *offset;
+	while (arg < p->op.info.nargs)
+	{
+		type = decode(op_encoding(&p->op.info, arg));
+		if (type == T_REG)
+			off += 1;
+		else if (type == T_IND)
+			off += IND_SIZE;
+		else if (type == T_DIR)
+			off += p->op.info.meta.of.short_chunk ? IND_SIZE : DIR_SIZE;
+		arg++;
+	}
+	arg = 0;
+	while (arg < p->op.info.nargs)
 	{
 		if ((st = handle_arg(p, arg, offset)))
+		{
+			*offset = off;
 			return (st);
+		}
 		arg++;
 	}
 	if (arg == p->op.info.nargs)
 		return (st_succ);
 	else
+	{
+		*offset = off;
 		return (st_fail);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:02:27 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 09:32:47 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:40:50 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,18 @@
 typedef t_champ		t_gladiators[MAX_PLAYERS];
 typedef t_u8		t_memory[MEM_SIZE];
 
+enum				e_dump
+{
+	show_lives = 1,
+	show_cycles = 2,
+	show_ops = 4,
+	show_deaths = 8,
+	show_pc = 16
+};
+
 typedef struct		s_vm
 {
 	t_memory		arena;
-	t_u8			nplayers;
 	t_gladiators	champs;
 	t_s32			cycles;
 	t_s32			current_cycles;
@@ -33,7 +41,7 @@ typedef struct		s_vm
 	t_u8			winner;
 }					t_vm;
 
-t_st				parse_arguments(int ac, char *av[]);
+bool				parse_arguments(int ac, char *av[]);
 t_st				vm_loop(void);
 t_st				vm_decode(t_proc p, t_pc *offset);
 void				vm_read(void *proc, void *arg);
@@ -46,4 +54,8 @@ extern int			g_fd;
 
 extern bool			g_show_logs;
 extern bool			g_jumped;
+extern int			g_dump;
+extern int			g_aff;
+extern int			g_verbose;
+
 #endif

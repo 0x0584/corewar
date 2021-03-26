@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 09:40:20 by archid-           #+#    #+#             */
-/*   Updated: 2021/03/15 10:10:57 by archid-          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:47:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	ldi(t_proc proc)
 	proc->reg[proc->op.info.args.v[2]] = chnk.chunk;
 	if (proc->op.info.code == op_lldi)
 		proc->carry = !proc->reg[proc->op.info.args.v[2]];
-	ft_dprintf(g_fd, "%8s -> load from %hd + %hd = %hd (with pc and mod %hd)\n",
+	if (g_verbose & show_ops)
+		ft_dprintf(g_fd,
+					"%8s -> load from %hd + %hd = %hd (with pc and mod %hd)\n",
 					"|", lval, rval, offset, shift_pc(proc, offset));
 }
 
