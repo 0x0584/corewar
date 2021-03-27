@@ -90,7 +90,7 @@ static t_st			match_player(int *i, const int count, const char *av[])
 		if (*i + 1 < count)
 		{
 			if (set_number(av[*i += 1], &n))
-				return st_error;
+				return (st_error);
 			g_set_with_flag[n -= 1] = true;
 			if (*i + 1 < count)
 				*i += 1;
@@ -139,12 +139,13 @@ static bool champs_read(void)
 {
 	int champ;
 
-	champ = MAX_PLAYERS;
-	while (champ--)
+	champ = 0;
+	while (champ < MAX_PLAYERS)
 	{
 		if (g_files[champ])
 			if (champ_read(g_files[champ], champ, g_vm.champs + champ))
 				return (false);
+		champ++;
 	}
 	return (true);
 }

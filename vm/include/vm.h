@@ -46,7 +46,6 @@ t_st				vm_loop(void);
 t_st				vm_decode(t_proc p, t_pc *offset);
 void				vm_read(void *proc, void *arg);
 void				vm_exec(void *proc, void *arg);
-void				print_arena(void);
 void				op_dump(const t_op *op, bool dump_args, bool dump_verbose);
 
 extern t_vm			g_vm;
