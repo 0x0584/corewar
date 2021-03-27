@@ -19,8 +19,3 @@ jobs:
       run: make distcheck
     - name: make
       run: make
-    - name: test
-      run: |
-        unzip -u .extra.zip &> /dev/null
-        sudo apt-get install valgrind -y &> /dev/null
-        make test
